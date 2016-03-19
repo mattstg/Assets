@@ -7,7 +7,7 @@ public class Ant : MonoBehaviour {
     public int scoutingWeight;
     PheromoneTrail currentTrail;
     PheromoneNode lastVisitedNode;
-    PheromoneNode goalNode;
+    Vector2 goalSpot = new Vector2(0,0);
 	private resourceObject holding;
 
 	// Use this for initialization
@@ -23,7 +23,14 @@ public class Ant : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         energy -= GV.ANT_ENERGY_DECAY * Time.deltaTime;
+        MoveTowardsNode(Time.deltaTime);
 	}
+
+    void MoveTowardsNode(float dtime)
+    {
+        Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
+        GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
+    }
 
     void ArriveAtNode(PheromoneNode pn)
     {
@@ -31,13 +38,16 @@ public class Ant : MonoBehaviour {
         int randomResult = Random.Range(1, totalWeight + 1);
         currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail);
         if (currentTrail)
-            FollowNewPher();
+        {
+            goalSpot = currentTrail.GetOtherNode(pn).transform.position;
+        }
         else
             ScoutModeActivate();
     }
 
     void ScoutModeActivate()
     {
+        goalSpot = new Vector2(10, 10);
         Debug.Log("Scout mode activated");
     }
 

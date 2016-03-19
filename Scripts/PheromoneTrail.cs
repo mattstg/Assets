@@ -31,6 +31,11 @@ public class PheromoneTrail : MonoBehaviour {
             pAway = newNode;
     }
 
+    public PheromoneNode GetOtherNode(PheromoneNode otherNode)
+    {
+        return (otherNode == pHome) ? pAway : pHome;
+    }
+
     ///Graphics section
     private void DrawRenderer()
     {
