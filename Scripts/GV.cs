@@ -10,13 +10,21 @@ public class GV
     public static readonly float ANT_ENERGY_START = 100f;
     public static readonly float ANT_SPEED = 2f;
     public static readonly float ANT_SCOUT_TIMER = 4f; 
+	public static readonly float ANT_MAX_HEALTH = 100f;
 
 	//ANT VARS
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 
+	public static readonly float RESOURCE_DRAIN_DORMANT = 0.5f; //per X second
+	public static readonly float RESOURCE_DRAIN_ACTIVE = 1f; //per X second
+	public static readonly float RESOURCE_DRAIN_TICK = 30f; //every X seconds <<<<< X
+	public static readonly float ANT_DEATH_FROM_STARVATION = 0.05f; //percent of dormant ants death due to starvation
+	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
+	public static readonly float RESOURCE_TO_ENRGY_HP = 20f; //+X energy per unity of food
+	public static readonly float POISON_TO_ENRGY_HP = 60f; //-X energy % hp per unity of poison
 
 	//Colony Scripts
-	public static readonly float START_FOOD = 150;
-	public static readonly float START_WATER = 150;
+	public static readonly float START_FOOD = 500;
+	public static readonly float START_WATER = 500;
 	public static readonly int START_ANTS = 100;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
 	public static readonly int TIME_BETWEEN_ANT_EXITS = 5; //seconds
