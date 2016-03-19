@@ -40,7 +40,7 @@ public class resource : MonoBehaviour {
 
 	public void give(Ant ant){
 		//give ant the food type
-		if (!ant.holding.isZero ()) {
+		if (ant.holding != null && ant.holding.isZero()) {
 			ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
 			addQuantity(-GV.ANT_CARRY_CAPACITY);
 		} else {

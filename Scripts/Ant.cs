@@ -19,6 +19,8 @@ public class Ant : MonoBehaviour {
     Vector2 goalSpot = new Vector2(0,0);
     float timeSinceLastNode = 0;
 
+	public bool wantsToEnterHive =  false;
+
 	// Use this for initialization
     public void Initialize()
     {
@@ -143,6 +145,18 @@ public class Ant : MonoBehaviour {
 
 	public void regenHealth(float healing){
 		health += healing;
+	}
+
+	public float retHealth(){
+		return health;
+	}
+
+	public void setHealth(float toSet){
+		health = toSet;
+	}
+
+	public float retEnergy(){
+		return energy;
 	}
 
 	public void takeDamage(float dmgIn){
