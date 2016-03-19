@@ -32,6 +32,7 @@ public class GV
 	public static readonly int START_ANTS = 10000;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
 	public static readonly int TIME_BETWEEN_ANT_EXITS = 5; //seconds
+	public static readonly float TIME_BETWEEN_RES_UPDATE = 6f;
 
 	//Food and Water
 	public static readonly Vector2 NUM_WATER = new Vector2 (500, 500);

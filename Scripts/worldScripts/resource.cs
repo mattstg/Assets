@@ -37,7 +37,7 @@ public class resource : MonoBehaviour {
 	}
 
 	public void manualUpdate(){
-		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * Time.deltaTime);
+		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * GV.TIME_BETWEEN_RESOURCE_UPDATES);
 	}
 
 	public void give(Ant ant){

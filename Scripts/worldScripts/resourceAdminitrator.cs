@@ -8,6 +8,7 @@ public class resourceAdminitrator : MonoBehaviour {
 	private List<waterPuddleScript> watToRemove = new List<waterPuddleScript>();
 	private List<foodBundleScript> foodToRemove = new List<foodBundleScript>();
 	private bool thingsToRemove = false;
+	private bool hasUpdatedResources = false;
 	float halfMapSize = GV.MAP_DIAMETER/2;
 	private GameObject waterPrefab = Resources.Load("Prefab/waterPuddlePrefab") as GameObject;
 	private GameObject foodPrefab = Resources.Load("Prefab/foodBundlePrefab") as GameObject;
@@ -50,10 +51,14 @@ public class resourceAdminitrator : MonoBehaviour {
 
 		if (calculateGlobalWater () < GV.MIN_WORLD_WATER)
 			createWaterSource (1);
-		updateResources();
 
+		if (!hasUpdatedResources && Mathf.Floor (Time.time + 1) % GV.TIME_BETWEEN_RES_UPDATE == 0){
+			updateResources ();
+			hasUpdatedResources = true;
+		}else if (hasUpdatedResources && Mathf.Floor (Time.time + 1) % GV.TIME_BETWEEN_RES_UPDATE != 0)
+			hasUpdatedResources = false;
+		
 		//shouldnt be done every single update :S
-
 		 
 	}
 
@@ -103,21 +108,19 @@ public class resourceAdminitrator : MonoBehaviour {
 	}
 
 	private void updateResources(){
-		if(Time.time > 3f){
-			foreach(foodBundleScript bundle in foodRes){
-				if (bundle.quantity <= 0) {
-					foodToRemove.Add (bundle);
-					thingsToRemove = true;
-				}else
-				bundle.manualUpdate ();
-			}
-			foreach(waterPuddleScript puddle in waterRes){
-				if (puddle.quantity <= 0) {
-					watToRemove.Add (puddle);
-					thingsToRemove = true;
-				}else
-				puddle.manualUpdate ();
-			}
+		foreach(foodBundleScript bundle in foodRes){
+			if (bundle.quantity <= 0) {
+				foodToRemove.Add (bundle);
+				thingsToRemove = true;
+			}else
+			bundle.manualUpdate ();
+		}
+		foreach(waterPuddleScript puddle in waterRes){
+			if (puddle.quantity <= 0) {
+				watToRemove.Add (puddle);
+				thingsToRemove = true;
+			}else
+			puddle.manualUpdate ();
 		}
 	}
 
