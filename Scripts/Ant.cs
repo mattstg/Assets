@@ -5,6 +5,7 @@ public class Ant : MonoBehaviour {
 
     float energy = GV.ANT_ENERGY_START;
     public int scoutingWeight;
+    public int backtrackWeight;
     PheromoneTrail currentTrail;
     PheromoneNode lastVisitedNode;
     PheromoneNode goalNode;
@@ -15,6 +16,7 @@ public class Ant : MonoBehaviour {
     public void Initialize()
     {
         scoutingWeight = 1;
+        backtrackWeight = 1;
     }
 
 	void Start () {
@@ -35,9 +37,19 @@ public class Ant : MonoBehaviour {
 
     void ArriveAtNode(PheromoneNode pn)
     {
-        int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight;
+        int workingBackTrack = backtrackWeight;
+        if (currentTrail) //since might get deleted during
+        {
+            currentTrail.strength++;
+        }
+        else
+        {
+            workingBackTrack = 0;
+        }
+        int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight + workingBackTrack;
         int randomResult = Random.Range(1, totalWeight + 1);
-        currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail);
+
+        currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
         if (currentTrail)
         {
             goalSpot = currentTrail.GetOtherNode(pn).transform.position;

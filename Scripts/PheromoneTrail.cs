@@ -41,10 +41,18 @@ public class PheromoneTrail : MonoBehaviour {
     {
         if (pHome && pAway)
         {
-            GetComponent<LineRenderer>().SetPosition(0, pHome.transform.position);
-            GetComponent<LineRenderer>().SetPosition(1, pAway.transform.position);
+            Vector2 homePos= pHome.transform.position;
+            Vector2 awayPos = pAway.transform.position;
+            Vector2 vecDiff = awayPos - homePos;
+            float ang = Mathf.Atan(vecDiff.x / vecDiff.y) * Mathf.Rad2Deg * -1;
+            GetComponentInChildren<TextMesh>().text = strength.ToString();
+            transform.position = ((awayPos - homePos) / 2) + homePos;
+            transform.localScale = new Vector3(1,Vector2.Distance(homePos, awayPos),1);
+            transform.eulerAngles = new Vector3(0, 0, ang);
         }
     }
+
+    
 
     private void TrailDie()
     {

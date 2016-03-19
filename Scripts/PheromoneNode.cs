@@ -56,19 +56,17 @@ public class PheromoneNode : MonoBehaviour {
                 trails.Add(pt);
     }
 
-    public PheromoneTrail SelectNewTrailByWeight(int goalWeightValue, PheromoneTrail ptToIgnore)
+    public PheromoneTrail SelectNewTrailByWeight(int goalWeightValue, PheromoneTrail ptToIgnore, int backTrackWeight)
     {
         int currentWeight = 1;
         foreach (PheromoneTrail pt in trails)
         {
-            Debug.Log("Current weight: " + currentWeight + ", out of the goal: " + goalWeightValue);
-            if (pt != ptToIgnore)
-            {
-                if (goalWeightValue <= currentWeight)
+            if (pt == ptToIgnore)
+                currentWeight += backTrackWeight;
+            else
+                currentWeight += pt.strength;
+            if (goalWeightValue <= currentWeight)
                     return pt;
-                else
-                    currentWeight += pt.strength;
-            }
         }
         return null; //If it goes beyond the size, then it was because SCOUT was chosen
     }
