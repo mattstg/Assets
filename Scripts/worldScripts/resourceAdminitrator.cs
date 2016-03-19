@@ -17,7 +17,12 @@ public class resourceAdminitrator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		updateResources();
-		//if(
+
+		//shouldnt be done every single update :S
+		if (calculateGlobalFood () < GV.MIN_WORLD_FOOD)
+			createFoodSource (1);
+		if (calculateGlobalWater () < GV.MIN_WORLD_WATER)
+			createWaterSource (1);
 	}
 
 	void generateResources(){
