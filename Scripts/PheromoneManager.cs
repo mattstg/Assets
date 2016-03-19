@@ -8,6 +8,7 @@ public class PheromoneManager : MonoBehaviour
     public GameObject phermoneTrailPrefab;
     List<PheromoneNode> pheromoneNodes = new List<PheromoneNode>();
     List<PheromoneTrail> pheromoneTrails = new List<PheromoneTrail>();
+    float updateCounter = 0;
 
     public PheromoneNode RetrieveNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType)
     {
@@ -23,9 +24,26 @@ public class PheromoneManager : MonoBehaviour
         return newNode;
     }
 
+    public void DeleteNode(PheromoneNode pn)
+    {
+        pheromoneNodes.Remove(pn);
+        GameObject.Destroy(pn.gameObject);
+    }
+
+    public void DeleteTrail(PheromoneTrail pt)
+    {
+        pheromoneTrails.Remove(pt);
+        Destroy(pt.gameObject);
+    }
+
     public void Update()
     {
-        foreach (PheromoneTrail pn in pheromoneTrails)
-            pn.GetUpdated();
+        updateCounter -= Time.deltaTime;
+        if (updateCounter <= 0)
+        {
+            updateCounter = GV.PATH_DECAY_RATE;
+            for (int i = pheromoneTrails.Count - 1; i >= 0; --i)
+                pheromoneTrails[i].GetUpdated();
+        }
     }
 }

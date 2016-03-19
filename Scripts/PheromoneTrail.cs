@@ -12,13 +12,23 @@ public class PheromoneTrail : MonoBehaviour {
         pherType = _pherType;
         pHome = _home;
         pAway = _away;
-        strength = 1;
+        strength = 10;
     }
 
     public void GetUpdated()
     {
         strength -= 1;
         DrawRenderer();  //SHOULD ONLY BE CALLED WHEN CHANGED OR MOVED
+        if (strength <= 0)
+            TrailDie();
+    }
+
+    public void SetNewNode(PheromoneNode oldNode, PheromoneNode newNode)
+    {
+        if (pHome == oldNode)
+            pHome = newNode;
+        if (pAway == oldNode)
+            pAway = newNode;
     }
 
     ///Graphics section
@@ -33,11 +43,16 @@ public class PheromoneTrail : MonoBehaviour {
 
     private void TrailDie()
     {
+
         if (pHome)
-            pHome.DeletePheromoneTrail(this);
+            pHome.PheromoneTrailDied(this);
         if (pAway)
-            pAway.DeletePheromoneTrail(this);
+            pAway.PheromoneTrailDied(this);
+        FindObjectOfType<PheromoneManager>().DeleteTrail(this);
+
     }
+
+   
 
 }
 
