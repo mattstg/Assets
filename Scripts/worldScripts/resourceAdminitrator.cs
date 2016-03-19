@@ -30,8 +30,8 @@ public class resourceAdminitrator : MonoBehaviour {
 
 	void generateResources(){
 		//to be run at start to generate resources
-		createFoodSource(GV.Max_FoodBundles);
-		createWaterSource (GV.Max_WaterPuddes);
+		createFoodSource((int) Random.Range(GV.NUM_FOOD.x,GV.NUM_FOOD.y));
+		createWaterSource ((int) Random.Range(GV.NUM_WATER.x,GV.NUM_WATER.y));
 	}
 	
 	private void createWaterSource(int amountToAdd){

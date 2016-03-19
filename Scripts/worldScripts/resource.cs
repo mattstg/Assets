@@ -35,7 +35,7 @@ public class resource : MonoBehaviour {
 	}
 
 	public float retQuant(){
-		if (isPoison == true) 
+		if (isPoison) 
 			return quantity * -1f;
 		return quantity;
 	}
