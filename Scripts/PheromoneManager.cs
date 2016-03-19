@@ -6,11 +6,12 @@ public class PheromoneManager : MonoBehaviour
 {
     public GameObject phermoneNodePrefab;
     public GameObject phermoneTrailPrefab;
+    public static int pherCreationCount;
     List<PheromoneNode> pheromoneNodes = new List<PheromoneNode>();
     List<PheromoneTrail> pheromoneTrails = new List<PheromoneTrail>();
     float updateCounter = 0;
 
-    public PheromoneNode RetrieveNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType, Vector2 spawnLocation)
+    public PheromoneNode CreateNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType, Vector2 spawnLocation)
     {
         if (parentNode == null)
             return RetrieveNewNode(pherType,spawnLocation);
@@ -35,12 +36,37 @@ public class PheromoneManager : MonoBehaviour
         return newNode;
     }
 
+    public static PheromoneNode DropPheromone(PheromoneNode parentNode, GV.PhermoneTypes pherType, Vector2 atPos)
+    {
+        List<PheromoneNode> allNearbyPher = GetAllNearbyByTag<PheromoneNode>("Node", GV.PHEROMONE_PLACEMENT_ABSORPTION_RADIUS,atPos);
+        if (allNearbyPher.Contains(parentNode)) //this means parent node will be consumed, so it cannot be a parent
+            parentNode = null;        
+        PheromoneNode pn = FindObjectOfType<PheromoneManager>().CreateNewNode(parentNode, pherType, atPos);        
+        foreach (PheromoneNode toMerge in allNearbyPher)
+        {
+            pn.AbsorbNode(toMerge);
+        }
+        //pn.CleanUpBadTrails();  didnt work
+        return pn;
+    }
+
     public void CreatePheromoneTrail(PheromoneNode home, PheromoneNode away, GV.PhermoneTypes pherType)
     {
         PheromoneTrail newPt = Instantiate<GameObject>(phermoneTrailPrefab).GetComponent<PheromoneTrail>();
         newPt.Initialize(home, away, pherType);
     }
 
+    public static List<T> GetAllNearbyByTag<T>(string _tag, float searchRadius, Vector2 atPos)
+    {
+        List<T> toReturn = new List<T>();
+        Collider2D[] colis = Physics2D.OverlapCircleAll(atPos, searchRadius);
+        foreach (Collider2D coli in colis)
+        {
+            if (coli.CompareTag(_tag))
+                toReturn.Add(coli.gameObject.GetComponent<T>());
+        }
+        return toReturn;
+    }
 
     public void DeleteNode(PheromoneNode pn)
     {

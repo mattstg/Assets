@@ -4,12 +4,9 @@ using System.Collections.Generic;
 
 public class PheromoneNode : MonoBehaviour {
     public bool lockedFromDeath = false;
+    public bool setToDie = false; //helps with trail merging
     protected List<PheromoneTrail> trails = new List<PheromoneTrail>(); 
-
-    public void InitializeNode(List<PheromoneTrail> toLink)
-    {
-        MergeTrails(toLink);
-    }
+    public int pherID = 0;
 
     public void AddTrail(PheromoneTrail pt)
     {
@@ -24,14 +21,11 @@ public class PheromoneNode : MonoBehaviour {
             trails.Add(toLink);
     }
 
-    public void MergeNode(PheromoneNode toMerge)
+    public PheromoneNode AbsorbNode(PheromoneNode toMerge)
     {
-        MergeTrails(toMerge.trails);
-        foreach (PheromoneTrail pt in trails)
-        {
-            pt.SetNewNode(toMerge, this);
-        }
+        AbsorbTrails(toMerge);
         FindObjectOfType<PheromoneManager>().DeleteNode(toMerge);
+        return this;
     }
 
     public void PheromoneTrailDied(PheromoneTrail pt)
@@ -56,11 +50,15 @@ public class PheromoneNode : MonoBehaviour {
         return toReturn;
     }
 
-    private void MergeTrails(List<PheromoneTrail> toLink)
+    private void AbsorbTrails(PheromoneNode toAbsorb)
     {
-        foreach (PheromoneTrail pt in toLink)
+        //pt.SetNewNode(toMerge, this);
+        foreach (PheromoneTrail pt in toAbsorb.trails)
             if (!trails.Contains(pt))
+            {
+                pt.SetNewNode(toAbsorb, this);
                 trails.Add(pt);
+            }
     }
 
     public PheromoneTrail SelectNewTrailByWeight(int goalWeightValue, PheromoneTrail ptToIgnore, int backTrackWeight)
@@ -78,6 +76,13 @@ public class PheromoneNode : MonoBehaviour {
         return null; //If it goes beyond the size, then it was because SCOUT was chosen
     }
 
+    public void CleanUpBadTrails()
+    {
+        for (int i = trails.Count - 1; i >= 0; --i)
+        {
+            trails[i].ValidateTrail(); //will delete and clean them
+        }
+    }
 
        
 }

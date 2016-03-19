@@ -9,7 +9,7 @@ public class DEBUG_CreateTrails : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Vector2 randomSpot = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
-        PheromoneNode pn = pherManager.RetrieveNewNode(initialNode, GV.PhermoneTypes.Friendly, randomSpot);
+        PheromoneNode pn = pherManager.CreateNewNode(initialNode, GV.PhermoneTypes.Friendly, randomSpot);
 	}
 
     public void Update()
@@ -43,9 +43,7 @@ public class DEBUG_CreateTrails : MonoBehaviour {
         }
         else  //otherwise make a new one
         {
-            PheromoneNode pn = pherManager.RetrieveNewNode(lastClicked, GV.PhermoneTypes.Friendly,clickPoint);
-            pn.transform.position = clickPoint;
-            SetNewLastClicked(pn);
+            SetNewLastClicked(PheromoneManager.DropPheromone(lastClicked, GV.PhermoneTypes.Friendly, clickPoint));
         }
         
     }

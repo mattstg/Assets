@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Ant : MonoBehaviour {
     enum AntMode { Forage, Wander, Scout };
@@ -80,6 +82,7 @@ public class Ant : MonoBehaviour {
         int randomResult = Random.Range(1, totalWeight + 1);
         //Debug.Log("Result: " + randomResult + "/" + totalWeight);
         currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+        lastVisitedNode = pn;
         if (currentTrail)
         {
             goalSpot = currentTrail.GetOtherNode(pn).transform.position;
@@ -91,10 +94,9 @@ public class Ant : MonoBehaviour {
 
     void ScoutModeActivate()
     {
-        goalSpot = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)).normalized * (GV.ANT_SCOUT_TIMER+1) * GV.ANT_SPEED;
+        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_SCOUT_TIMER + 1) * GV.ANT_SPEED + transform.position;
         timeSinceLastNode = 0;
         antMode = AntMode.Scout;
-        Debug.Log("Scout mode activated, spot chosen: " + goalSpot);
     }
 
     void FollowNewPher()
@@ -110,11 +112,11 @@ public class Ant : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D coli)
     {
         PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
-        if (coli.CompareTag("Node") && coliNode != lastVisitedNode)
+        if (coliNode  && coliNode != lastVisitedNode)
         {
              if (antMode == AntMode.Scout)
              {
-                 DropPheromoneOnExistingNode(coliNode);
+                 PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
              }
              ArriveAtNode(coliNode);
         }
@@ -208,7 +210,27 @@ public class Ant : MonoBehaviour {
 
     PheromoneNode DropPheromone()
     {
-        PheromoneNode pn = FindObjectOfType<PheromoneManager>().RetrieveNewNode(lastVisitedNode, GetPherType(),transform.position);
+        PheromoneNode pn;
+        /*
+        List<PheromoneNode> allNearbyPher = GetAllNearbyByTag<PheromoneNode>("Node", GV.PHEROMONE_PLACEMENT_ABSORPTION_RADIUS);
+
+        if (allNearbyPher.Count <= 0)
+        {
+            pn = FindObjectOfType<PheromoneManager>().CreateNewNode(lastVisitedNode, GetPherType(),transform.position);
+        }
+        else if(allNearbyPher.Count == 1)
+        {
+            pn = DropPheromoneOnExistingNode(allNearbyPher[0]);
+        }
+        else //theirs many of them
+        {
+            pn = FindObjectOfType<PheromoneManager>().CreateNewNode(lastVisitedNode, GetPherType(), transform.position);
+            foreach(PheromoneNode toMerge in allNearbyPher)
+            {
+                pn.AbsorbNode(toMerge);
+            }
+        }*/
+        pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
         lastVisitedNode = pn;
         timeSinceLastNode = 0;
         ArriveAtNode(pn);
@@ -221,11 +243,12 @@ public class Ant : MonoBehaviour {
         Debug.Log("drop phermone on existing trail");
     }
 
-    void DropPheromoneOnExistingNode(PheromoneNode pt)
+    PheromoneNode DropPheromoneOnExistingNode(PheromoneNode pt)
     {
-        PheromoneNode newPher = FindObjectOfType<PheromoneManager>().RetrieveNewNode(lastVisitedNode,GetPherType(),transform.position);
-        pt.MergeNode(newPher);
         Debug.Log("drop phermone on existing node");
+        PheromoneNode newPher = FindObjectOfType<PheromoneManager>().CreateNewNode(lastVisitedNode,GetPherType(),transform.position);
+        return pt.AbsorbNode(newPher);
+        
     }
 
     GV.PhermoneTypes GetPherType()
@@ -258,6 +281,18 @@ public class Ant : MonoBehaviour {
 			}
 		//}
 	}
+
+    private List<T> GetAllNearbyByTag<T>(string _tag, float searchRadius)
+    {
+        List<T> toReturn = new List<T>();
+        Collider2D[] colis = Physics2D.OverlapCircleAll(transform.position, searchRadius);
+        foreach (Collider2D coli in colis)
+        {
+            if (coli.CompareTag(_tag))
+                toReturn.Add(coli.gameObject.GetComponent<T>());
+        }
+        return toReturn;
+    }
 
 }
 
