@@ -112,7 +112,10 @@ public class Ant : MonoBehaviour {
             if(!coli.GetComponent<PheromoneNode>().carried)
                 ArriveAtNode(coli.GetComponent<PheromoneNode>());
         }
+        else if(coli.CompareTag("Ant"))
+        {
 
+        }
     }
     
 	public resourceObject giveResource(){
@@ -125,7 +128,7 @@ public class Ant : MonoBehaviour {
 	}
 
 	public void takeResource(resourceObject resourceToHold){
-		holding = resourceToHold;
+		holding = new resourceObject(resourceToHold);
 	}
 
     void ScoutUpdate(float dtime)
