@@ -25,7 +25,10 @@ public class resource : MonoBehaviour {
 
 	public void give(Ant ant){
 		//give ant the food type
+		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY));
 		quantity -= GV.ANT_CARRY_CAPACITY;
+		if(quantity <= 0)
+			Destroy(gameObject);
 	}
 
 	public float retQuant(){
