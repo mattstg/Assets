@@ -6,6 +6,12 @@ public class resource : MonoBehaviour {
 	public bool isPoison;
 	public GV.ResourceTypes resourceType;
 
+
+	void LateUpdate(){
+		if(quantity <= 0)
+			Destroy(gameObject);
+	}
+
 	// Use this for initialization
 	void Start () {
 		quantity = 0f;
@@ -34,10 +40,12 @@ public class resource : MonoBehaviour {
 
 	public void give(Ant ant){
 		//give ant the food type
-		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
-		addQuantity(-GV.ANT_CARRY_CAPACITY);
-		if(quantity <= 0)
-			Destroy(gameObject);
+		if (!ant.holding.isZero ()) {
+			ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
+			addQuantity(-GV.ANT_CARRY_CAPACITY);
+		} else {
+			Debug.Log ("Ant alredy holding something.");
+		}
 	}
 
 	public float retQuant(){
@@ -63,9 +71,9 @@ public class resource : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D coli){
 		if (coli.gameObject.GetComponent<Ant> () != null) {
 			Ant collidingAnt = coli.gameObject.GetComponent<Ant> ();
-			if (collidingAnt != null) {
-				give (collidingAnt);
-			}
+			give (collidingAnt);
+		} else {
+			Debug.Log ("Something has collided with a resource, that is not an ant.");
 		}
 	}
 

@@ -71,12 +71,13 @@ public class Ant : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coli)
     {
-        if (coli.CompareTag("Node") && coli.GetComponent<PheromoneNode>() != lastVisitedNode)
-        {
-            //then at goal or a new node
-            ArriveAtNode(coli.GetComponent<PheromoneNode>());
-        }
+		if (coli.CompareTag ("Node") && coli.GetComponent<PheromoneNode> () != lastVisitedNode) {
+			//then at goal or a new node
+			ArriveAtNode (coli.GetComponent<PheromoneNode> ());
+		} else if(coli.CompareTag("Ant")){
+			//might pass some food or check to see if ant is friend or foe
 
+		}
     }
     
 	public resourceObject giveResource(){
@@ -89,6 +90,6 @@ public class Ant : MonoBehaviour {
 	}
 
 	public void takeResource(resourceObject resourceToHold){
-		holding = resourceToHold;
+		holding = new resourceObject(resourceToHold);
 	}
 }
