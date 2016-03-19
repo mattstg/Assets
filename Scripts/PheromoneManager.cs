@@ -90,4 +90,207 @@ public class PheromoneManager : MonoBehaviour
                 pheromoneTrails[i].GetUpdated();
         }
     }
+    public List<Intersection> GetIntersections(Vector2 antLocation, Vector2 antDirection)
+    {
+        float ant_y = antLocation.y;
+        float ant_x = antLocation.x;
+        GV.directionQuadrants dquad = GV.directionQuadrants.q1;
+        if      (antDirection.y >= ant_y && antDirection.x >= ant_x) dquad = GV.directionQuadrants.q1;
+        else if (antDirection.y >= ant_y && antDirection.x < ant_x) dquad = GV.directionQuadrants.q2;
+        else if (antDirection.y < ant_y && antDirection.x < ant_x) dquad = GV.directionQuadrants.q3;
+        else if (antDirection.y < ant_y && antDirection.x >= ant_x) dquad = GV.directionQuadrants.q4;
+        
+
+        List<PheromoneNode> relevantNodes = new List<PheromoneNode>();
+        List<PheromoneTrail> relevantTrails = new List<PheromoneTrail>();
+        List<PheromoneTrail> crossingTrails = new List<PheromoneTrail>();
+        List<Intersection> intersectionPoints = new List<Intersection>();
+
+        if ((antDirection.x - ant_x) != 0)
+        {
+            float slope = (antDirection.y - ant_y) / (antDirection.x - ant_x);
+            float y_intercept = ant_y - slope * ant_x;
+
+            switch (dquad)
+            {
+                case GV.directionQuadrants.q1:
+                    foreach (PheromoneNode node in pheromoneNodes)
+                    {
+                        if (node.transform.position.y >= ant_y && node.transform.position.x >= ant_x)
+                        {
+                            relevantNodes.Add(node);
+                        }
+                    }
+                    break;
+                case GV.directionQuadrants.q2:
+                    foreach (PheromoneNode node in pheromoneNodes)
+                    {
+                        if (node.transform.position.y >= ant_y && node.transform.position.x < ant_x)
+                        {
+                            relevantNodes.Add(node);
+                        }
+                    }
+                    break;
+                case GV.directionQuadrants.q3:
+                    foreach (PheromoneNode node in pheromoneNodes)
+                    {
+                        if (node.transform.position.y < ant_y && node.transform.position.x < ant_x)
+                        {
+                            relevantNodes.Add(node);
+                        }
+                    }
+                    break;
+                case GV.directionQuadrants.q4:
+                    foreach (PheromoneNode node in pheromoneNodes)
+                    {
+                        if (node.transform.position.y < ant_y && node.transform.position.x >= ant_x)
+                        {
+                            relevantNodes.Add(node);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+            foreach (PheromoneTrail trail in pheromoneTrails)
+            {
+                if (relevantNodes.Contains(trail.pHome) || relevantNodes.Contains(trail.pAway))
+                    relevantTrails.Add(trail);
+            }
+
+            
+            foreach (PheromoneTrail trail in relevantTrails)
+            {
+                    if ((trail.pHome.transform.position.y >= (slope * trail.pHome.transform.position.x) + y_intercept
+                        && trail.pAway.transform.position.y <= (slope * trail.pAway.transform.position.x) + y_intercept)
+                        || (trail.pHome.transform.position.y <= (slope * trail.pHome.transform.position.x) + y_intercept
+                        && trail.pAway.transform.position.y >= (slope * trail.pAway.transform.position.x) + y_intercept))
+                    {
+                        crossingTrails.Add(trail);
+                    }
+            }
+            
+
+            foreach (PheromoneTrail trail in pheromoneTrails)
+            {
+                float pHome_y = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.y;
+                float pAway_y = trail.pAway.transform.position.y;
+                float pAway_x = trail.pAway.transform.position.x;
+
+                if ((dquad == GV.directionQuadrants.q1 || dquad == GV.directionQuadrants.q3)
+                 && (((pHome_y >= ant_y && pHome_x <= ant_x) && (pAway_y <= ant_y && pAway_x >= ant_x))
+                 || ((pHome_y <= ant_y && pHome_x >= ant_x) && (pAway_y >= ant_y && pAway_x <= ant_x))))
+                {
+                    crossingTrails.Add(trail);
+                }
+
+                if ((dquad == GV.directionQuadrants.q2 || dquad == GV.directionQuadrants.q4)
+                 && (((pHome_y >= ant_y && pHome_x >= ant_x) && (pAway_y <= ant_y && pAway_x <= ant_x))
+                 || ((pHome_y <= ant_y && pHome_x <= ant_x) && (pAway_y >= ant_y && pAway_x >= ant_x))))
+                {
+                    crossingTrails.Add(trail);
+                }
+            }
+
+            foreach (PheromoneTrail trail in crossingTrails)
+            {
+                Intersection intersectPoint = new Intersection(Vector2.zero, trail);
+                float pHome_y = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.y;
+                float pAway_y = trail.pAway.transform.position.y;
+                float pAway_x = trail.pAway.transform.position.x;
+                float trailSlope;
+                float trailIntercept;
+
+                if (pHome_x > pAway_x)
+                {
+                    trailSlope = (pHome_y - pAway_y) / (pHome_x - pAway_x);
+                }
+                else
+                {
+                    trailSlope = (pAway_y - pHome_y) / (pAway_x - pHome_x);
+                }
+                trailIntercept = pHome_y - (trailSlope * pHome_x);
+                intersectPoint._intersectionPoint.x = (trailIntercept - y_intercept) / (slope - trailSlope);
+                intersectPoint._intersectionPoint.y = slope * intersectPoint._intersectionPoint.x + y_intercept;
+                if (((dquad == GV.directionQuadrants.q1 || dquad == GV.directionQuadrants.q4) && (intersectPoint._intersectionPoint.x > ant_x))
+                || ((dquad == GV.directionQuadrants.q2 || dquad == GV.directionQuadrants.q3) && (intersectPoint._intersectionPoint.x < ant_x)))
+                {
+                    intersectionPoints.Add(intersectPoint);
+
+                }
+            }
+
+        }
+        else
+        {
+            foreach (PheromoneTrail trail in relevantTrails)
+            {
+                if ((trail.pHome.transform.position.x >= ant_x
+                    && trail.pAway.transform.position.x <= ant_x)
+                    || (trail.pHome.transform.position.x <= ant_x
+                    && trail.pAway.transform.position.x >= ant_x))
+
+                {
+                    crossingTrails.Add(trail);
+                }
+            }
+
+            foreach (PheromoneTrail trail in pheromoneTrails)
+            {
+                float pHome_y = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.y;
+                float pAway_y = trail.pAway.transform.position.y;
+                float pAway_x = trail.pAway.transform.position.x;
+
+                if ((dquad == GV.directionQuadrants.q1 || dquad == GV.directionQuadrants.q3)
+                 && (((pHome_y >= ant_y && pHome_x <= ant_x) && (pAway_y <= ant_y && pAway_x >= ant_x))
+                 || ((pHome_y <= ant_y && pHome_x >= ant_x) && (pAway_y >= ant_y && pAway_x <= ant_x))))
+                {
+                    crossingTrails.Add(trail);
+                }
+
+                if ((dquad == GV.directionQuadrants.q2 || dquad == GV.directionQuadrants.q4)
+                 && (((pHome_y >= ant_y && pHome_x >= ant_x) && (pAway_y <= ant_y && pAway_x <= ant_x))
+                 || ((pHome_y <= ant_y && pHome_x <= ant_x) && (pAway_y >= ant_y && pAway_x >= ant_x))))
+                {
+                    crossingTrails.Add(trail);
+                }
+            }
+
+            foreach (PheromoneTrail trail in crossingTrails)
+            {
+                Intersection intersectPoint = new Intersection(Vector2.zero, trail);
+                float pHome_y = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.y;
+                float pAway_y = trail.pAway.transform.position.y;
+                float pAway_x = trail.pAway.transform.position.x;
+                float trailSlope;
+                float trailIntercept;
+
+                if (pHome_x > pAway_x)
+                {
+                    trailSlope = (pHome_y - pAway_y) / (pHome_x - pAway_x);
+                }
+                else
+                {
+                    trailSlope = (pAway_y - pHome_y) / (pAway_x - pHome_x);
+                }
+                trailIntercept = pHome_y - (trailSlope * pHome_x);
+                intersectPoint._intersectionPoint.x = ant_x;
+                intersectPoint._intersectionPoint.y = trailSlope * ant_x + trailIntercept;
+                if (((dquad == GV.directionQuadrants.q1 || dquad == GV.directionQuadrants.q4) && (intersectPoint._intersectionPoint.x > ant_x))
+                || ((dquad == GV.directionQuadrants.q2 || dquad == GV.directionQuadrants.q3) && (intersectPoint._intersectionPoint.x < ant_x)))
+                {
+                    intersectionPoints.Add(intersectPoint);
+
+                }
+            }
+        }
+
+       
+        return intersectionPoints;
+    }
 }
