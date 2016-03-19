@@ -23,12 +23,12 @@ public class waterPuddleScript : MonoBehaviour {
 
 	}
 
-	void give(){
-
+	public void give(){
 
 	}
 
 	public int retQuant(){
 		return quantity;
 	}
+		
 }

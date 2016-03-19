@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class resourceAdminitrator : MonoBehaviour {
 	private List<waterPuddleScript> waterRes = new List<waterPuddleScript>();
 	private List<foodBundleScript> foodRes = new List<foodBundleScript>();
-	float halfMapSize = GV.Map_Diameter/2;
+	float halfMapSize = GV.MAP_DIAMETER/2;
 	private GameObject waterPrefab = Resources.Load("Prefab/waterPuddlePrefab") as GameObject;
 	private GameObject foodPrefab = Resources.Load("Prefab/foodBundlePrefab") as GameObject;
 
@@ -16,9 +16,7 @@ public class resourceAdminitrator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//update resources
-		if(Mathf.Floor(Time.time) % GV.TIME_BETWEEN_RESOURCE_UPDATES == 0)
-			updateResources();
+		updateResources();
 	}
 
 	void generateResources(){

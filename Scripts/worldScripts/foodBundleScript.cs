@@ -22,7 +22,7 @@ public class foodBundleScript : MonoBehaviour {
 
 	}
 
-	void give(){
+	public void give(){
 
 
 	}

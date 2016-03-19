@@ -3,16 +3,15 @@ using System.Collections;
 
 public class worldManager : MonoBehaviour {
 	private resourceAdminitrator resAdmin;
+	private colonyScript colony;
 
 	// Use this for initialization
 	void Start () {
 		//make resource administator
-		resAdmin = new resourceAdminitrator ();
-		//anthill
+		resAdmin = gameObject.AddComponent<resourceAdminitrator>();
+		colony = gameObject.AddComponent<colonyScript> ();
 
-		//certain Amount of food & water
 		//rocks
-		//
 	}
 	
 	// Update is called once per frame
