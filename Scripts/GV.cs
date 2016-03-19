@@ -21,17 +21,18 @@ public class GV
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
 	public static readonly float RESOURCE_TO_ENRGY_HP = 20f; //+X energy per unity of food
 	public static readonly float POISON_TO_ENRGY_HP = 60f; //-X energy % hp per unity of poison
+	public static readonly float DMG_DUE_TO_STARVATION = 5f; //-X hp per second
 
 	//Colony Scripts
 	public static readonly float START_FOOD = 500;
 	public static readonly float START_WATER = 500;
-	public static readonly int START_ANTS = 100;
+	public static readonly int START_ANTS = 10000;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
 	public static readonly int TIME_BETWEEN_ANT_EXITS = 5; //seconds
 
 	//Food and Water
-	public static readonly Vector2 NUM_WATER = new Vector2 (10, 25);
-	public static readonly Vector2 NUM_FOOD = new Vector2 (10, 25);
+	public static readonly Vector2 NUM_WATER = new Vector2 (500, 500);
+	public static readonly Vector2 NUM_FOOD = new Vector2 (500, 500);
 	public static readonly int TIME_BETWEEN_RESOURCE_UPDATES = 5; //seconds
 	public static readonly float RESOURCE_GROWTH_PER_SECOND = 1f;
 	public static readonly float MIN_WORLD_FOOD = 100f;

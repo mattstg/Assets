@@ -31,7 +31,14 @@ public class Ant : MonoBehaviour {
 	void Start () {
         Initialize();
 	}
-	
+
+	void LateUpdate(){
+		if (energy <= 0)
+			health -= GV.DMG_DUE_TO_STARVATION * Time.deltaTime;
+		if (health <= 0)
+			dies ();
+	}
+
 	// Update is called once per frame
 	void Update () {
         float dTime = Time.deltaTime;
@@ -187,6 +194,12 @@ public class Ant : MonoBehaviour {
 		refreshHoldingResource ();
 	}
 
+	private void dies(){
+		GetComponent<SpriteRenderer> ().sprite = Resources.Load ("Sprites/DeadAnt") as Sprite;
+		gameObject.AddComponent<DeadAntScript> ();
+		Destroy (this);
+	}
+
     void ScoutUpdate(float dtime)
     {
         timeSinceLastNode += dtime;
@@ -198,14 +211,16 @@ public class Ant : MonoBehaviour {
     }
 
 	private void refreshHoldingResource(){
-		if (!holding.isZero ()) {
-			string prefabName = "WaterResourcePrefab";
-			if (holding.resType == GV.ResourceTypes.Food)
-				prefabName = "FoodResourcePrefab";
-			holdingSprite = Instantiate (Resources.Load ("Prefabs/" + prefabName)) as GameObject;
-			holdingSprite.AddComponent<transformLock> ().Initialize (holdLoc.transform);
-		} else if(holdingSprite != null){
-			Destroy (holdingSprite);
+		if (holding != null) {
+			if (!holding.isZero ()) {
+				string prefabName = "WaterResourcePrefab";
+				if (holding.resType == GV.ResourceTypes.Food)
+					prefabName = "FoodResourcePrefab";
+				holdingSprite = Instantiate (Resources.Load ("Prefab/" + prefabName)) as GameObject;
+				holdingSprite.AddComponent<transformLock> ().Initialize (holdLoc.transform);
+			} else if (holdingSprite != null) {
+				Destroy (holdingSprite);
+			}
 		}
 	}
 
