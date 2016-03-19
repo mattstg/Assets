@@ -8,6 +8,8 @@ public class Ant : MonoBehaviour {
     PheromoneTrail currentTrail;
     PheromoneNode lastVisitedNode;
     PheromoneNode goalNode;
+	private resourceObject holding;
+
 	// Use this for initialization
     public void Initialize()
     {
@@ -53,7 +55,17 @@ public class Ant : MonoBehaviour {
         }
 
     }
-
-
     
+	public resourceObject giveResource(){
+		//pass the thing to ANT or colony
+		return holding.give();
+	}
+
+	public resourceObject whatResourceHolding(){
+		return holding;
+	}
+
+	public void takeResource(resourceObject resourceToHold){
+		holding = resourceToHold;
+	}
 }

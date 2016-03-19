@@ -1,33 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class foodBundleScript : MonoBehaviour {
-	private int quantity;
-	private bool isPoison;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	/*
-	void Update () {
-	
-	} 
-	*/
-
-	public void manualUpdate(){
-
-
-	}
-
-	void give(){
-
-
-	}
-
-	public int retQuant(){
-		return quantity;
-	}
+public class foodBundleScript : resource {
+	public GV.ResourceTypes resourceType = GV.ResourceTypes.Food;
 }
