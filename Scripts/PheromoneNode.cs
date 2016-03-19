@@ -51,9 +51,7 @@ public class PheromoneNode : MonoBehaviour {
             
            Debug.Log("tails to destroy");
            pt.SetNewNode(toAbsorb, this);             //setup
-           if(!trails.Contains(pt))
-                trails.Add(pt);
-            /*
+            
            PheromoneTrail trailToAbsorbTrail = PheromoneTrail.PherListContains(trails, pt);
            if (!trailToAbsorbTrail)
            {
@@ -64,10 +62,10 @@ public class PheromoneNode : MonoBehaviour {
            {
                Debug.Log("combine power");
                trailToAbsorbTrail.strength += pt.strength;
-
+               pt.SetNewNode(null, null);   //since it already exist, and we dont need it, delete it.
            }
-           pt.SetNewNode(null, null);   //since it already exist, and we dont need it, delete it.*/
         }
+           
     }
 
     public PheromoneTrail SelectNewTrailByWeight(int goalWeightValue, PheromoneTrail ptToIgnore, int backTrackWeight)
