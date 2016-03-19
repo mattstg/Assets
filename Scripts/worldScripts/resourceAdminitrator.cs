@@ -17,6 +17,7 @@ public class resourceAdminitrator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		updateResources();
+		//if(
 	}
 
 	void generateResources(){
@@ -47,16 +48,16 @@ public class resourceAdminitrator : MonoBehaviour {
 		}
 	}
 
-	public int calculateGlobalFood(){
-		int sum = 0;
+	public float calculateGlobalFood(){
+		float sum = 0;
 		foreach(foodBundleScript bundle in foodRes){
 			sum += bundle.retQuant ();
 		}
 		return sum;
 	}
 
-	public int calculateGlobalWater(){
-		int sum = 0;
+	public float calculateGlobalWater(){
+		float sum = 0;
 		foreach(waterPuddleScript puddle in waterRes){
 			sum += puddle.retQuant ();
 		}

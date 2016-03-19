@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class resource : MonoBehaviour {
-	private float quantity;
-	private bool isPoison;
-
+	public float quantity;
+	public bool isPoison;
+	public GV.ResourceTypes resourceType = GV.ResourceTypes.Empty;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +29,8 @@ public class resource : MonoBehaviour {
 	}
 
 	public float retQuant(){
+		if (isPoison = true) 
+			return quantity * -1f;
 		return quantity;
 	}
 }
