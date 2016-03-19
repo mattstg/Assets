@@ -8,7 +8,8 @@ public class GV
     public static readonly float PATH_DECAY_RATE = 5f;  //1 point every 5 seconds
     public static readonly float ANT_ENERGY_DECAY = 1f; //1 per second
     public static readonly float ANT_ENERGY_START = 100f;
-    public static readonly float ANT_SPEED = 2f; 
+    public static readonly float ANT_SPEED = 2f;
+    public static readonly float ANT_SCOUT_TIMER = 4f; 
 
 	//ANT VARS
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 

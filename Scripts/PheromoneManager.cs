@@ -12,6 +12,8 @@ public class PheromoneManager : MonoBehaviour
 
     public PheromoneNode RetrieveNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType)
     {
+        if (parentNode == null)
+            return RetrieveNewNode(pherType);
         GameObject newNodeGO = Instantiate<GameObject>(phermoneNodePrefab);
         GameObject newTrailGO = Instantiate<GameObject>(phermoneTrailPrefab);
         PheromoneNode newNode = newNodeGO.GetComponent<PheromoneNode>();
@@ -24,6 +26,15 @@ public class PheromoneManager : MonoBehaviour
         pheromoneTrails.Add(newTrail);
         return newNode;
     }
+
+    public PheromoneNode RetrieveNewNode(GV.PhermoneTypes pherType)
+    {
+        GameObject newNodeGO = Instantiate<GameObject>(phermoneNodePrefab);
+        PheromoneNode newNode = newNodeGO.GetComponent<PheromoneNode>();
+        pheromoneNodes.Add(newNode);
+        return newNode;
+    }
+
 
     public void DeleteNode(PheromoneNode pn)
     {

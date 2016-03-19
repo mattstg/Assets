@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PheromoneNode : MonoBehaviour {
+    public bool carried = false;
     protected List<PheromoneTrail> trails = new List<PheromoneTrail>(); 
 
     public void InitializeNode(List<PheromoneTrail> toLink)
@@ -43,9 +44,15 @@ public class PheromoneNode : MonoBehaviour {
     public int GetTotalPhermoneWeights(PheromoneTrail excludeTrail)
     {
         int toReturn = 0;
+        Debug.Log("total pher called: " + trails.Count);
         foreach (PheromoneTrail pt in trails)
             if (pt != excludeTrail)
+            {
+                Debug.Log("adding: " + pt.strength);
                 toReturn += pt.strength;
+                Debug.Log("toReturn: " + toReturn);
+
+            }
         return toReturn;
     }
 

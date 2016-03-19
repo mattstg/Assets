@@ -12,7 +12,7 @@ public class PheromoneTrail : MonoBehaviour {
         pherType = _pherType;
         pHome = _home;
         pAway = _away;
-        strength = 10;
+        strength = 7;
     }
 
     public void GetUpdated()
