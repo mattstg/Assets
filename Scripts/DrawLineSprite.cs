@@ -10,7 +10,6 @@ public class DrawLineSprite : MonoBehaviour {
         v1 = _v1;
         v2 = _v2;
         GetComponent<SpriteRenderer>().sprite = _sprite;
-        Debug.Log("v1: " + v1 + ", v2: " + v2);
     }
 
 	void Update () {

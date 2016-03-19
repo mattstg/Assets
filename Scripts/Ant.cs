@@ -3,9 +3,12 @@ using System.Collections;
 
 public class Ant : MonoBehaviour {
     enum AntMode { Forage, Wander, Scout };
+	public GameObject holdLoc;
+	private GameObject holdingSprite;
 
     AntMode antMode = AntMode.Forage;
     float energy = GV.ANT_ENERGY_START;
+	float health = GV.ANT_MAX_HEALTH;
     public int scoutingWeight;
     public int backtrackWeight;
     PheromoneTrail currentTrail;
@@ -15,6 +18,8 @@ public class Ant : MonoBehaviour {
 	public resourceObject holding;
     Vector2 goalSpot = new Vector2(0,0);
     float timeSinceLastNode = 0;
+
+	public bool wantsToEnterHive =  false;
 
 	// Use this for initialization
     public void Initialize()
@@ -26,7 +31,14 @@ public class Ant : MonoBehaviour {
 	void Start () {
         Initialize();
 	}
-	
+
+	void LateUpdate(){
+		if (energy <= 0)
+			health -= GV.DMG_DUE_TO_STARVATION * Time.deltaTime;
+		if (health <= 0)
+			dies ();
+	}
+
 	// Update is called once per frame
 	void Update () {
         float dTime = Time.deltaTime;
@@ -112,9 +124,59 @@ public class Ant : MonoBehaviour {
         }
     }
     
+	public void eatResource(float quantToEat){
+		resourceObject temp;
+		if (holding.quantity > quantToEat) {
+			holding.quantity -= quantToEat;
+			temp = new resourceObject (holding);
+			temp.quantity = quantToEat; 
+		} else {
+			temp = new resourceObject (holding.give ());
+			refreshHoldingResource ();
+		}
+
+		if (holding.isPoison) {
+			energy -= temp.quantity * GV.POISON_TO_ENRGY_HP;
+			takeDamage(temp.quantity * GV.POISON_TO_ENRGY_HP);
+		} else {
+			energy += temp.quantity * GV.RESOURCE_TO_ENRGY_HP;
+			regenHealth(temp.quantity * GV.RESOURCE_TO_ENRGY_HP);
+		}
+	}
+
+	public void regenHealth(float healing){
+		health += healing;
+	}
+
+	public float retHealth(){
+		return health;
+	}
+
+	public void setHealth(float toSet){
+		health = toSet;
+	}
+
+	public float retEnergy(){
+		return energy;
+	}
+
+	public void takeDamage(float dmgIn){
+		health -= dmgIn;
+		//release dmg pharemones
+	}
+
 	public resourceObject giveResource(){
 		//pass the thing to ANT or colony
-		return holding.give();
+		resourceObject temp = new resourceObject(holding.give());
+		refreshHoldingResource ();
+		return temp;
+	}
+
+	public resourceObject giveResource(float quantToGive){
+		if (holding.quantity < quantToGive)
+			return giveResource ();
+		holding.quantity -= quantToGive;
+		return new resourceObject (holding.resType, quantToGive, holding.isPoison);
 	}
 
 	public resourceObject whatResourceHolding(){
@@ -123,6 +185,13 @@ public class Ant : MonoBehaviour {
 
 	public void takeResource(resourceObject resourceToHold){
 		holding = new resourceObject(resourceToHold);
+		refreshHoldingResource ();
+	}
+
+	private void dies(){
+		GetComponent<SpriteRenderer> ().sprite = Resources.Load ("Sprites/DeadAnt") as Sprite;
+		gameObject.AddComponent<DeadAntScript> ();
+		Destroy (this);
 	}
 
     void ScoutUpdate(float dtime)
@@ -168,5 +237,20 @@ public class Ant : MonoBehaviour {
                 return GV.PhermoneTypes.Friendly;
         }
     }
+
+	private void refreshHoldingResource(){
+		if (holding != null) {
+			if (!holding.isZero ()) {
+				string prefabName = "WaterResourcePrefab";
+				if (holding.resType == GV.ResourceTypes.Food)
+					prefabName = "FoodResourcePrefab";
+				holdingSprite = Instantiate (Resources.Load ("Prefab/" + prefabName)) as GameObject;
+				holdingSprite.AddComponent<transformLock> ().Initialize (holdLoc.transform);
+			} else if (holdingSprite != null) {
+				Destroy (holdingSprite);
+			}
+		}
+	}
+
 }
 

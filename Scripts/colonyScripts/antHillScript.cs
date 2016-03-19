@@ -14,24 +14,26 @@ public class antHillScript : MonoBehaviour{
 		colonyLink = creatingScript;
 	}
 
+
 	public void antIn(GameObject ant){
 		//report this to colonyScript
+		//Debug.Log("here");
 		colonyLink.antEntersColony(ant);
-	}
+	} 
 
-	public void antOut(){
+	public void antOut(float avrgAntHealth){
 		//create ant at anthill
 		GameObject ant = Instantiate (Resources.Load("Prefab/antPrefab") as GameObject,gameObject.transform.position,Quaternion.identity) as GameObject;
-		//Instantiate (Resources.Load("Prefab/antPrefab") as GameObject,gameObject.transform.position,Quaternion.identity);
+		ant.GetComponent<Ant> ().setHealth(avrgAntHealth);
 	}
-
-	/*
+		
 	public void OnTriggerEnter2D(Collider2D coli){
-		if (coli.gameObject.GetComponent<Ant> () != null) {
+		Ant tempAnt = coli.gameObject.GetComponent<Ant> ();
+		if (tempAnt != null) {
 			//its an ant that entered the coli range
-			if (true) { //if the ant actually wants to enter, assumed true
-				antIn (coli.gameObject);
+			if (tempAnt.wantsToEnterHive) { //if the ant actually wants to enter, assumed true
+				antIn (tempAnt.gameObject);
 			}
 		}
-	} */
+	}
 }

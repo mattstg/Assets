@@ -12,6 +12,8 @@ public class colonyScript : MonoBehaviour {
 	private float foodStored;
 	private float waterStored;
 	private bool antOutPutLimiter = false;
+	private bool antResourceDrainTracker = false;
+	private float averageAntHelth = 100f;
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +27,44 @@ public class colonyScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//Debug.Log ("Here" + percentDormantAnts() +  GV.DESIRED_PERCENT_DORMANT_ANTS);
 		if(percentDormantAnts() >= GV.DESIRED_PERCENT_DORMANT_ANTS){
 			antExitsColony ();
 		}
-		//ants dont consume food while inside ATM
+		if (!antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK == 0) {
+			antResourceDrainTracker = true;
+			drainResources ();
+		}else if(antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK != 0){
+			antResourceDrainTracker = false;
+		}
+	}
+
+
+	public void drainResources(){
+		float tempDrain = numberOfDormantAnts * GV.RESOURCE_DRAIN_DORMANT / 2;
+		int starvingSeverity = 0;
+		if (foodStored < tempDrain) {
+			//running out of food
+			Debug.Log ("Not enough food.");
+			starvingSeverity++;
+		} else
+			foodStored -= tempDrain;
+		if (waterStored < tempDrain) {
+			Debug.Log("Not enough water.");
+			starvingSeverity++;
+		}else
+			waterStored -= tempDrain;
+
+		if (foodStored < 0 || waterStored < 0) {
+			Debug.Log ("Colony is starving.");
+		}
+	}
+
+	private void someAntStarve(int strvSvrity){
+		numberOfDormantAnts -= Mathf.CeilToInt(strvSvrity * GV.ANT_DEATH_FROM_STARVATION);
+	}
+
+	private void antDeathFromPoison(float quant){
+		numberOfDormantAnts -= Mathf.CeilToInt(quant * GV.ANT_DEATH_FROM_POISON);
 	}
 
 	public void addResource(resourceObject resObj){
@@ -41,8 +76,7 @@ public class colonyScript : MonoBehaviour {
 					addWater (resObj.quantity);
 				}
 			} else {
-				//food is poisoned, do something
-
+				antDeathFromPoison(resObj.quantity);
 			}
 		}
 	}
@@ -54,14 +88,17 @@ public class colonyScript : MonoBehaviour {
 
 	private void antExitsColony(){
 		numberOfDormantAnts--;
-		antHillLink.antOut ();
+		antHillLink.antOut (averageAntHelth);
 	}
 
 	public void antEntersColony(GameObject ant){
 		Ant antScript = ant.GetComponent<Ant> ();
+		Debug.Log ("Where we shouldnt be.");
 		if(antScript != null){
 			numberOfDormantAnts++;
-			addResource (antScript.giveResource());
+			if(antScript.holding != null)
+				addResource (antScript.giveResource());
+			averageAntHelth = (float) averageAntHelth * (numberOfDormantAnts - 1) + antScript.retHealth () / (float) numberOfDormantAnts;
 			Destroy(ant);
 		}
 	}

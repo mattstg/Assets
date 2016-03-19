@@ -31,7 +31,7 @@ public class resourceObject {
 	}
 
 	public bool isZero(){
-		return quantity == 0 && resType == GV.ResourceTypes.Empty;
+		return quantity == 0 || resType == GV.ResourceTypes.Empty;
 	}
 
 	public bool consume(float amount){

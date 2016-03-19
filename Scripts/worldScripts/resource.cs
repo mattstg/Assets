@@ -40,12 +40,8 @@ public class resource : MonoBehaviour {
 
 	public void give(Ant ant){
 		//give ant the food type
-		if (!ant.holding.isZero ()) {
-			ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
-			addQuantity(-GV.ANT_CARRY_CAPACITY);
-		} else {
-			Debug.Log ("Ant alredy holding something.");
-		}
+		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
+		addQuantity(-GV.ANT_CARRY_CAPACITY);
 	}
 
 	public float retQuant(){
@@ -71,9 +67,11 @@ public class resource : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D coli){
 		if (coli.gameObject.GetComponent<Ant> () != null) {
 			Ant collidingAnt = coli.gameObject.GetComponent<Ant> ();
-			give (collidingAnt);
+			//if (collidingAnt)
+			if (collidingAnt.holding == null || collidingAnt.holding.isZero()) 
+				give (collidingAnt);
 		} else {
-			Debug.Log ("Something has collided with a resource, that is not an ant.");
+			Debug.Log ("Something has collided with a resource, that is not an ant. This is it: " + coli.name);
 		}
 	}
 
