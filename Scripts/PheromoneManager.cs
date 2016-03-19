@@ -18,6 +18,7 @@ public class PheromoneManager : MonoBehaviour
         PheromoneTrail newTrail = newTrailGO.GetComponent<PheromoneTrail>();
 
         newTrail.Initialize(parentNode, newNode, pherType);
+        parentNode.AddTrail(newTrail);
         newNode.InitializeNode(newTrail);
         pheromoneNodes.Add(newNode);
         pheromoneTrails.Add(newTrail);

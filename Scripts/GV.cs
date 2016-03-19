@@ -5,7 +5,8 @@ public class GV
 {
     public enum PhermoneTypes { Friendly, Hostile };
     public static readonly float PATH_DECAY_RATE = 5f;  //1 point every 5 seconds
-
+    public static readonly float ANT_ENERGY_DECAY = 1f; //1 per second
+    public static readonly float ANT_ENERGY_START = 100f; 
 
 	//Food and Water
 	public static readonly int Min_FoodBundles = 5;

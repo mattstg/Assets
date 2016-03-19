@@ -5,7 +5,7 @@ public class PheromoneTrail : MonoBehaviour {
     GV.PhermoneTypes pherType;
     PheromoneNode pHome;
     PheromoneNode pAway;
-    float strength;
+    public int strength;
 
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {
