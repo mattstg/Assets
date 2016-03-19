@@ -19,8 +19,11 @@ public class resourceAdminitrator : MonoBehaviour {
 		updateResources();
 
 		//shouldnt be done every single update :S
-		if (calculateGlobalFood () < GV.MIN_WORLD_FOOD)
+
+		 if (calculateGlobalFood () < GV.MIN_WORLD_FOOD) {
 			createFoodSource (1);
+		}
+
 		if (calculateGlobalWater () < GV.MIN_WORLD_WATER)
 			createWaterSource (1);
 	}
@@ -56,6 +59,7 @@ public class resourceAdminitrator : MonoBehaviour {
 	public float calculateGlobalFood(){
 		float sum = 0;
 		foreach(foodBundleScript bundle in foodRes){
+//			Debug.Log (bundle.toString() + " Sum: " + sum);
 			sum += bundle.retQuant ();
 		}
 		return sum;
@@ -88,6 +92,6 @@ public class resourceAdminitrator : MonoBehaviour {
 	} */
 
 	private bool locationIsEmpty(Vector3 vec){
-		return false;
+		return true;
 	} 
 }

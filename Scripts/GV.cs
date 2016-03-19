@@ -22,9 +22,9 @@ public class GV
 
 	//Food and Water
 	public static readonly int Min_FoodBundles = 5;
-	public static readonly int Max_FoodBundles = 15;
+	public static readonly int Max_FoodBundles = 25;
 	public static readonly int Min_WaterPuddes = 5;
-	public static readonly int Max_WaterPuddes = 15;
+	public static readonly int Max_WaterPuddes = 25;
 	public static readonly int TIME_BETWEEN_RESOURCE_UPDATES = 5; //seconds
 	public static readonly float RESOURCE_GROWTH_PER_SECOND = 1f;
 	public static readonly float MIN_WORLD_FOOD = 100f;
@@ -36,6 +36,8 @@ public class GV
 
 	//Map
 	public static readonly float MAP_DIAMETER = 100;
+	public static readonly int NUM_OF_ROCKS = 30;
+	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
 
 
     public static Vector2 SubtractVectors(Vector2 v2, Vector3 v3)

@@ -4,21 +4,25 @@ using System.Collections;
 public class resource : MonoBehaviour {
 	public float quantity;
 	public bool isPoison;
-	public GV.ResourceTypes resourceType = GV.ResourceTypes.Empty;
+	public GV.ResourceTypes resourceType;
 
 	// Use this for initialization
 	void Start () {
 		quantity = 0f;
 		addQuantity(Random.Range (GV.INITIAL_RESOURCE_RANGE.x, GV.INITIAL_RESOURCE_RANGE.y));
-		if (Random.Range (0, 1) < GV.PERCENT_CHANCE_OF_POISON)
+		float randomValue = Random.value;
+		if (randomValue <= GV.PERCENT_CHANCE_OF_POISON) {
+			//Debug.Log ("Is Poisoned. randomValue: " + randomValue);
 			isPoison = true;
-		else
+		}
+		else{
+			//Debug.Log ("Is NOT Poisoned. randomValue: " + randomValue);
 			isPoison = false;
+		}
+//		Debug.Log ("New Resource: " + toString());
 	}
 
 	public void manualUpdate(){
-		if (quantity <= 0)
-			Destroy (gameObject);
 		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * Time.deltaTime);
 	}
 
@@ -31,7 +35,7 @@ public class resource : MonoBehaviour {
 	}
 
 	public float retQuant(){
-		if (isPoison = true) 
+		if (isPoison == true) 
 			return quantity * -1f;
 		return quantity;
 	}
@@ -55,5 +59,9 @@ public class resource : MonoBehaviour {
 		if (collidingAnt != null) {
 			give (collidingAnt);
 		}
+	}
+
+	public string toString(){
+		return "ResType: " + resourceType + " quantity: " + quantity + " isPoisoned " + isPoison; 
 	}
 }
