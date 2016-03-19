@@ -18,7 +18,7 @@ public class Ant : MonoBehaviour {
 
 	public resourceObject giveResource(){
 		//pass the thing to ANT or colony
-		holding.give();
+		return holding.give();
 	}
 
 	public resourceObject whatResourceHolding(){

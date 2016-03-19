@@ -16,7 +16,7 @@ public class resourceObject {
 	}
 
 	public resourceObject give(){
-		resourceObject temp = new resourceObject (get());
+		resourceObject temp = new resourceObject (this);
 		zero ();
 		return temp;
 	}
