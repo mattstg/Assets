@@ -39,5 +39,6 @@ public class PheromoneNode : MonoBehaviour {
             if (!trails.Contains(pt))
                 trails.Add(pt);
     }
-    
+
+       
 }
