@@ -11,6 +11,7 @@ public class colonyScript : MonoBehaviour {
 	private int numberOfDormantAnts;
 	private float foodStored;
 	private float waterStored;
+	private bool antOutPutLimiter = false;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +27,6 @@ public class colonyScript : MonoBehaviour {
 	void Update () {
 		//Debug.Log ("Here" + percentDormantAnts() +  GV.DESIRED_PERCENT_DORMANT_ANTS);
 		if(percentDormantAnts() >= GV.DESIRED_PERCENT_DORMANT_ANTS){
-			
 			antExitsColony ();
 		}
 		//ants dont consume food while inside ATM

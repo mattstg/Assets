@@ -61,9 +61,11 @@ public class resource : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter2D(Collider2D coli){
-		Ant collidingAnt = coli.gameObject.GetComponent<Ant> ();
-		if (collidingAnt != null) {
-			give (collidingAnt);
+		if (coli.gameObject.GetComponent<Ant> () != null) {
+			Ant collidingAnt = coli.gameObject.GetComponent<Ant> ();
+			if (collidingAnt != null) {
+				give (collidingAnt);
+			}
 		}
 	}
 
