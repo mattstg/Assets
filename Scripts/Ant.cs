@@ -48,15 +48,8 @@ public class Ant : MonoBehaviour {
 
     void MoveTowardsGoal(float dtime)
     {
-        if (currentTrail)
-        {
-            Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
-            GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
-        }
-        else  //trail died, become wanderer
-        {
-            WanderMode();
-        }
+       Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
+       GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
     }
 
     void ArriveAtNode(PheromoneNode pn)
@@ -70,14 +63,15 @@ public class Ant : MonoBehaviour {
         {
             workingBackTrack = 0;
         }
-        Debug.Log("out: " + pn.GetTotalPhermoneWeights(currentTrail));
+        //Debug.Log("out: " + pn.GetTotalPhermoneWeights(currentTrail));
         int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight + workingBackTrack;
         int randomResult = Random.Range(1, totalWeight + 1);
-        Debug.Log("Result: " + randomResult + "/" + totalWeight);
+        //Debug.Log("Result: " + randomResult + "/" + totalWeight);
         currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
         if (currentTrail)
         {
             goalSpot = currentTrail.GetOtherNode(pn).transform.position;
+            antMode = AntMode.Forage;
         }
         else
             ScoutModeActivate();
@@ -85,13 +79,9 @@ public class Ant : MonoBehaviour {
 
     void ScoutModeActivate()
     {
-        goalSpot = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)).normalized * GV.ANT_SCOUT_TIMER * GV.ANT_SPEED;
+        goalSpot = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)).normalized * (GV.ANT_SCOUT_TIMER+1) * GV.ANT_SPEED;
         timeSinceLastNode = 0;
         antMode = AntMode.Scout;
-        carryingPheromone = FindObjectOfType<PheromoneManager>().RetrieveNewNode(lastVisitedNode, GV.PhermoneTypes.Friendly);
-        carryingPheromone.gameObject.AddComponent<transformLock>().Initialize(transform);
-        carryingPheromone.carried = true;
-        //Needs to create a node here
         Debug.Log("Scout mode activated, spot chosen: " + goalSpot);
     }
 
@@ -107,10 +97,14 @@ public class Ant : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coli)
     {
-        if (coli.CompareTag("Node") && coli.GetComponent<PheromoneNode>() != lastVisitedNode)
+        PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
+        if (coli.CompareTag("Node") && coliNode != lastVisitedNode)
         {
-            if(!coli.GetComponent<PheromoneNode>().carried)
-                ArriveAtNode(coli.GetComponent<PheromoneNode>());
+             if (antMode == AntMode.Scout)
+             {
+                 DropPheromoneOnExistingNode(coliNode);
+             }
+             ArriveAtNode(coliNode);
         }
         else if(coli.CompareTag("Ant"))
         {
@@ -136,8 +130,43 @@ public class Ant : MonoBehaviour {
         timeSinceLastNode += dtime;
         if (timeSinceLastNode > GV.ANT_SCOUT_TIMER)
         {
-            Debug.Log("DROPS A PHER");
-            timeSinceLastNode = 0;
+            DropPheromone();
+        }
+    }
+
+    PheromoneNode DropPheromone()
+    {
+        PheromoneNode pn = FindObjectOfType<PheromoneManager>().RetrieveNewNode(lastVisitedNode, GetPherType(),transform.position);
+        lastVisitedNode = pn;
+        timeSinceLastNode = 0;
+        ArriveAtNode(pn);
+        return pn;
+    }
+
+    void DropPheromoneOnExistingTrail(PheromoneTrail pt)
+    {
+        pt.SplitByNode(DropPheromone());
+        Debug.Log("drop phermone on existing trail");
+    }
+
+    void DropPheromoneOnExistingNode(PheromoneNode pt)
+    {
+        PheromoneNode newPher = FindObjectOfType<PheromoneManager>().RetrieveNewNode(lastVisitedNode,GetPherType(),transform.position);
+        pt.MergeNode(newPher);
+        Debug.Log("drop phermone on existing node");
+    }
+
+    GV.PhermoneTypes GetPherType()
+    {
+        switch (antMode)
+        {
+            case AntMode.Scout:
+            case AntMode.Forage:
+            case AntMode.Wander:
+                return GV.PhermoneTypes.Friendly;
+            default:
+                return GV.PhermoneTypes.Friendly;
         }
     }
 }
+

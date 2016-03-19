@@ -10,11 +10,11 @@ public class PheromoneManager : MonoBehaviour
     List<PheromoneTrail> pheromoneTrails = new List<PheromoneTrail>();
     float updateCounter = 0;
 
-    public PheromoneNode RetrieveNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType)
+    public PheromoneNode RetrieveNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType, Vector2 spawnLocation)
     {
         if (parentNode == null)
-            return RetrieveNewNode(pherType);
-        GameObject newNodeGO = Instantiate<GameObject>(phermoneNodePrefab);
+            return RetrieveNewNode(pherType,spawnLocation);
+        GameObject newNodeGO = Instantiate(phermoneNodePrefab, spawnLocation, Quaternion.identity) as GameObject;
         GameObject newTrailGO = Instantiate<GameObject>(phermoneTrailPrefab);
         PheromoneNode newNode = newNodeGO.GetComponent<PheromoneNode>();
         PheromoneTrail newTrail = newTrailGO.GetComponent<PheromoneTrail>();
@@ -27,12 +27,18 @@ public class PheromoneManager : MonoBehaviour
         return newNode;
     }
 
-    public PheromoneNode RetrieveNewNode(GV.PhermoneTypes pherType)
+    private PheromoneNode RetrieveNewNode(GV.PhermoneTypes pherType, Vector2 spawnLocation)
     {
-        GameObject newNodeGO = Instantiate<GameObject>(phermoneNodePrefab);
+        GameObject newNodeGO = Instantiate(phermoneNodePrefab, spawnLocation, Quaternion.identity) as GameObject;
         PheromoneNode newNode = newNodeGO.GetComponent<PheromoneNode>();
         pheromoneNodes.Add(newNode);
         return newNode;
+    }
+
+    public void CreatePheromoneTrail(PheromoneNode home, PheromoneNode away, GV.PhermoneTypes pherType)
+    {
+        PheromoneTrail newPt = Instantiate<GameObject>(phermoneTrailPrefab).GetComponent<PheromoneTrail>();
+        newPt.Initialize(home, away, pherType);
     }
 
 

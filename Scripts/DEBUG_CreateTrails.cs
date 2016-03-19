@@ -8,11 +8,18 @@ public class DEBUG_CreateTrails : MonoBehaviour {
     public PheromoneNode lastClicked;
 	// Use this for initialization
 	void Start () {
-        PheromoneNode pn = pherManager.RetrieveNewNode(initialNode, GV.PhermoneTypes.Friendly);
-        Vector2 randomSpot = new Vector2(Random.Range(-5,5),Random.Range(-5,5));
-        pn.transform.position = randomSpot;
-        
+        Vector2 randomSpot = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
+        PheromoneNode pn = pherManager.RetrieveNewNode(initialNode, GV.PhermoneTypes.Friendly, randomSpot);
 	}
+
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            GameObject newAnt = Instantiate(Resources.Load("Prefab/AntPrefab"),new Vector3(0,0,0),Quaternion.identity) as GameObject;
+            newAnt.GetComponent<Ant>().Initialize();
+        }
+    }
 
     public void OnMouseDown()
     {
@@ -36,9 +43,8 @@ public class DEBUG_CreateTrails : MonoBehaviour {
         }
         else  //otherwise make a new one
         {
-            PheromoneNode pn = pherManager.RetrieveNewNode(lastClicked, GV.PhermoneTypes.Friendly);
+            PheromoneNode pn = pherManager.RetrieveNewNode(lastClicked, GV.PhermoneTypes.Friendly,clickPoint);
             pn.transform.position = clickPoint;
-            //Debug.Log("Mouse position is" + Input.mousePosition);
             SetNewLastClicked(pn);
         }
         

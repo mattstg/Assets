@@ -12,15 +12,23 @@ public class PheromoneTrail : MonoBehaviour {
         pherType = _pherType;
         pHome = _home;
         pAway = _away;
-        strength = 7;
+        strength = GV.PHEROMONE_START_ENERGY;
+        if (pHome && pAway)
+            gameObject.AddComponent<DrawLineSprite>().Initialize(pHome.transform.position,pAway.transform.position,Resources.Load<Sprite>("Sprites/PheromoneNode"));
     }
 
     public void GetUpdated()
     {
         strength -= 1;
-        DrawRenderer();  //SHOULD ONLY BE CALLED WHEN CHANGED OR MOVED
+        GetComponentInChildren<TextMesh>().text = strength.ToString();
         if (strength <= 0)
             TrailDie();
+    }
+
+    public void SplitByNode(PheromoneNode newNode)
+    {
+        FindObjectOfType<PheromoneManager>().CreatePheromoneTrail(pHome, newNode, pherType);
+        pHome = newNode;
     }
 
     public void SetNewNode(PheromoneNode oldNode, PheromoneNode newNode)
@@ -37,26 +45,9 @@ public class PheromoneTrail : MonoBehaviour {
     }
 
     ///Graphics section
-    private void DrawRenderer()
-    {
-        if (pHome && pAway)
-        {
-            Vector2 homePos= pHome.transform.position;
-            Vector2 awayPos = pAway.transform.position;
-            Vector2 vecDiff = awayPos - homePos;
-            float ang = Mathf.Atan(vecDiff.x / vecDiff.y) * Mathf.Rad2Deg * -1;
-            GetComponentInChildren<TextMesh>().text = strength.ToString();
-            transform.position = ((awayPos - homePos) / 2) + homePos;
-            transform.localScale = new Vector3(1,Vector2.Distance(homePos, awayPos),1);
-            transform.eulerAngles = new Vector3(0, 0, ang);
-        }
-    }
-
-    
 
     private void TrailDie()
     {
-
         if (pHome)
             pHome.PheromoneTrailDied(this);
         if (pAway)
