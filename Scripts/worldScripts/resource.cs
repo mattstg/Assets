@@ -8,8 +8,10 @@ public class resource : MonoBehaviour {
 
 
 	void LateUpdate(){
-		if(quantity <= 0)
-			Destroy(gameObject);
+		if (quantity <= 0) {
+			Destroy (gameObject);
+			Destroy (this);
+		}
 	}
 
 	// Use this for initialization
@@ -56,11 +58,17 @@ public class resource : MonoBehaviour {
 
 	public void addQuantity(float toAdd){
 		quantity += toAdd;
-		rescale ();
+		if(quantity > 0)
+			rescale ();
 	}
 
 	public void rescale(){
-		float newScale = Mathf.Sqrt(quantity / GV.QUANTITY_TO_VOLUMETIC_SCALE);
+		float newScale;
+		if (quantity > 0) {
+			newScale = Mathf.Sqrt(Mathf.Abs(quantity) / GV.QUANTITY_TO_VOLUMETIC_SCALE);
+		} else {
+			newScale = 0;
+		}
 		gameObject.transform.localScale = new Vector2 (newScale,newScale);
 	}
 

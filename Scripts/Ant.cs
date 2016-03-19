@@ -184,6 +184,7 @@ public class Ant : MonoBehaviour {
 	}
 
 	public void takeResource(resourceObject resourceToHold){
+		Debug.Log ("Taking Resource;");
 		holding = new resourceObject(resourceToHold);
 		refreshHoldingResource ();
 	}
@@ -239,17 +240,21 @@ public class Ant : MonoBehaviour {
     }
 
 	private void refreshHoldingResource(){
-		if (holding != null) {
+		//if (holding != null) {
 			if (!holding.isZero ()) {
 				string prefabName = "WaterResourcePrefab";
 				if (holding.resType == GV.ResourceTypes.Food)
 					prefabName = "FoodResourcePrefab";
 				holdingSprite = Instantiate (Resources.Load ("Prefab/" + prefabName)) as GameObject;
-				holdingSprite.AddComponent<transformLock> ().Initialize (holdLoc.transform);
+			holdingSprite.transform.parent = gameObject.transform;
+			holdingSprite.transform.localPosition = new Vector3(0f, 0.3f, 0f);
+				//holdingSprite.transform.position.Set (0f,0f,0f);
+				//holdingSprite.transform.position = new Vector3(0f,0.3f,0f);
+					//holdingSprite.AddComponent<transformLock> ().Initialize (holdLoc.transform);
 			} else if (holdingSprite != null) {
 				Destroy (holdingSprite);
 			}
-		}
+		//}
 	}
 
 }

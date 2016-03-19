@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class resourceAdminitrator : MonoBehaviour {
 	private List<waterPuddleScript> waterRes = new List<waterPuddleScript>();
 	private List<foodBundleScript> foodRes = new List<foodBundleScript>();
+	private List<waterPuddleScript> watToRemove = new List<waterPuddleScript>();
+	private List<foodBundleScript> foodToRemove = new List<foodBundleScript>();
+	private bool thingsToRemove = false;
 	float halfMapSize = GV.MAP_DIAMETER/2;
 	private GameObject waterPrefab = Resources.Load("Prefab/waterPuddlePrefab") as GameObject;
 	private GameObject foodPrefab = Resources.Load("Prefab/foodBundlePrefab") as GameObject;
@@ -12,6 +15,28 @@ public class resourceAdminitrator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		generateResources ();
+	}
+
+	void LateUpdate(){
+
+		if (thingsToRemove) {
+			Object[] objToDestroy = new GameObject[watToRemove.Count + foodToRemove.Count];
+			int index = 0;
+			foreach (waterPuddleScript puddle in watToRemove) {
+				objToDestroy [index] = (Object) puddle;
+				watToRemove.Remove (puddle);
+				index++;
+			}
+			foreach (foodBundleScript bundle in foodToRemove) {
+				objToDestroy [index] = (Object) bundle;
+				foodRes.Remove (bundle);
+				index++;
+			}
+			for (int i = 0; i < index; i++) {
+				Destroy (objToDestroy [i]);
+			}
+		}
+
 	}
 	
 	// Update is called once per frame
@@ -75,9 +100,15 @@ public class resourceAdminitrator : MonoBehaviour {
 
 	private void updateResources(){
 		foreach(foodBundleScript bundle in foodRes){
+			if (bundle.quantity <= 0) {
+				foodToRemove.Add (bundle);
+			}else
 			bundle.manualUpdate ();
 		}
 		foreach(waterPuddleScript puddle in waterRes){
+			if (puddle.quantity <= 0) {
+				watToRemove.Add (puddle);
+			}else
 			puddle.manualUpdate ();
 		}
 	}

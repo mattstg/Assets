@@ -47,7 +47,7 @@ public class GV
 	public static readonly float MAP_DIAMETER = 120;
 	public static readonly Vector2 NUM_OF_ROCKS = new Vector2(15, 75);
 	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
-	public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 5f; //unity meters squared
+	public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 0f; //unity meters squared
 
 
     public static Vector2 SubtractVectors(Vector2 v2, Vector3 v3)
