@@ -17,7 +17,7 @@ public class GV
 	public static readonly float START_FOOD = 150;
 	public static readonly float START_WATER = 150;
 	public static readonly int START_ANTS = 100;
-	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .6f; //0-1
+	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
 	public static readonly int TIME_BETWEEN_ANT_EXITS = 5; //seconds
 
 	//Food and Water
@@ -33,10 +33,10 @@ public class GV
 
 
 	//Map
-	public static readonly float MAP_DIAMETER = 100;
+	public static readonly float MAP_DIAMETER = 120;
 	public static readonly Vector2 NUM_OF_ROCKS = new Vector2(15, 75);
 	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
-	public static readonly float ROCK_SPAWN_RANGE_FROM_ORIG = 5f; //unity meters
+	public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 5f; //unity meters squared
 
 
     public static Vector2 SubtractVectors(Vector2 v2, Vector3 v3)

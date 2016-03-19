@@ -24,7 +24,9 @@ public class colonyScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(percentDormantAnts() > GV.DESIRED_PERCENT_DORMANT_ANTS){
+		//Debug.Log ("Here" + percentDormantAnts() +  GV.DESIRED_PERCENT_DORMANT_ANTS);
+		if(percentDormantAnts() >= GV.DESIRED_PERCENT_DORMANT_ANTS){
+			
 			antExitsColony ();
 		}
 		//ants dont consume food while inside ATM
@@ -46,7 +48,8 @@ public class colonyScript : MonoBehaviour {
 	}
 
 	private float percentDormantAnts(){
-		return numberOfDormantAnts / totalNumberOfAnts;
+		//Debug.Log ("Here2: " + numberOfDormantAnts + " " + totalNumberOfAnts);
+		return (float) numberOfDormantAnts / totalNumberOfAnts;
 	}
 
 	private void antExitsColony(){

@@ -37,7 +37,7 @@ public class resourceAdminitrator : MonoBehaviour {
 	private void createWaterSource(int amountToAdd){
 		for(int count = 0; count < amountToAdd; count++){
 			Vector3 rand = new Vector3 (Random.Range (-halfMapSize, halfMapSize), Random.Range (-halfMapSize, halfMapSize), 0);
-			while (locationIsEmpty(rand) == false) {
+			while (locationIsEmpty(rand) == false || Mathf.Abs (rand.x) < GV.MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER || Mathf.Abs (rand.y) < GV.MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER) {
 				rand = new Vector3 (Random.Range (-halfMapSize, halfMapSize), Random.Range (-halfMapSize, halfMapSize), 0);
 			}
 			GameObject newWater = Instantiate (waterPrefab, rand, Quaternion.identity) as GameObject;
@@ -48,7 +48,7 @@ public class resourceAdminitrator : MonoBehaviour {
 	private void createFoodSource(int amountToAdd){
 		for(int count = 0; count < amountToAdd; count++){
 			Vector3 rand = new Vector3 (Random.Range (-halfMapSize, halfMapSize), Random.Range (-halfMapSize, halfMapSize), 0);
-			while (locationIsEmpty(rand) == false) {
+			while (locationIsEmpty(rand) == false || Mathf.Abs (rand.x) < GV.MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER || Mathf.Abs (rand.y) < GV.MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER) {
 				rand = new Vector3 (Random.Range (-halfMapSize, halfMapSize), Random.Range (-halfMapSize, halfMapSize), 0);
 			}
 			GameObject newFood = Instantiate (foodPrefab, rand, Quaternion.identity) as GameObject;

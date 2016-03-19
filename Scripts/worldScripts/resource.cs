@@ -20,6 +20,12 @@ public class resource : MonoBehaviour {
 			isPoison = false;
 		}
 //		Debug.Log ("New Resource: " + toString());
+		if (Random.Range(-10,10) < 0) {
+			gameObject.GetComponent<SpriteRenderer> ().flipX = true;
+		}
+		if(Random.Range(-10,10) < 0){
+			gameObject.GetComponent<SpriteRenderer>().flipY = true;
+		}
 	}
 
 	public void manualUpdate(){
