@@ -31,6 +31,7 @@ public class GV
 	public static readonly float MIN_WORLD_WATER = 100f;
 	public static readonly Vector2 INITIAL_RESOURCE_RANGE = new Vector2(10,50);
 	public static readonly float PERCENT_CHANCE_OF_POISON = 0.1f;
+	public static readonly float QUANTITY_TO_VOLUMETIC_SCALE = 10f; //how much quantity of food = 1x1 volume in world
 
 
 	//Map

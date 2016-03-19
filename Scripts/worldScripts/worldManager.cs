@@ -8,9 +8,8 @@ public class worldManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//make resource administator
-		resAdmin = gameObject.AddComponent<resourceAdminitrator>();
 		colony = gameObject.AddComponent<colonyScript> ();
-
+		resAdmin = gameObject.AddComponent<resourceAdminitrator>();
 		//rocks
 	}
 	

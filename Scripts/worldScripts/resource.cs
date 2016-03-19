@@ -8,24 +8,24 @@ public class resource : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		quantity = Random.Range (GV.INITIAL_RESOURCE_RANGE.x, GV.INITIAL_RESOURCE_RANGE.y);
-		if (Random.Range (0, 1) < GV.PERCENT_CHANCE_OF_POISON) {
+		quantity = 0f;
+		addQuantity(Random.Range (GV.INITIAL_RESOURCE_RANGE.x, GV.INITIAL_RESOURCE_RANGE.y));
+		if (Random.Range (0, 1) < GV.PERCENT_CHANCE_OF_POISON)
 			isPoison = true;
-		} else
+		else
 			isPoison = false;
-		
 	}
 
 	public void manualUpdate(){
 		if (quantity <= 0)
 			Destroy (gameObject);
-		quantity += GV.RESOURCE_GROWTH_PER_SECOND * Time.deltaTime;
+		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * Time.deltaTime);
 	}
 
 	public void give(Ant ant){
 		//give ant the food type
 		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
-		quantity -= GV.ANT_CARRY_CAPACITY;
+		addQuantity(-GV.ANT_CARRY_CAPACITY);
 		if(quantity <= 0)
 			Destroy(gameObject);
 	}
@@ -38,5 +38,22 @@ public class resource : MonoBehaviour {
 
 	public void poisonResource(bool toSet){
 		isPoison = toSet;
+	}
+
+	public void addQuantity(float toAdd){
+		quantity += toAdd;
+		rescale ();
+	}
+
+	public void rescale(){
+		float newScale = Mathf.Sqrt(quantity / GV.QUANTITY_TO_VOLUMETIC_SCALE);
+		gameObject.transform.localScale = new Vector2 (newScale,newScale);
+	}
+
+	public void OnTriggerEnter2D(Collider2D coli){
+		Ant collidingAnt = coli.gameObject.GetComponent<Ant> ();
+		if (collidingAnt != null) {
+			give (collidingAnt);
+		}
 	}
 }

@@ -27,8 +27,9 @@ public class antHillScript : MonoBehaviour{
 	public void OnTriggerEnter2D(Collider2D coli){
 		if (coli.gameObject.GetComponent<Ant> () != null) {
 			//its an ant that entered the coli range
-			//ant also wants to enter
-			antIn(coli.gameObject);
+			if (true) { //if the ant actually wants to enter, assumed true
+				antIn (coli.gameObject);
+			}
 		}
 	}
 }
