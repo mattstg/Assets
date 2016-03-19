@@ -2,9 +2,8 @@
 using System.Collections;
 
 public class foodBundleScript : MonoBehaviour {
-	private int quantityOfFood;
+	private int quantity;
 	private bool isPoison;
-
 
 	// Use this for initialization
 	void Start () {
@@ -12,12 +11,23 @@ public class foodBundleScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+	/*
 	void Update () {
 	
+	} 
+	*/
+
+	public void manualUpdate(){
+
+
 	}
 
-	void giveFood(){
+	void give(){
 
 
+	}
+
+	public int retQuant(){
+		return quantity;
 	}
 }

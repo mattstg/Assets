@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class waterPuddleScript : MonoBehaviour {
+	private int quantity;
+	private bool isPoison;
+
 
 	// Use this for initialization
 	void Start () {
@@ -9,7 +12,23 @@ public class waterPuddleScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+
+	/*
 	void Update () {
-	
+		
+	} */
+
+	public void manualUpdate(){
+
+
+	}
+
+	void give(){
+
+
+	}
+
+	public int retQuant(){
+		return quantity;
 	}
 }
