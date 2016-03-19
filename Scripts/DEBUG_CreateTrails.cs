@@ -50,7 +50,8 @@ public class DEBUG_CreateTrails : MonoBehaviour {
 
     private void SetNewLastClicked(PheromoneNode pn)
     {
-        lastClicked.GetComponent<SpriteRenderer>().color = Color.green;
+        if(lastClicked)
+            lastClicked.GetComponent<SpriteRenderer>().color = Color.green;
         pn.GetComponent<SpriteRenderer>().color = Color.red;
         lastClicked = pn;
     }

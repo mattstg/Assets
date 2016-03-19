@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PheromoneNode : MonoBehaviour {
     public bool lockedFromDeath = false;
     public bool setToDie = false; //helps with trail merging
-    protected List<PheromoneTrail> trails = new List<PheromoneTrail>(); 
+    public List<PheromoneTrail> trails = new List<PheromoneTrail>(); 
     public int pherID = 0;
 
     public void AddTrail(PheromoneTrail pt)
@@ -38,31 +38,42 @@ public class PheromoneNode : MonoBehaviour {
     public int GetTotalPhermoneWeights(PheromoneTrail excludeTrail)
     {
         int toReturn = 0;
-       // Debug.Log("total pher called: " + trails.Count);
         foreach (PheromoneTrail pt in trails)
             if (pt != excludeTrail)
-            {
-               // Debug.Log("adding: " + pt.strength);
                 toReturn += pt.strength;
-                //Debug.Log("toReturn: " + toReturn);
-
-            }
         return toReturn;
     }
 
     private void AbsorbTrails(PheromoneNode toAbsorb)
     {
-        //pt.SetNewNode(toMerge, this);
-        foreach (PheromoneTrail pt in toAbsorb.trails)
-            if (!trails.Contains(pt))
-            {
-                pt.SetNewNode(toAbsorb, this);
+        foreach (PheromoneTrail pt in toAbsorb.trails) //for each trail i will absorb
+        {
+            
+           Debug.Log("tails to destroy");
+           pt.SetNewNode(toAbsorb, this);             //setup
+           if(!trails.Contains(pt))
                 trails.Add(pt);
-            }
+            /*
+           PheromoneTrail trailToAbsorbTrail = PheromoneTrail.PherListContains(trails, pt);
+           if (!trailToAbsorbTrail)
+           {
+               Debug.Log("TurtlesAreNigh");
+               trails.Add(pt);
+           }
+           else
+           {
+               Debug.Log("combine power");
+               trailToAbsorbTrail.strength += pt.strength;
+
+           }
+           pt.SetNewNode(null, null);   //since it already exist, and we dont need it, delete it.*/
+        }
     }
 
     public PheromoneTrail SelectNewTrailByWeight(int goalWeightValue, PheromoneTrail ptToIgnore, int backTrackWeight)
     {
+
+        Debug.Log("starts");
         int currentWeight = 1;
         foreach (PheromoneTrail pt in trails)
         {
@@ -71,8 +82,12 @@ public class PheromoneNode : MonoBehaviour {
             else
                 currentWeight += pt.strength;
             if (goalWeightValue <= currentWeight)
-                    return pt;
+            {
+                Debug.Log("ends");
+                return pt;
+            }
         }
+        Debug.Log("ends null");
         return null; //If it goes beyond the size, then it was because SCOUT was chosen
     }
 

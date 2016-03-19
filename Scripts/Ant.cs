@@ -114,6 +114,7 @@ public class Ant : MonoBehaviour {
         PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
         if (coliNode  && coliNode != lastVisitedNode)
         {
+            Debug.Log("COLISIONS");
              if (antMode == AntMode.Scout)
              {
                  PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
@@ -211,25 +212,6 @@ public class Ant : MonoBehaviour {
     PheromoneNode DropPheromone()
     {
         PheromoneNode pn;
-        /*
-        List<PheromoneNode> allNearbyPher = GetAllNearbyByTag<PheromoneNode>("Node", GV.PHEROMONE_PLACEMENT_ABSORPTION_RADIUS);
-
-        if (allNearbyPher.Count <= 0)
-        {
-            pn = FindObjectOfType<PheromoneManager>().CreateNewNode(lastVisitedNode, GetPherType(),transform.position);
-        }
-        else if(allNearbyPher.Count == 1)
-        {
-            pn = DropPheromoneOnExistingNode(allNearbyPher[0]);
-        }
-        else //theirs many of them
-        {
-            pn = FindObjectOfType<PheromoneManager>().CreateNewNode(lastVisitedNode, GetPherType(), transform.position);
-            foreach(PheromoneNode toMerge in allNearbyPher)
-            {
-                pn.AbsorbNode(toMerge);
-            }
-        }*/
         pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
         lastVisitedNode = pn;
         timeSinceLastNode = 0;
@@ -243,13 +225,6 @@ public class Ant : MonoBehaviour {
         Debug.Log("drop phermone on existing trail");
     }
 
-    PheromoneNode DropPheromoneOnExistingNode(PheromoneNode pt)
-    {
-        Debug.Log("drop phermone on existing node");
-        PheromoneNode newPher = FindObjectOfType<PheromoneManager>().CreateNewNode(lastVisitedNode,GetPherType(),transform.position);
-        return pt.AbsorbNode(newPher);
-        
-    }
 
     GV.PhermoneTypes GetPherType()
     {

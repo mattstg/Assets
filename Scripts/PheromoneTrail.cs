@@ -21,8 +21,7 @@ public class PheromoneTrail : MonoBehaviour {
     {
         strength -= 1;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
-        if (strength <= 0)
-            TrailDie();
+        ValidateTrail();
     }
 
     public void SplitByNode(PheromoneNode newNode)
@@ -45,16 +44,13 @@ public class PheromoneTrail : MonoBehaviour {
             pAway = newNode;
         if (pHome && pAway)
             gameObject.GetComponent<DrawLineSprite>().Initialize(pHome.transform.position, pAway.transform.position, Resources.Load<Sprite>("Sprites/PheromoneNode"));
-        
     }
 
     //patch fix
     public void ValidateTrail()
     {
-        if (!pHome || !pAway)
-        {
+        if (!pHome || !pAway || strength <= 0)
             TrailDie();
-        }
     }
 
     public PheromoneNode GetOtherNode(PheromoneNode otherNode)
@@ -74,7 +70,26 @@ public class PheromoneTrail : MonoBehaviour {
 
     }
 
-   
+    //returns the copy of pher found, the one that will become absorbed
+    public static PheromoneTrail PherListContains(System.Collections.Generic.List<PheromoneTrail> pherList, PheromoneTrail toFind)
+    {
+        foreach (PheromoneTrail pt in pherList)
+            if (PherTrailIsEqual(pt, toFind.pHome, toFind.pAway))
+                return pt;
+        return null;
+    }
+
+    public static bool PherTrailIsEqual(PheromoneTrail p1, PheromoneNode pn1, PheromoneNode pn2)
+    {
+        if ((p1.pHome == pn1 || p1.pHome == pn2) && (p1.pAway == pn1 || p1.pAway == pn2))
+        {
+            Debug.Log("freaking sf");
+            return true;
+        }
+        Debug.Log("no equal trail found");
+        return false;
+    }
+    
 
 }
 
