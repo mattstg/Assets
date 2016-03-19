@@ -190,7 +190,9 @@ public class Ant : MonoBehaviour {
 	}
 
 	private void dies(){
-		GetComponent<SpriteRenderer> ().sprite = Resources.Load ("Sprites/DeadAnt") as Sprite;
+		 //(Resources.Load ("Sprites/DeadAnt"));
+		//gameObject.GetComponent<SpriteRenderer>().sprite = null;// = Resources.Load ("Sprites/DeadAnt") as Sprite;
+		gameObject.GetComponent<SpriteRenderer>().sprite = Instantiate(Resources.Load<Sprite>("Sprites/DeadAnt"));
 		gameObject.AddComponent<DeadAntScript> ();
 		Destroy (this);
 	}
