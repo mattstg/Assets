@@ -18,39 +18,43 @@ public class resourceAdminitrator : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-
 		if (thingsToRemove) {
-			Object[] objToDestroy = new GameObject[watToRemove.Count + foodToRemove.Count];
+			Debug.Log ("Here.");
+			Object[] objToDestroy = new Object[watToRemove.Count + foodToRemove.Count];
 			int index = 0;
 			foreach (waterPuddleScript puddle in watToRemove) {
 				objToDestroy [index] = (Object) puddle;
-				watToRemove.Remove (puddle);
 				index++;
 			}
 			foreach (foodBundleScript bundle in foodToRemove) {
 				objToDestroy [index] = (Object) bundle;
-				foodRes.Remove (bundle);
 				index++;
 			}
 			for (int i = 0; i < index; i++) {
-				Destroy (objToDestroy [i]);
+				MonoBehaviour temp = (MonoBehaviour) objToDestroy[i];
+				//temp.gameObject
+				Destroy (temp.gameObject);
 			}
+			watToRemove.Clear ();
+			foodToRemove.Clear ();
+			thingsToRemove = false;
 		}
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		updateResources();
-
-		//shouldnt be done every single update :S
-
-		 if (calculateGlobalFood () < GV.MIN_WORLD_FOOD) {
+		if (calculateGlobalFood () < GV.MIN_WORLD_FOOD) {
 			createFoodSource (1);
 		}
 
 		if (calculateGlobalWater () < GV.MIN_WORLD_WATER)
 			createWaterSource (1);
+		updateResources();
+
+		//shouldnt be done every single update :S
+
+		 
 	}
 
 	void generateResources(){
@@ -99,17 +103,21 @@ public class resourceAdminitrator : MonoBehaviour {
 	}
 
 	private void updateResources(){
-		foreach(foodBundleScript bundle in foodRes){
-			if (bundle.quantity <= 0) {
-				foodToRemove.Add (bundle);
-			}else
-			bundle.manualUpdate ();
-		}
-		foreach(waterPuddleScript puddle in waterRes){
-			if (puddle.quantity <= 0) {
-				watToRemove.Add (puddle);
-			}else
-			puddle.manualUpdate ();
+		if(Time.time > 3f){
+			foreach(foodBundleScript bundle in foodRes){
+				if (bundle.quantity <= 0) {
+					foodToRemove.Add (bundle);
+					thingsToRemove = true;
+				}else
+				bundle.manualUpdate ();
+			}
+			foreach(waterPuddleScript puddle in waterRes){
+				if (puddle.quantity <= 0) {
+					watToRemove.Add (puddle);
+					thingsToRemove = true;
+				}else
+				puddle.manualUpdate ();
+			}
 		}
 	}
 

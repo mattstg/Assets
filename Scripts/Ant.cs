@@ -184,7 +184,7 @@ public class Ant : MonoBehaviour {
 	}
 
 	public void takeResource(resourceObject resourceToHold){
-		Debug.Log ("Taking Resource;");
+		//Debug.Log ("Taking Resource;");
 		holding = new resourceObject(resourceToHold);
 		refreshHoldingResource ();
 	}

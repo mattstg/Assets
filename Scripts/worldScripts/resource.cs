@@ -8,10 +8,10 @@ public class resource : MonoBehaviour {
 
 
 	void LateUpdate(){
-		if (quantity <= 0) {
+		/* if (quantity <= 0) {
 			Destroy (gameObject);
 			Destroy (this);
-		}
+		} */
 	}
 
 	// Use this for initialization
@@ -69,7 +69,8 @@ public class resource : MonoBehaviour {
 		} else {
 			newScale = 0;
 		}
-		gameObject.transform.localScale = new Vector2 (newScale,newScale);
+		if(gameObject != null)
+			gameObject.transform.localScale = new Vector2 (newScale,newScale);
 	}
 
 	public void OnTriggerEnter2D(Collider2D coli){
