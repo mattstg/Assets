@@ -8,7 +8,7 @@ public class Ant : MonoBehaviour {
     PheromoneTrail currentTrail;
     PheromoneNode lastVisitedNode;
     PheromoneNode goalNode;
-	private resourceObject holding;
+	public resourceObject holding;
 
 	// Use this for initialization
     public void Initialize()

@@ -9,13 +9,12 @@ public class resource : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		quantity = Random.Range (GV.INITIAL_RESOURCE_RANGE.x, GV.INITIAL_RESOURCE_RANGE.y);
-	}
-
-	// Update is called once per frame
-	/*
-	void Update () {
+		if (Random.Range (0, 1) < GV.PERCENT_CHANCE_OF_POISON) {
+			isPoison = true;
+		} else
+			isPoison = false;
 		
-	} */
+	}
 
 	public void manualUpdate(){
 		if (quantity <= 0)
@@ -25,7 +24,7 @@ public class resource : MonoBehaviour {
 
 	public void give(Ant ant){
 		//give ant the food type
-		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY));
+		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
 		quantity -= GV.ANT_CARRY_CAPACITY;
 		if(quantity <= 0)
 			Destroy(gameObject);
@@ -35,5 +34,9 @@ public class resource : MonoBehaviour {
 		if (isPoison = true) 
 			return quantity * -1f;
 		return quantity;
+	}
+
+	public void poisonResource(bool toSet){
+		isPoison = toSet;
 	}
 }

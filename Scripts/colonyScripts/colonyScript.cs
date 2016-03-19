@@ -9,8 +9,8 @@ public class colonyScript : MonoBehaviour {
 	//Vars
 	public int totalNumberOfAnts;
 	private int numberOfDormantAnts;
-	private int foodStored;
-	private int waterStored;
+	private float foodStored;
+	private float waterStored;
 
 	// Use this for initialization
 	void Start () {
@@ -24,17 +24,25 @@ public class colonyScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(Mathf.Floor(Time.time) % GV.TIME_BETWEEN_ANT_EXITS == 0 && percentDormantAnts() > GV.DESIRED_PERCENT_DORMANT_ANTS){
+		if(percentDormantAnts() > GV.DESIRED_PERCENT_DORMANT_ANTS){
 			antExitsColony ();
 		}
+		//ants dont consume food while inside ATM
 	}
 
-	public void addFood(){
-		foodStored++;
-	}
+	public void addResource(resourceObject resObj){
+		if (!resObj.isZero ()) { //if we are holding things
+			if (!resObj.isPoison) { //if that thing is poisoned
+				if (resObj.resType == GV.ResourceTypes.Food) {  //ADD CORRESPONDING RESOURCE
+					addFood (resObj.quantity);
+				} else if (resObj.resType == GV.ResourceTypes.Water) {
+					addWater (resObj.quantity);
+				}
+			} else {
+				//food is poisoned, do something
 
-	public void addWater(){
-		waterStored++;
+			}
+		}
 	}
 
 	private float percentDormantAnts(){
@@ -47,10 +55,19 @@ public class colonyScript : MonoBehaviour {
 	}
 
 	public void antEntersColony(GameObject ant){
-		numberOfDormantAnts++;
-		//if holding stuff add that stuff
+		Ant antScript = ant.GetComponent<Ant> ();
+		if(antScript != null){
+			numberOfDormantAnts++;
+			addResource (antScript.giveResource());
+			Destroy(ant);
+		}
+	}
 
-		//destoy ant obj
-		Destroy(ant);
+	private void addFood(float input){
+		foodStored += input;
+	}
+
+	private void addWater(float input){
+		waterStored += input;
 	}
 }
