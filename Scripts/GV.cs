@@ -7,7 +7,8 @@ public class GV
 	public enum ResourceTypes { Empty, Food, Water };
     public static readonly float PATH_DECAY_RATE = 5f;  //1 point every 5 seconds
     public static readonly float ANT_ENERGY_DECAY = 1f; //1 per second
-    public static readonly float ANT_ENERGY_START = 100f; 
+    public static readonly float ANT_ENERGY_START = 100f;
+    public static readonly float ANT_SPEED = 2f; 
 
 	//ANT VARS
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 
@@ -34,4 +35,11 @@ public class GV
 
 	//Map
 	public static readonly float MAP_DIAMETER = 100;
+
+
+    public static Vector2 SubtractVectors(Vector2 v2, Vector3 v3)
+    {
+        return new Vector2(v2.x - v3.x, v2.y - v3.y);
+
+    }
 }

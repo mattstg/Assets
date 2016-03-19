@@ -16,10 +16,8 @@ public class DEBUG_CreateTrails : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        Debug.Log("clicked");
         Vector2 clickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D[] hits = Physics2D.RaycastAll(clickPoint, Vector2.zero);
-        Debug.Log("Mouse clicked on: " + clickPoint);
         PheromoneNode clickedNode = null;
         if (hits.Length != 0)
         {
