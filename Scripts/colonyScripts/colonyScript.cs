@@ -14,15 +14,14 @@ public class colonyScript : MonoBehaviour {
 	private bool antResourceDrainTracker = false;
 	private float averageAntErgy = 100f;
     private float totalAntsExited = 0;
-
 	private int antsExitedThisSecond = 0;
 	private float lastSecond = 0;
 
 	// Use this for initialization
 	void Start () {
-		//should create colony
-		antHillLink = (Instantiate(Resources.Load("Prefab/antHillPrefab"),Vector2.zero, Quaternion.identity) as GameObject).GetComponent<antHillScript>();
-		antHillLink.addColonyScript (this.GetComponent<colonyScript>());
+        //should create colony
+        antHillLink = (Instantiate(Resources.Load("Prefab/antHillPrefab"),Vector2.zero, Quaternion.identity) as GameObject).GetComponent<antHillScript>();
+        antHillLink.addColonyScript (this.GetComponent<colonyScript>());
         
 		totalNumberOfAnts = numberOfDormantAnts = GV.START_ANTS;
 		foodStored = GV.START_FOOD;

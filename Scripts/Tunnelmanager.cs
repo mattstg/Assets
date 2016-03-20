@@ -23,19 +23,19 @@ public class Tunnelmanager : MonoBehaviour {
             {
                 SolidityArray[(int)x, (int)y] = false;
             }
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 8; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.main);
         }
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 9; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.diagonalTunnels);
         }
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 5; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.upDownTunnels);
         }
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 5; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.leftRighttunnels);
         }
@@ -45,22 +45,22 @@ public class Tunnelmanager : MonoBehaviour {
 
     void CrawlForOpenDirt(int _tunnelDepth, GV.crawlerType crawler)
     {
-        int xpos = Random.Range(-20, 20);
-        int ypos = Random.Range(-20, 20);
+        int xpos = Random.Range(-12, 12);
+        int ypos = Random.Range(-12, 12);
 
 
         for (int i = 0; i < _tunnelDepth; i++)
         {
             Vector3 dirtPos = new Vector3(xpos, ypos, 50);
-            if (SolidityArray[(int)xpos + 50, (int)ypos + 50] == false)
+            if (SolidityArray[(int)xpos + 25, (int)ypos + 25] == false)
             {
-                SolidityArray[(int)xpos + 50, (int)ypos + 50] = true;
+                SolidityArray[(int)xpos + 25, (int)ypos + 25] = true;
                 Instantiate(OpenDirt, dirtPos, Quaternion.identity);
             }
-            if (xpos < -45) xpos = 0;
-            else if (xpos > 45) xpos = 0;
-            else if (ypos < -45) ypos = 0;
-            else if (ypos > 45) ypos = 0;
+            if (xpos < -22) xpos = 0;
+            else if (xpos > 22) xpos = 0;
+            else if (ypos < -22) ypos = 0;
+            else if (ypos > 22) ypos = 0;
             else
             {
                 if (crawler == GV.crawlerType.main)
@@ -156,7 +156,7 @@ public class Tunnelmanager : MonoBehaviour {
                             for (int b = -1; b < 2; b++)
                                 if (SolidityArray[x + a, y + b] == false)
                                 {
-                                    Vector3 dirtPos = new Vector3(x + a - 50, y + b - 50, 50);
+                                    Vector3 dirtPos = new Vector3(x + a - 25, y + b - 25, 50);
                                     Instantiate(ClosedDirt, dirtPos, Quaternion.identity);
                                 }
         }

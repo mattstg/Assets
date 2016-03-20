@@ -40,7 +40,7 @@ public class GV
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
 	public static readonly float START_FOOD = 5000;
 	public static readonly float START_WATER = 5000;
-	public static readonly int START_ANTS = 1000;
+	public static readonly int START_ANTS = 50;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .9f; //0-1
 	public static readonly int ANT_EXIT_PER_SECOND = 20;
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 15f;
@@ -64,9 +64,9 @@ public class GV
 	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
     public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 3f; //unity meters squared
 
-    public static readonly int UNDERGROUND_WIDTH = 100;
-    public static readonly int UNDERGROUND_HEIGHT = 100;
-    public static readonly int TUNNEL_DEPTH = 115;
+    public static readonly int UNDERGROUND_WIDTH = 50;
+    public static readonly int UNDERGROUND_HEIGHT = 50;
+    public static readonly int TUNNEL_DEPTH = 80;
 
 
 	
