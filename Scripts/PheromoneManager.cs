@@ -70,8 +70,11 @@ public class PheromoneManager : MonoBehaviour
 
     public void DeleteNode(PheromoneNode pn)
     {
-        pheromoneNodes.Remove(pn);
-        GameObject.Destroy(pn.gameObject);
+        if (!pn.lockedFromDeath)
+        {
+            pheromoneNodes.Remove(pn);
+            GameObject.Destroy(pn.gameObject);
+        }
     }
 
     public void DeleteTrail(PheromoneTrail pt)

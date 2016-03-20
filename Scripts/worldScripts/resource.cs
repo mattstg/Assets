@@ -5,13 +5,12 @@ public class resource : MonoBehaviour {
 	public float quantity;
 	public bool isPoison;
 	public GV.ResourceTypes resourceType;
+	private bool toDestroy = false;
 
 
 	void LateUpdate(){
-		/* if (quantity <= 0) {
-			Destroy (gameObject);
-			Destroy (this);
-		} */
+		if (toDestroy)
+			destroyThis ();
 	}
 
 	// Use this for initialization
@@ -37,7 +36,7 @@ public class resource : MonoBehaviour {
 	}
 
 	public void manualUpdate(){
-		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * Time.deltaTime);
+		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * GV.TIME_BETWEEN_RESOURCE_UPDATES);
 	}
 
 	public void give(Ant ant){
@@ -80,11 +79,19 @@ public class resource : MonoBehaviour {
 			if (collidingAnt.holding == null || collidingAnt.holding.isZero()) 
 				give (collidingAnt);
 		} else {
-			Debug.Log ("Something has collided with a resource, that is not an ant. This is it: " + coli.name);
+			//Debug.Log ("Something has collided with a resource, that is not an ant. This is it: " + coli.name);
 		}
 	}
 
 	public string toString(){
 		return "ResType: " + resourceType + " quantity: " + quantity + " isPoisoned " + isPoison; 
+	}
+
+	private void destroyThis(){
+		Destroy (gameObject);
+	}
+
+	public void markToDie(){
+		toDestroy = true;
 	}
 }
