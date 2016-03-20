@@ -24,15 +24,15 @@ public class GV
 	public static readonly float UNIT_EAT_PER_SEC = 0.5f;
 
 	//Phero 
-	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 1f;
-	public static readonly float PATH_DECAY_RATE = 10f;  //paths decay once every X seconds
+	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 2f;
+	public static readonly float PATH_DECAY_RATE = 5f;  //paths decay once every X seconds
 	public static readonly float PATH_DECAY_PCNT = 0.10f; //paths decay at a rate of X every PATH_DECAY_RATE seconds
-	public static readonly int FLAT_PATH_DECAY = 1; //decay per PATH_DECAY_RATE seconds, flat
+	public static readonly int FLAT_PATH_DECAY = 2; //decay per PATH_DECAY_RATE seconds, flat
 	public static readonly int PHEROMONE_START_ENERGY = 8; 
-	public static readonly int PHEROMONE_MAX_ENERGY = 100;
+	public static readonly int PHEROMONE_MAX_ENERGY = 100;  
 
-    public static readonly float PHEROMONE_MAX_OPACITY = 10f;
-	public static readonly float PHEROMONE_MIN_OPACITY = .2f;
+    public static readonly float PHEROMONE_MAX_OPACITY = .9f;
+	public static readonly float PHEROMONE_MIN_OPACITY = .4f;
 
 	public static readonly int BASE_PHER_STRENTH = 1; //per going over pher trail
 	public static readonly int BACK_PHER_WEIGHT_FOOD = 5;
@@ -41,13 +41,13 @@ public class GV
 	public static readonly float FEAR_SIZE = 5f;
 
 	//Colony Scripts
-	public static readonly int COLONY_NUM_SCOUT_SPAWN = 15;  //number of scouts spawned first
+	public static readonly int COLONY_NUM_SCOUT_SPAWN = 25;  //number of scouts spawned first
 	public static readonly float COL_RESOURCE_DRAIN_DORMANT = 0.5f; //per X second
 	public static readonly float COL_RESOURCE_DRAIN_TICK = 30f; //every X seconds <<<<< X
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
-	public static readonly float START_FOOD = 200;
-	public static readonly float START_WATER = 200;
-	public static readonly int START_ANTS = 150;
+	public static readonly float START_FOOD = 2000;
+	public static readonly float START_WATER = 2000;
+	public static readonly int START_ANTS = 350;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .6f; //0-1
 	public static readonly int ANT_EXIT_PER_SECOND = 10;
 	public static readonly float ENRGY_LOSS_FROM_STARV = 0.05f; //energy loss if starving (multiplied by two if missing both resources)
