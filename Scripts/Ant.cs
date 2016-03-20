@@ -39,6 +39,8 @@ public class Ant : MonoBehaviour {
 	void LateUpdate(){
 		if (energy <= 0)
 			dies ();
+		if (holding != null && !holding.isZero ())
+			wantsToEnterHive = true;
 	}
 
 	// Update is called once per frame
@@ -126,13 +128,13 @@ public class Ant : MonoBehaviour {
 		if (hasBackTracked) {
 			PheromoneTrail tempTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
 			currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
-			if(currentTrail.strength > tempTrail.strength)
+			if(currentTrail == null || currentTrail.strength > tempTrail.strength)
 				currentTrail = tempTrail;
 			hasBackTracked = false;
 		} else {
 			currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
 		}
-		if (isBackTrackTrail == currentTrail && currentTrail != null && isBackTrackTrail != null) {
+		if (currentTrail != null && isBackTrackTrail != null && isBackTrackTrail == currentTrail) {
 			hasBackTracked = !hasBackTracked;
 		}
         lastVisitedNode = pn;
