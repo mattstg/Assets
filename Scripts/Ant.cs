@@ -5,7 +5,6 @@ using System.Linq;
 
 public class Ant : MonoBehaviour {
     enum AntMode { Forage, Wander, Scout };
-	public GameObject holdLoc;
 	private GameObject holdingSprite;
 
     AntMode antMode = AntMode.Forage;
@@ -34,7 +33,6 @@ public class Ant : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-		//dies ();
 		if (energy <= 0)
 			dies ();
 	}
@@ -199,8 +197,12 @@ public class Ant : MonoBehaviour {
 	private void dies(){
 		 //(Resources.Load ("Sprites/DeadAnt"));
 		//gameObject.GetComponent<SpriteRenderer>().sprite = null;// = Resources.Load ("Sprites/DeadAnt") as Sprite;
-		gameObject.GetComponent<SpriteRenderer>().sprite = Instantiate(Resources.Load<Sprite>("Sprites/DeadAnt"));
+		GetComponent<SpriteRenderer>().sprite = Instantiate(Resources.Load<Sprite>("Sprites/DeadAnt"));
 		gameObject.AddComponent<DeadAntScript> ();
+		GetComponent<Rigidbody2D> ().angularVelocity = 0f;
+		GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
+		GetComponent<Rigidbody2D> ().drag = 0.5f;
+		FindObjectOfType<colonyScript> ().totalNumberOfAnts--;
 		Destroy (this);
 	}
 
