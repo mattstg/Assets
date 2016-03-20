@@ -106,6 +106,7 @@ public class Ant : MonoBehaviour {
 
     void ArriveAtNode(PheromoneNode pn)
     {
+        if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
         int workingBackTrack = backtrackWeight;
         if (currentTrail) //since might get deleted during
 	        {
@@ -187,7 +188,7 @@ public class Ant : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D coli)
     {
         PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
-        if (coliNode  && coliNode != lastVisitedNode)
+        if (coliNode  && coliNode != lastVisitedNode && !coliNode.initialRoot)
         {
              if (antMode == AntMode.Scout && coliNode.trails.Count >= 1)
              {
@@ -307,7 +308,7 @@ public class Ant : MonoBehaviour {
     void ScoutUpdate(float dtime)
     {
         timeSinceLastEvent += dtime;
-        if (closestIntersection != null && closestIntersection._intersectionTrail.IsValid())
+        /*if (closestIntersection != null && closestIntersection._intersectionTrail.IsValid())
         {
             if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
             {
@@ -315,7 +316,7 @@ public class Ant : MonoBehaviour {
                 closestIntersection = null;
                 timeSinceLastEvent = 0;
             }
-        } //else we should probably recalculate
+        } //else we should probably recalculate*/
         if (timeSinceLastEvent > GV.ANT_STATE_TIMER)
         {
             DropPheromone();
@@ -326,6 +327,7 @@ public class Ant : MonoBehaviour {
     PheromoneNode DropPheromone()
     {
         PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
+        if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
         lastVisitedNode = pn;
         timeSinceLastEvent = 0;
         ArriveAtNode(pn);
@@ -335,7 +337,8 @@ public class Ant : MonoBehaviour {
 	PheromoneNode DropPheromone(Transform foodLoc)
 	{
 		PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), foodLoc.position);
-		lastVisitedNode = pn;
+        if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
+        lastVisitedNode = pn;
 		timeSinceLastEvent = 0;
 		ArriveAtNode(pn);
 		return pn;
@@ -344,7 +347,8 @@ public class Ant : MonoBehaviour {
     PheromoneNode DropPheromoneOnExistingTrail(PheromoneTrail pt)
     {
        PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
-       lastVisitedNode = pn;
+       if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
+        lastVisitedNode = pn;
        timeSinceLastEvent = 0;
        pt.SplitByNode(pn);
        return pn;

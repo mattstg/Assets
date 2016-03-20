@@ -24,7 +24,7 @@ public class GV
 	public static readonly float UNIT_EAT_PER_SEC = 0.5f;
 
 	//Phero 
-	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 2.5f;
+	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 1f;
 	public static readonly float PATH_DECAY_RATE = 2f;  //paths decay once every X seconds
 	public static readonly float PATH_DECAY_PCNT = 0.3f; //paths decay at a rate of X every PATH_DECAY_RATE seconds
 	public static readonly int FLAT_PATH_DECAY = 6; //decay per PATH_DECAY_RATE seconds, flat

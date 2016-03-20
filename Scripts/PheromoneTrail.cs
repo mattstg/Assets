@@ -13,6 +13,7 @@ public class PheromoneTrail : MonoBehaviour {
 
     public bool IsValid()
     {
+        //return
         return pHome && pAway && drawTrail && (strength > 0);
     }
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
@@ -34,8 +35,8 @@ public class PheromoneTrail : MonoBehaviour {
     {
 		strength -= Mathf.CeilToInt(strength * GV.PATH_DECAY_PCNT) + GV.FLAT_PATH_DECAY;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
-        if(!IsValid())
-            TrailDie();
+        //if(!IsValid())
+         //   TrailDie();
         
         
     }

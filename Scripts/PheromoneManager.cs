@@ -24,6 +24,7 @@ public class PheromoneManager : MonoBehaviour
 
         newTrail.Initialize(parentNode, newNode, pherType);
         parentNode.AddTrail(newTrail);
+        parentNode.initialRoot = false;
         newNode.InitializeNode(newTrail);
         pheromoneNodes.Add(newNode);
         pheromoneTrails.Add(newTrail);
@@ -34,6 +35,7 @@ public class PheromoneManager : MonoBehaviour
     {
         GameObject newNodeGO = Instantiate(phermoneNodePrefab, spawnLocation, Quaternion.identity) as GameObject;
         PheromoneNode newNode = newNodeGO.GetComponent<PheromoneNode>();
+        newNode.initialRoot = true;
         pheromoneNodes.Add(newNode);
         return newNode;
     }
@@ -48,7 +50,7 @@ public class PheromoneManager : MonoBehaviour
         PheromoneNode pn = FindObjectOfType<PheromoneManager>().CreateNewNode(parentNode, pherType, atPos);        
         foreach (PheromoneNode toMerge in allNearbyPher)
         {
-            if(!toMerge.immortal)
+            if(!toMerge.immortal && !toMerge.initialRoot)
                 pn.AbsorbNode(toMerge);
         }
         return pn;

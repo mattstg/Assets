@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class PheromoneNode : MonoBehaviour {
     public bool immortal = false;
+    public bool initialRoot = false; //initial roots are the first peice in a path and wont be absorbed
     public bool setToDie = false; //helps with trail merging
     public List<PheromoneTrail> trails = new List<PheromoneTrail>(); 
     public int pherID = 0;
