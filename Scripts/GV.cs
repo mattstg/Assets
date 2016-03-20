@@ -29,10 +29,11 @@ public class GV
 	//Colony Scripts
 	public static readonly float START_FOOD = 500;
 	public static readonly float START_WATER = 500;
-	public static readonly int START_ANTS = 10000;
+	public static readonly int START_ANTS = 1000;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
 	public static readonly int TIME_BETWEEN_ANT_EXITS = 5; //seconds
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 6f;
+	public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
 
 	//Food and Water
 	public static readonly Vector2 NUM_WATER = new Vector2 (500, 500);
@@ -48,7 +49,7 @@ public class GV
 
 	//Map
 	public static readonly float MAP_DIAMETER = 120;
-	public static readonly Vector2 NUM_OF_ROCKS = new Vector2(500, 765);
+	public static readonly Vector2 NUM_OF_ROCKS = new Vector2(100, 200);
 	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
 	public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 2f; //unity meters squared
 
