@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Tunnelmanager : MonoBehaviour {
-    Vector2[] BlockArray = new Vector2[];
+    //Vector2[] BlockArray = new Vector2[];
 
 void Start () {
 	
