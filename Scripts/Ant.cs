@@ -30,6 +30,7 @@ public class Ant : MonoBehaviour {
 
 	void Start () {
         Initialize();
+        StartWanderMode();
 	}
 
 	void LateUpdate(){
@@ -45,17 +46,22 @@ public class Ant : MonoBehaviour {
         switch (antMode)
         {
             case AntMode.Forage:
-                MoveTowardsGoal(dTime);
                 break;
             case AntMode.Scout:
                 ScoutUpdate(dTime);
-                MoveTowardsGoal(dTime);
                 break;
             case AntMode.Wander:
                 WanderTimeUpdate(dTime);
                 break;
         }
+        MoveTowardsGoal(dTime);
 	}
+
+    void StartWanderMode()
+    {
+        antMode = AntMode.Wander;
+        goalSpot = GetRandomGoalVector();
+    }
 
     void WanderTimeUpdate(float dtime)
     {
