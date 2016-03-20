@@ -95,14 +95,15 @@ public class Ant : MonoBehaviour {
 		headingDirection.Normalize ();
       	GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
 
-		if (headingDirection != Vector2.zero || headingDirection.y != 0) {
-			float angle = -Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
-			if (headingDirection.y < 0f)
-				angle += 180; 
-			transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
-		} else {
+		//if (headingDirection != Vector2.zero || headingDirection.y != 0) {
+		float angle = 0;
+		if (headingDirection.y < 0f)
+			 angle = 180; 
+		angle = angle +-Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg ;
+		transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
+		//} else {
 			//transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle);
-		}
+		//}
     }
 
     void ArriveAtNode(PheromoneNode pn)
