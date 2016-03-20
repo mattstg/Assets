@@ -132,7 +132,7 @@ public class Ant : MonoBehaviour {
 
     Vector2 GetRandomGoalVector()
     {
-        return GV.AddVectors(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED, transform.position);
+        return GV.AddVectors(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED, transform.position);
     }
 
     void FollowNewPher()
@@ -152,7 +152,6 @@ public class Ant : MonoBehaviour {
         PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
         if (coliNode  && coliNode != lastVisitedNode)
         {
-            Debug.Log("COLISIONS");
              if (antMode == AntMode.Scout)
              {
                  PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);

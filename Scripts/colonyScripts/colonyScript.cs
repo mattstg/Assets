@@ -22,9 +22,7 @@ public class colonyScript : MonoBehaviour {
 		//should create colony
 		antHillLink = (Instantiate(Resources.Load("Prefab/antHillPrefab"),Vector2.zero, Quaternion.identity) as GameObject).GetComponent<antHillScript>();
 		antHillLink.addColonyScript (this.GetComponent<colonyScript>());
-        PheromoneNode pn = gameObject.AddComponent<PheromoneNode>();
-        pn.InitializeNode(null);
-        pn.lockedFromDeath = true;
+        
 		totalNumberOfAnts = numberOfDormantAnts = GV.START_ANTS;
 		foodStored = GV.START_FOOD;
 		waterStored = GV.START_WATER;

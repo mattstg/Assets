@@ -7,7 +7,9 @@ public class antHillScript : MonoBehaviour{
 	colonyScript colonyLink;
 
 	public void Start(){
-
+        PheromoneNode pn = gameObject.AddComponent<PheromoneNode>();
+        pn.InitializeNode(null);
+        pn.lockedFromDeath = true;
 	}
 
 	public void addColonyScript(colonyScript creatingScript){
