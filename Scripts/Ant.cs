@@ -8,7 +8,7 @@ public class Ant : MonoBehaviour {
 	private GameObject holdingSprite;
 
     public AntMode antMode = AntMode.Wander;
-    float energy = GV.ANT_ENERGY_START;
+    float energy = GV.ANT_ENERGY_MAX;
     public int scoutingWeight;
     public int backtrackWeight;
     PheromoneTrail currentTrail;
@@ -39,8 +39,6 @@ public class Ant : MonoBehaviour {
 	void LateUpdate(){
 		if (energy <= 0)
 			dies ();
-		if (holding != null && !holding.isZero ())
-			wantsToEnterHive = true;
 	}
 
 	// Update is called once per frame
@@ -92,23 +90,14 @@ public class Ant : MonoBehaviour {
     void MoveTowardsGoal(float dtime)
     {
 		Vector2 headingDirection = GV.SubtractVectors (goalSpot, transform.position);
-		/* if (Mathf.Abs(headingDirection.x) < 0.1f && Mathf.Abs(headingDirection.y) < 0.1f)
-			headingDirection = Vector2.zero;
-		else{
-			headingDirection.Normalize ();
-		} */
 		headingDirection.Normalize ();
       	GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
-
-		//if (headingDirection != Vector2.zero || headingDirection.y != 0) {
 		float angle = 0;
 		if (headingDirection.y < 0f)
 			 angle = 180; 
-		angle = angle +-Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg ;
+		if(headingDirection.y == 0)
+			angle = angle +-Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
-		//} else {
-			//transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle);
-		//}
     }
 
     void ArriveAtNode(PheromoneNode pn)
@@ -234,11 +223,15 @@ public class Ant : MonoBehaviour {
 
 	public float drainEnergy(float energyOut){
 		energy -= energyOut;
+		if(energy < GV.PRCNT_ENRGY_THRESHHOLD * GV.ANT_ENERGY_MAX)
+			wantsToEnterHive = true;
 		return energyOut;
 	}
 
 	public void addEnergy(float energyIn){
 		energy += energyIn;
+		if(energy > GV.PRCNT_ENRGY_THRESHHOLD * GV.ANT_ENERGY_MAX && holding.isZero())
+			wantsToEnterHive = false;
 	}
 
 	public float retEnergy(){
@@ -251,6 +244,8 @@ public class Ant : MonoBehaviour {
 		
 	public void takeDamage(float dmgIn){
 		energy -= dmgIn;
+		if(energy < GV.PRCNT_ENRGY_THRESHHOLD * GV.ANT_ENERGY_MAX)
+			wantsToEnterHive = true;
 	}
 
 	public resourceObject giveResource(){
@@ -331,21 +326,19 @@ public class Ant : MonoBehaviour {
     }
 
 	private void refreshHoldingResource(){
-		//if (holding != null) {
-			if (!holding.isZero ()) {
-				string prefabName = "WaterResourcePrefab";
-				if (holding.resType == GV.ResourceTypes.Food)
-					prefabName = "FoodResourcePrefab";
-				holdingSprite = Instantiate (Resources.Load ("Prefab/" + prefabName)) as GameObject;
+		if (!holding.isZero ()) {
+			string prefabName = "WaterResourcePrefab";
+			if (holding.resType == GV.ResourceTypes.Food)
+				prefabName = "FoodResourcePrefab";
+			holdingSprite = Instantiate (Resources.Load ("Prefab/" + prefabName)) as GameObject;
 			holdingSprite.transform.parent = gameObject.transform;
 			holdingSprite.transform.localPosition = new Vector3(0f, 0.3f, 0f);
-				//holdingSprite.transform.position.Set (0f,0f,0f);
-				//holdingSprite.transform.position = new Vector3(0f,0.3f,0f);
-					//holdingSprite.AddComponent<transformLock> ().Initialize (holdLoc.transform);
-			} else if (holdingSprite != null) {
-				Destroy (holdingSprite);
-			}
-		//}
+			wantsToEnterHive = true;
+		} else if (holdingSprite != null) {
+			Destroy (holdingSprite);
+			wantsToEnterHive = false;
+		} else if (holding.isZero())
+			wantsToEnterHive = false;
 	}
 
     private List<T> GetAllNearbyByTag<T>(string _tag, float searchRadius)

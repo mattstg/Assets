@@ -10,7 +10,7 @@ public class GV
 	public enum ResourceTypes { Empty, Food, Water };
     public static readonly float PATH_DECAY_RATE = 5f;  //1 point every 5 seconds
     public static readonly float ANT_ENERGY_DECAY = 0f; //1 per second
-    public static readonly float ANT_ENERGY_START = 100f;
+    public static readonly float ANT_ENERGY_MAX = 100f;
     public static readonly float ANT_SPEED = 1.5f;
     public static readonly int PHEROMONE_START_ENERGY = 8; //by this logic should last 30 seconds
     public static readonly int PHEROMONE_MAX_ENERGY = 100; //by this logic should last 30 seconds
@@ -18,6 +18,7 @@ public class GV
     public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 1f;
 	public static readonly float DMG_FROM_CORPSES = 10f; //5dmg per second
     public static readonly int COLONY_NUM_SCOUT_SPAWN = 30;  //number of scouts spawned first
+	public static readonly float PRCNT_ENRGY_THRESHHOLD = .4f; //percent below which ants want to return home or above which they nolonger want to
 
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 
 	public static readonly float RESOURCE_TO_ENRGY = 20f; //+X energy per unity of food
