@@ -169,6 +169,9 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
         List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
+        if(GV.DRAW_ALL_PREDICTIONS)
+            foreach (Intersection i in intersections)
+               Instantiate(Resources.Load("Prefab/Marker"),i._intersectionPoint,Quaternion.identity);
         if (intersections.Count >= 1)
         {
             closestIntersection = intersections[0];

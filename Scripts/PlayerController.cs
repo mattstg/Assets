@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour {
             SceneManager.LoadScene("WorldScene");
         if (Input.GetKeyDown(KeyCode.Q))
             SceneManager.LoadScene("PheromoneTest");
+        if (Input.GetKeyDown(KeyCode.E))
+            GV.DRAW_ALL_PREDICTIONS = !GV.DRAW_ALL_PREDICTIONS;
     }
     void SuperMath()
     {
