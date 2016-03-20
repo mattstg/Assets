@@ -155,7 +155,6 @@ public class Ant : MonoBehaviour {
                 if (closestIntersection._intersectionPoint.magnitude > intersections[i]._intersectionPoint.magnitude) //bit proccessor intensive, but saves on total updates
                     closestIntersection = intersections[i];
             }
-            Debug.Log("values found");
             Instantiate(Resources.Load("Prefab/FoodResourcePrefab"), closestIntersection._intersectionPoint, Quaternion.identity);
         }
         else
@@ -296,7 +295,7 @@ public class Ant : MonoBehaviour {
         if(closestIntersection != null)
             if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
             {
-                DropPheromoneOnExistingTrail(closestIntersection._intersectionTrail);
+               // DropPheromoneOnExistingTrail(closestIntersection._intersectionTrail);
             }
     }
 
@@ -311,8 +310,9 @@ public class Ant : MonoBehaviour {
 
     void DropPheromoneOnExistingTrail(PheromoneTrail pt)
     {
-        pt.SplitByNode(DropPheromone());
         Debug.Log("drop phermone on existing trail");
+        //pt.SplitByNode(DropPheromone());
+        
     }
 
 

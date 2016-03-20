@@ -43,6 +43,12 @@ public class PheromoneTrail : MonoBehaviour {
             pHome = newNode;
         if (pAway == oldNode)
             pAway = newNode;
+
+        if (pHome == null || pAway == null)
+            Debug.Log("fucking nulls");
+        if (!gameObject.GetComponent<DrawLineSprite>())
+            Debug.Log("YOOO");
+
         if (pHome && pAway)
             gameObject.GetComponent<DrawLineSprite>().Initialize(pHome.transform.position, pAway.transform.position, Resources.Load<Sprite>("Sprites/PheromoneNode"));
     }
