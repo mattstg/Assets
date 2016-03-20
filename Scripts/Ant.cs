@@ -124,10 +124,11 @@ public class Ant : MonoBehaviour {
         foreach (Intersection _intersection in intersections)
         {
             Instantiate(Resources.Load("prefab/FoodResourcePrefab"), _intersection._intersectionPoint, Quaternion.identity);
-            Instantiate(Resources.Load("prefab/DeadWarriorAnt"),_intersection._intersectionTrail.transform.position, Quaternion.identity);
         }
-        Debug.Log("Scout Mode activated");
+
     }
+
+    
 
     Vector2 GetRandomGoalVector()
     {
@@ -323,6 +324,7 @@ public class Ant : MonoBehaviour {
         goalSpot = newGoal;
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
+       
     }
 }
 
