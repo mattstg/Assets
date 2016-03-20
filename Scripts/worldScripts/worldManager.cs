@@ -28,7 +28,7 @@ public class worldManager : MonoBehaviour {
 				rand =  new Vector3 (Random.Range (-halfMapSize, halfMapSize), Random.Range (-halfMapSize, halfMapSize), 0);
 			}
 			GameObject newRock = Instantiate (rockPrefab, rand, Quaternion.identity) as GameObject;
-			float tempScale = Random.Range (GV.RANGE_OF_ROCK_SCALE.x, GV.RANGE_OF_ROCK_SCALE.y);
+        float tempScale = Random.Range (GV.RANGE_OF_ROCK_SCALE.x, GV.RANGE_OF_ROCK_SCALE.y);
 			newRock.transform.localScale = new Vector3 (tempScale, tempScale, 0);
 		}
 

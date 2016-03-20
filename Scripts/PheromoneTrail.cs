@@ -95,10 +95,17 @@ public class PheromoneTrail : MonoBehaviour {
     {
        Color newColor = Color.white;
 		float tempAlfa = strength / GV.PHEROMONE_MAX_ENERGY;
-		if(tempAlfa > 1f)
+		/*if(tempAlfa > 1f)
 			tempAlfa = 1f;
 		newColor.a = strength * GV.PHEROMONE_MAX_OPACITY;
-       gameObject.GetComponent<SpriteRenderer>().material.color = newColor;
+       gameObject.GetComponent<SpriteRenderer>().material.color = newColor;	*/	
+		if (tempAlfa > GV.PHEROMONE_MAX_OPACITY)
+			tempAlfa = GV.PHEROMONE_MAX_OPACITY;
+		else if (tempAlfa < GV.PHEROMONE_MIN_OPACITY)
+			tempAlfa = GV.PHEROMONE_MIN_OPACITY;
+		newColor.a = tempAlfa;
+       spriteRend.material.color = newColor; 
+
     }
 
     //returns the copy of pher found, the one that will become absorbed
