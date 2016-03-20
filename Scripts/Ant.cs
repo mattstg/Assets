@@ -75,14 +75,20 @@ public class Ant : MonoBehaviour {
 
     void MoveTowardsGoal(float dtime)
     {
-       Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
-       GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
+       	Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
+      	GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
 
         //drawing animation
-       var angle = Mathf.Atan(headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
-       Debug.Log("angle is: " + angle);
-       transform.rotation = Quaternion.Euler(0.0f, 0.0f, -angle); 
-       //Debug.Log("should be facing: " + headingDirection);
+		//if (Mathf.Round(headingDirection.magnitude) != 0f) {
+			var angle = - Mathf.Atan(headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
+			//Debug.Log("angle is: " + angle);
+			if (headingDirection.y < 0)
+				angle += 180;
+			transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle); 
+		//}
+      	
+       
+		//Debug.Log("should be facing: " + headingDirection);
        //transform.rotation = Quaternion.FromToRotation(new Vector3(0, 0, transform.rotation.eulerAngles.z), headingDirection);
        //Debug.Log("is actaully be facing: " + transform.rotation.eulerAngles);
     }
