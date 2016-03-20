@@ -108,6 +108,8 @@ public class Ant : MonoBehaviour {
 
     void ArriveAtNode(PheromoneNode pn)
     {
+        //if (pn.trails.Count <= 1) //ignore incomplete trails
+          //  return;
         int workingBackTrack = backtrackWeight;
         if (currentTrail) //since might get deleted during
         {
@@ -136,7 +138,6 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
         List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
-
     }
 
     
@@ -159,9 +160,10 @@ public class Ant : MonoBehaviour {
         PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
         if (coliNode  && coliNode != lastVisitedNode)
         {
-             if (antMode == AntMode.Scout)
+             if (antMode == AntMode.Scout && coliNode.trails.Count >= 1)
              {
-                 PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
+                 DropPheromone();
+                 //PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
              }
              ArriveAtNode(coliNode);
 		}else if(coli.gameObject.GetComponent<DeadAntScript>() != null){
@@ -265,8 +267,7 @@ public class Ant : MonoBehaviour {
 
     PheromoneNode DropPheromone()
     {
-        PheromoneNode pn;
-        pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
+        PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
         lastVisitedNode = pn;
         timeSinceLastEvent = 0;
         ArriveAtNode(pn);
