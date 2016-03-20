@@ -20,7 +20,6 @@ public class resourceAdminitrator : MonoBehaviour {
 
 	void LateUpdate(){
 		if (thingsToRemove) {
-			Debug.Log ("Here.");
 			Object[] objToDestroy = new Object[watToRemove.Count + foodToRemove.Count];
 			int index = 0;
 			foreach (waterPuddleScript puddle in watToRemove) {
@@ -32,9 +31,11 @@ public class resourceAdminitrator : MonoBehaviour {
 				index++;
 			}
 			for (int i = 0; i < index; i++) {
-				MonoBehaviour temp = (MonoBehaviour) objToDestroy[i];
+				resource tempResource = (resource) objToDestroy[i];
+				//Debug.Log ("This "+ tempResource.name + " " + tempResource.transform.position.ToString());
+				//Debug.Log ((tempResource.gameObject == null).ToString() + " <-- isNull?");
 				//temp.gameObject
-				Destroy (temp.gameObject);
+				tempResource.markToDie();
 			}
 			watToRemove.Clear ();
 			foodToRemove.Clear ();

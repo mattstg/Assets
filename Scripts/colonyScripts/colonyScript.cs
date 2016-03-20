@@ -13,7 +13,7 @@ public class colonyScript : MonoBehaviour {
 	private float waterStored;
 	private bool antOutPutLimiter = false;
 	private bool antResourceDrainTracker = false;
-	private float averageAntHelth = 100f;
+	private float averageAntErgy = 100f;
 
 	// Use this for initialization
 	void Start () {
@@ -88,7 +88,7 @@ public class colonyScript : MonoBehaviour {
 
 	private void antExitsColony(){
 		numberOfDormantAnts--;
-		antHillLink.antOut (averageAntHelth);
+		antHillLink.antOut (averageAntErgy);
 	}
 
 	public void antEntersColony(GameObject ant){
@@ -98,7 +98,7 @@ public class colonyScript : MonoBehaviour {
 			numberOfDormantAnts++;
 			if(antScript.holding != null)
 				addResource (antScript.giveResource());
-			averageAntHelth = (float) averageAntHelth * (numberOfDormantAnts - 1) + antScript.retHealth () / (float) numberOfDormantAnts;
+			averageAntErgy = averageAntErgy + antScript.retEnergy () / (float) numberOfDormantAnts + 1;
 			Destroy(ant);
 		}
 	}

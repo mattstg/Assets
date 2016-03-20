@@ -5,13 +5,12 @@ public class resource : MonoBehaviour {
 	public float quantity;
 	public bool isPoison;
 	public GV.ResourceTypes resourceType;
+	private bool toDestroy = false;
 
 
 	void LateUpdate(){
-		/* if (quantity <= 0) {
-			Destroy (gameObject);
-			Destroy (this);
-		} */
+		if (toDestroy)
+			destroyThis ();
 	}
 
 	// Use this for initialization
@@ -86,5 +85,13 @@ public class resource : MonoBehaviour {
 
 	public string toString(){
 		return "ResType: " + resourceType + " quantity: " + quantity + " isPoisoned " + isPoison; 
+	}
+
+	private void destroyThis(){
+		Destroy (gameObject);
+	}
+
+	public void markToDie(){
+		toDestroy = true;
 	}
 }
