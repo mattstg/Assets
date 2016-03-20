@@ -306,15 +306,20 @@ public class Ant : MonoBehaviour {
     void ScoutUpdate(float dtime)
     {
         timeSinceLastEvent += dtime;
+        if (closestIntersection != null && closestIntersection._intersectionTrail.IsValid())
+        {
+            if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
+            {
+                ArriveAtNode(DropPheromoneOnExistingTrail(closestIntersection._intersectionTrail));
+                closestIntersection = null;
+                timeSinceLastEvent = 0;
+            }
+        } //else we should probably recalculate
         if (timeSinceLastEvent > GV.ANT_STATE_TIMER)
         {
             DropPheromone();
+            timeSinceLastEvent = 0;
         }
-        if(closestIntersection != null)
-            if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
-            {
-               // DropPheromoneOnExistingTrail(closestIntersection._intersectionTrail);
-            }
     }
 
     PheromoneNode DropPheromone()
@@ -335,11 +340,13 @@ public class Ant : MonoBehaviour {
 		return pn;
 	}
 
-    void DropPheromoneOnExistingTrail(PheromoneTrail pt)
+    PheromoneNode DropPheromoneOnExistingTrail(PheromoneTrail pt)
     {
-        Debug.Log("drop phermone on existing trail");
-        //pt.SplitByNode(DropPheromone());
-        
+       PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
+       lastVisitedNode = pn;
+       timeSinceLastEvent = 0;
+       pt.SplitByNode(pn);
+       return pn;
     }
 
 

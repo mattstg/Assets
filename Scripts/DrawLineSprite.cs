@@ -5,14 +5,20 @@ public class DrawLineSprite : MonoBehaviour {
 
     Vector2 v1, v2;
 	// Update is called once per frame
-    public void Initialize(Vector2 _v1, Vector2 _v2, Sprite _sprite)
+    public void Initialize(Vector2 _v1, Vector2 _v2, string _sprite)
     {
         v1 = _v1;
         v2 = _v2;
-        GetComponent<SpriteRenderer>().sprite = _sprite;
+        gameObject.GetComponent<SpriteRenderer>().sprite = GameObject.Instantiate<Sprite>(Resources.Load<Sprite>(_sprite)) as Sprite;
     }
 
-	void Update () {
+    public void Initialize(Vector2 _v1, Vector2 _v2)
+    {
+        v1 = _v1;
+        v2 = _v2;
+    }
+
+    void Update () {
         DrawRenderer();
 	}
 
@@ -25,11 +31,11 @@ public class DrawLineSprite : MonoBehaviour {
             transform.position = ((v2 - v1) / 2) + v1;
             transform.localScale = new Vector3(1, Vector2.Distance(v1, v2), 1);
             transform.eulerAngles = new Vector3(0, 0, ang);
-        }
+        }/*
         else
         {
             Destroy(this);
-        }
+        }*/
 
     }
 }

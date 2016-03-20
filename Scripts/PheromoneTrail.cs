@@ -2,12 +2,17 @@
 using System.Collections;
 
 public class PheromoneTrail : MonoBehaviour {
+    public DrawLineSprite drawTrail;
     GV.PhermoneTypes pherType;
     public PheromoneNode pHome;
     public PheromoneNode pAway;
     public int _strength = 0;
     public int strength { set { _strength = (value <= GV.PHEROMONE_MAX_ENERGY) ? value : GV.PHEROMONE_MAX_ENERGY; } get { return _strength; } }
 
+    public bool IsValid()
+    {
+        return pHome && pAway && drawTrail && (strength > 0);
+    }
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {
         pherType = _pherType;
@@ -15,20 +20,22 @@ public class PheromoneTrail : MonoBehaviour {
         pAway = _away;
         strength = GV.PHEROMONE_START_ENERGY;
         if (pHome && pAway)
-            gameObject.AddComponent<DrawLineSprite>().Initialize(pHome.transform.position,pAway.transform.position,Resources.Load<Sprite>("Sprites/PheromoneNode"));
+            drawTrail.Initialize(pHome.transform.position,pAway.transform.position,"Sprites/PheromoneNode");
     }
 
     public void GetUpdated()
     {
 		strength -= Mathf.CeilToInt(strength * GV.PATH_DECAY_PCNT) - GV.FLAT_PATH_DECAY;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
-        ValidateTrail();
+        if(!IsValid())
+            TrailDie();
     }
 
     public void SplitByNode(PheromoneNode newNode)
     {
         FindObjectOfType<PheromoneManager>().CreatePheromoneTrail(pHome, newNode, pherType);
         pHome = newNode;
+        drawTrail.Initialize(pHome.transform.position, pAway.transform.position);
     }
 
     public void SetNewNode(PheromoneNode oldNode, PheromoneNode newNode)
@@ -44,13 +51,13 @@ public class PheromoneTrail : MonoBehaviour {
         if (pAway == oldNode)
             pAway = newNode;
 
-        if (pHome == null || pAway == null)
+       /* if (pHome == null || pAway == null)
             Debug.Log("fucking nulls");
-		if (gameObject == null || !gameObject.GetComponent<DrawLineSprite>())
-            Debug.Log("YOOO");
+		if (gameObject == null || !drawTrail)
+            Debug.Log("YOOO");*/
 
-        if (pHome && pAway)
-            gameObject.GetComponent<DrawLineSprite>().Initialize(pHome.transform.position, pAway.transform.position, Resources.Load<Sprite>("Sprites/PheromoneNode"));
+        if (pHome != null && pAway != null)
+            drawTrail.Initialize(pHome.transform.position, pAway.transform.position, "Sprites/PheromoneNode");
     }
 
     //patch fix

@@ -49,20 +49,22 @@ public class PheromoneNode : MonoBehaviour {
     {
         foreach (PheromoneTrail pt in toAbsorb.trails) //for each trail i will absorb
         {
-           pt.SetNewNode(toAbsorb, this);             //setup
-           PheromoneTrail trailToAbsorbTrail = PheromoneTrail.PherListContains(trails, pt);
-           if (!trailToAbsorbTrail)
-           {
-               trails.Add(pt);
-           }
-           else
-           {
-               trailToAbsorbTrail.strength += pt.strength;
-               //pt.TrailDie();
-               pt.SetNewNode(null, null);   //since it already exist, and we dont need it, delete it.
-           }
+            if (pt != null)
+            {
+                pt.SetNewNode(toAbsorb, this);             //setup
+                PheromoneTrail trailToAbsorbTrail = PheromoneTrail.PherListContains(trails, pt);
+                if (!trailToAbsorbTrail)
+                {
+                    trails.Add(pt);
+                }
+                else
+                {
+                    trailToAbsorbTrail.strength += pt.strength;
+                    //pt.TrailDie();
+                    pt.SetNewNode(null, null);   //since it already exist, and we dont need it, delete it.
+                }
+            }
         }
-           
     }
 
     public PheromoneTrail SelectNewTrailByWeight(int goalWeightValue, PheromoneTrail ptToIgnore, int backTrackWeight)
@@ -70,7 +72,7 @@ public class PheromoneNode : MonoBehaviour {
 
         int currentWeight = 1;
         foreach (PheromoneTrail pt in trails)
-        {
+        {            
             if (pt == ptToIgnore)
                 currentWeight += backTrackWeight;
             else

@@ -56,6 +56,7 @@ public class PheromoneManager : MonoBehaviour
     {
         PheromoneTrail newPt = Instantiate<GameObject>(phermoneTrailPrefab).GetComponent<PheromoneTrail>();
         newPt.Initialize(home, away, pherType);
+        pheromoneTrails.Add(newPt);
     }
 
     public static List<T> GetAllNearbyByTag<T>(string _tag, float searchRadius, Vector2 atPos)
