@@ -9,54 +9,157 @@ public class Tunnelmanager : MonoBehaviour {
     public GameObject ClosedDirt;
     public GameObject OpenDirt;
 
+
+
     bool[,] SolidityArray = new bool[width, height];
 
-    
 
 
-void Start ()
-    {   
-        for(int x = 0; x < width; x++)
-            for(int y = 0; y < height; y++)
+
+    void Start()
+    {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
             {
                 SolidityArray[(int)x, (int)y] = false;
             }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
-            CrawlForOpenDirt(tunnelDepth);
+            CrawlForOpenDirt(tunnelDepth, GV.crawlerType.main);
         }
-	}
-	
-	void CrawlForOpenDirt(int _tunnelDepth)
+        for (int i = 0; i < 30; i++)
+        {
+            CrawlForOpenDirt(tunnelDepth, GV.crawlerType.diagonalTunnels);
+        }
+        for (int i = 0; i < 15; i++)
+        {
+            CrawlForOpenDirt(tunnelDepth, GV.crawlerType.upDownTunnels);
+        }
+        for (int i = 0; i < 15; i++)
+        {
+            CrawlForOpenDirt(tunnelDepth, GV.crawlerType.leftRighttunnels);
+        }
+        DrawClosedDirt();
+
+    }
+
+    void CrawlForOpenDirt(int _tunnelDepth, GV.crawlerType crawler)
     {
-        int xpos = Random.Range(30, 70);
-        int ypos = Random.Range(30, 70);
+        int xpos = Random.Range(-20, 20);
+        int ypos = Random.Range(-20, 20);
 
 
         for (int i = 0; i < _tunnelDepth; i++)
         {
-            Vector3 dirtPos = new Vector3(xpos, ypos, 20);
-            if (SolidityArray[(int)xpos, (int)ypos] == false)
+            Vector3 dirtPos = new Vector3(xpos, ypos, 50);
+            if (SolidityArray[(int)xpos + 50, (int)ypos + 50] == false)
             {
-                SolidityArray[(int)xpos, (int)ypos] = true;
+                SolidityArray[(int)xpos + 50, (int)ypos + 50] = true;
                 Instantiate(OpenDirt, dirtPos, Quaternion.identity);
             }
-            if (xpos < 3) xpos++;
-            else if (xpos > 97) xpos--;
-            else if (ypos < 3) ypos++;
-            else if (ypos > 97) ypos--;
+            if (xpos < -45) xpos = 0;
+            else if (xpos > 45) xpos = 0;
+            else if (ypos < -45) ypos = 0;
+            else if (ypos > 45) ypos = 0;
             else
             {
-                int rando = Random.Range(1, 5);
-                if (rando == 1) xpos++;
-                else if (rando == 2) xpos--;
-                else if (rando == 3) ypos++;
-                else ypos--;
+                if (crawler == GV.crawlerType.main)
+                {
+                    int rando = Random.Range(1, 5);
+                    if (rando == 1) xpos++;
+                    else if (rando == 2) xpos--;
+                    else if (rando == 3) ypos++;
+                    else ypos--;
+                }
+                else if (crawler == GV.crawlerType.diagonalTunnels)
+                {
+                    int rando = Random.Range(1, 9);
+                    if (xpos < 0 && ypos < 0)
+                    {
+                        if (rando <= 3) xpos--;
+                        else if (rando <= 6) ypos--;
+                        else if (rando == 7) xpos++;
+                        else ypos++;
+                    }
+                    else if (xpos >= 0 && ypos < 0)
+                    {
+                        if (rando <= 3) xpos++;
+                        else if (rando <= 6) ypos--;
+                        else if (rando == 7) xpos--;
+                        else ypos++;
+                    }
+                    else if (xpos >= 0 && ypos >= 0)
+                    {
+                        if (rando <= 3) xpos++;
+                        else if (rando <= 6) ypos++;
+                        else if (rando == 7) xpos--;
+                        else ypos--;
+                    }
+                    else if (xpos < 0 && ypos >= 0)
+                    {
+                        if (rando <= 3) xpos--;
+                        else if (rando <= 6) ypos++;
+                        else if (rando == 7) xpos++;
+                        else ypos--;
+                    }
+                }
+                else if (crawler == GV.crawlerType.leftRighttunnels)
+                {
+                    int rando = Random.Range(1, 9);
+                    if (xpos >= 0)
+                    {
+                        if (rando <= 3) xpos++;
+                        else if (rando <= 5) ypos++;
+                        else if (rando == 6) xpos--;
+                        else ypos--;
+                    }
+                    else if (xpos < 0)
+                    {
+                        if (rando <= 3) xpos--;
+                        else if (rando == 4) xpos++;
+                        else if (rando <= 6) ypos++;
+                        else ypos--;
+                    }
+
+                }
+                else if (crawler == GV.crawlerType.upDownTunnels)
+                {
+                    int rando = Random.Range(1, 9);
+                    if (ypos >= 0)
+                    {
+                        if (rando <= 3) ypos++;
+                        else if (rando <= 5) xpos++;
+                        else if (rando == 6) ypos--;
+                        else xpos--;
+                    }
+                    else if (ypos < 0)
+                    {
+                        if (rando <= 3) ypos--;
+                        else if (rando == 4) ypos++;
+                        else if (rando <= 6) xpos++;
+                        else xpos--;
+                    }
+                }
+
+
+
             }
-
-            
-
         }
-    }
 
+    }
+        void DrawClosedDirt()
+        {
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                    if (SolidityArray[x, y] == true)
+                        for (int a = -1; a < 2; a++)
+                            for (int b = -1; b < 2; b++)
+                                if (SolidityArray[x + a, y + b] == false)
+                                {
+                                    Vector3 dirtPos = new Vector3(x + a - 50, y + b - 50, 50);
+                                    Instantiate(ClosedDirt, dirtPos, Quaternion.identity);
+                                }
+        }
+
+    
 }

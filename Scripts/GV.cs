@@ -4,6 +4,7 @@ using System.Collections;
 public class GV
 {
     public enum directionQuadrants { q1, q2, q3, q4 };
+    public enum crawlerType {main, diagonalTunnels, leftRighttunnels, upDownTunnels};
 
 
     public enum PhermoneTypes { Friendly, Hostile };
@@ -65,7 +66,7 @@ public class GV
 
     public static readonly int UNDERGROUND_WIDTH = 100;
     public static readonly int UNDERGROUND_HEIGHT = 100;
-    public static readonly int TUNNEL_DEPTH = 1000;
+    public static readonly int TUNNEL_DEPTH = 115;
 
 
 	
