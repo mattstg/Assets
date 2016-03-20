@@ -3,6 +3,7 @@ using System.Collections;
 
 public class fearScript : MonoBehaviour {
 	public float strength;
+	public float maxCascades = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,8 @@ public class fearScript : MonoBehaviour {
 		Ant temp = coli.GetComponent<Ant> ();
 		if (temp != null) {
 			//
-			if (strength > 25f) {
+			if (strength > 25f && maxCascades > 0) {
+				maxCascades--;
 				temp.spawnFearPher (temp.transform.position, strength - 25f);
 				temp.hasCreatedFear = false;
 			}
