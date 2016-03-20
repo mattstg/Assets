@@ -40,17 +40,17 @@ public class colonyScript : MonoBehaviour {
 				antExitsColony ();
 			}
 		}
-		if (!antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK == 0) {
+		if (!antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.COL_RESOURCE_DRAIN_TICK == 0) {
 			antResourceDrainTracker = true;
 			drainResources ();
-		}else if(antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK != 0){
+		}else if(antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.COL_RESOURCE_DRAIN_TICK != 0){
 			antResourceDrainTracker = false;
 		}
 	}
 
 
 	public void drainResources(){
-		float tempDrain = numberOfDormantAnts * GV.RESOURCE_DRAIN_DORMANT / 2;
+		float tempDrain = numberOfDormantAnts * GV.COL_RESOURCE_DRAIN_DORMANT / 2;
 		int starvingSeverity = 0;
 		if (foodStored < tempDrain) {
 			//running out of food

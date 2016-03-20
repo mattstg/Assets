@@ -165,7 +165,7 @@ public class Ant : MonoBehaviour {
              ArriveAtNode(coliNode);
 		}else if(coli.gameObject.GetComponent<DeadAntScript>() != null){
 			//Just touuched dead ant
-			takeDamage(GV.DMG_FROM_ANT_CORPSES * Time.deltaTime);
+			takeDamage(GV.DMG_FROM_CORPSES * Time.deltaTime);
 		}
         else if(coli.CompareTag("Ant"))
         {
@@ -185,9 +185,9 @@ public class Ant : MonoBehaviour {
 		}
 
 		if (holding.isPoison) {
-			takeDamage(temp.quantity * GV.POISON_TO_ENRGY_HP);
+			takeDamage(temp.quantity * GV.POISON_TO_ENRGY);
 		} else {
-			addEnergy(temp.quantity * GV.RESOURCE_TO_ENRGY_HP);
+			addEnergy(temp.quantity * GV.RESOURCE_TO_ENRGY);
 		}
 	}
 
