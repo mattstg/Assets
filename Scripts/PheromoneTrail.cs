@@ -18,8 +18,7 @@ public class PheromoneTrail : MonoBehaviour {
 
     public bool IsValid()
     {
-        return strength > 0;
-        //return pHome && pAway && drawTrail && (strength > 0);
+		return strength > 0;
     }
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {

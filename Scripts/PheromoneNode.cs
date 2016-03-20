@@ -86,13 +86,14 @@ public class PheromoneNode : MonoBehaviour {
         return null; //If it goes beyond the size, then it was because SCOUT was chosen
     }
 
+	/*
     public void CleanUpBadTrails()
     {
         for (int i = trails.Count - 1; i >= 0; --i)
         {
             trails[i].ValidateTrail(); //will delete and clean them
         }
-    }
+    } */
 
        
 }
