@@ -13,8 +13,8 @@ public class PheromoneTrail : MonoBehaviour {
 
     public bool IsValid()
     {
-        //return
-        return pHome && pAway && drawTrail && (strength > 0);
+		return strength > 0;
+       //return pHome && pAway && drawTrail && (strength > 0);
     }
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {
@@ -35,10 +35,8 @@ public class PheromoneTrail : MonoBehaviour {
     {
 		strength -= Mathf.CeilToInt(strength * GV.PATH_DECAY_PCNT) + GV.FLAT_PATH_DECAY;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
-        //if(!IsValid())
-         //   TrailDie();
-        
-        
+        if(!IsValid())
+          TrailDie();  
     }
 
     public void SplitByNode(PheromoneNode newNode)
@@ -97,10 +95,12 @@ public class PheromoneTrail : MonoBehaviour {
     {
        Color newColor = spriteRend.material.color;
 		float tempAlfa = strength / GV.PHEROMONE_MAX_ENERGY;
-		if(tempAlfa > 1f)
+		if (tempAlfa > 1f)
 			tempAlfa = 1f;
-		newColor.a = strength * GV.PHEROMONE_MAX_OPACITY;
-       spriteRend.material.color = newColor;
+		else if (tempAlfa < 0.4f)
+			tempAlfa = 0.4f;
+		newColor.a = tempAlfa * GV.PHEROMONE_MAX_OPACITY;
+       spriteRend.material.color = newColor; 
     }
 
     //returns the copy of pher found, the one that will become absorbed
