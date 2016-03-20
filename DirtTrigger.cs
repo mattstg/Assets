@@ -7,10 +7,14 @@ public class DirtTrigger : MonoBehaviour {
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-    void 
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    
+ 
+   
 }
