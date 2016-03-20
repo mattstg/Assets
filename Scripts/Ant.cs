@@ -10,7 +10,6 @@ public class Ant : MonoBehaviour {
 
     AntMode antMode = AntMode.Forage;
     float energy = GV.ANT_ENERGY_START;
-	float health = GV.ANT_MAX_HEALTH;
     public int scoutingWeight;
     public int backtrackWeight;
     PheromoneTrail currentTrail;
@@ -35,16 +34,15 @@ public class Ant : MonoBehaviour {
 	}
 
 	void LateUpdate(){
+		//dies ();
 		if (energy <= 0)
-			health -= GV.DMG_DUE_TO_STARVATION * Time.deltaTime;
-		if (health <= 0)
 			dies ();
 	}
 
 	// Update is called once per frame
 	void Update () {
         float dTime = Time.deltaTime;
-        energy -= GV.ANT_ENERGY_DECAY * dTime;
+		drainEnergy(GV.ANT_ENERGY_DECAY * dTime);
         
         switch (antMode)
         {
@@ -120,7 +118,10 @@ public class Ant : MonoBehaviour {
                  PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
              }
              ArriveAtNode(coliNode);
-        }
+		}else if(coli.gameObject.GetComponent<DeadAntScript>() != null){
+			//Just touuched dead ant
+			takeDamage(GV.DMG_FROM_ANT_CORPSES * Time.deltaTime);
+		}
         else if(coli.CompareTag("Ant"))
         {
 
@@ -139,33 +140,36 @@ public class Ant : MonoBehaviour {
 		}
 
 		if (holding.isPoison) {
-			energy -= temp.quantity * GV.POISON_TO_ENRGY_HP;
 			takeDamage(temp.quantity * GV.POISON_TO_ENRGY_HP);
 		} else {
-			energy += temp.quantity * GV.RESOURCE_TO_ENRGY_HP;
-			regenHealth(temp.quantity * GV.RESOURCE_TO_ENRGY_HP);
+			addEnergy(temp.quantity * GV.RESOURCE_TO_ENRGY_HP);
 		}
 	}
 
+	/*
 	public void regenHealth(float healing){
 		health += healing;
+	} */
+
+	public float drainEnergy(float energyOut){
+		energy -= energyOut;
+		return energyOut;
 	}
 
-	public float retHealth(){
-		return health;
-	}
-
-	public void setHealth(float toSet){
-		health = toSet;
+	public void addEnergy(float energyIn){
+		energy += energyIn;
 	}
 
 	public float retEnergy(){
 		return energy;
 	}
 
+	public void setEnergy(float toSet){
+		energy = toSet;
+	}
+		
 	public void takeDamage(float dmgIn){
-		health -= dmgIn;
-		//release dmg pharemones
+		energy -= dmgIn;
 	}
 
 	public resourceObject giveResource(){

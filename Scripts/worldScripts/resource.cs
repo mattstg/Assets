@@ -80,7 +80,7 @@ public class resource : MonoBehaviour {
 			if (collidingAnt.holding == null || collidingAnt.holding.isZero()) 
 				give (collidingAnt);
 		} else {
-			Debug.Log ("Something has collided with a resource, that is not an ant. This is it: " + coli.name);
+			//Debug.Log ("Something has collided with a resource, that is not an ant. This is it: " + coli.name);
 		}
 	}
 
