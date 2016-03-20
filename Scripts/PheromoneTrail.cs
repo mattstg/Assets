@@ -20,7 +20,7 @@ public class PheromoneTrail : MonoBehaviour {
 
     public void GetUpdated()
     {
-		strength -= GV.PATH_DECAY_AMNT;
+		strength -= Mathf.CeilToInt(strength * GV.PATH_DECAY_PCNT) - GV.FLAT_PATH_DECAY;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
         ValidateTrail();
     }

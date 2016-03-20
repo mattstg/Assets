@@ -25,8 +25,9 @@ public class GV
 
 	//Phero 
 	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 2.5f;
-	public static readonly float PATH_DECAY_RATE = 2f;  //paths decay once every X seconds
-	public static readonly int PATH_DECAY_AMNT = 2; //paths decay at a rate of X every PATH_DECAY_RATE seconds
+	public static readonly float PATH_DECAY_RATE = 6f;  //paths decay once every X seconds
+	public static readonly float PATH_DECAY_PCNT = 0.3f; //paths decay at a rate of X every PATH_DECAY_RATE seconds
+	public static readonly int FLAT_PATH_DECAY = 6; //decay per PATH_DECAY_RATE seconds, flat
 	public static readonly int PHEROMONE_START_ENERGY = 10; 
 	public static readonly int PHEROMONE_MAX_ENERGY = 100;
 	public static readonly int BASE_PHER_STRENTH = 1; //per going over pher trail
@@ -42,7 +43,7 @@ public class GV
 	public static readonly float START_FOOD = 1000;
 	public static readonly float START_WATER = 1000;
 	public static readonly int START_ANTS = 150;
-	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .5f; //0-1
+	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .6f; //0-1
 	public static readonly int ANT_EXIT_PER_SECOND = 5;
 
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 15f;

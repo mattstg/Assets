@@ -90,7 +90,7 @@ public class colonyScript : MonoBehaviour {
 
 	private float percentDormantAnts(){
 		//Debug.Log ("Here2: " + numberOfDormantAnts + " " + totalNumberOfAnts);
-		return (float) numberOfDormantAnts / totalNumberOfAnts;
+		return (float)numberOfDormantAnts / totalNumberOfAnts + 1;
 	}
 
 	private void antExitsColony(){
