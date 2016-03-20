@@ -71,10 +71,6 @@ public class PheromoneNode : MonoBehaviour {
         int currentWeight = 1;
         foreach (PheromoneTrail pt in trails)
         {
-            if (pt == null)
-            {
-                Debug.Log("so null things are a thing");
-            }
             if (pt == ptToIgnore)
                 currentWeight += backTrackWeight;
             else

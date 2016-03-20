@@ -13,6 +13,7 @@ public class colonyScript : MonoBehaviour {
 	private float waterStored;
 	private bool antResourceDrainTracker = false;
 	private float averageAntErgy = 100f;
+    private float totalAntsExited = 0;
 
 	private int antsExitedThisSecond = 0;
 	private float lastSecond = 0;
@@ -94,7 +95,11 @@ public class colonyScript : MonoBehaviour {
 
 	private void antExitsColony(){
 		numberOfDormantAnts--;
-		antHillLink.antOut (averageAntErgy);
+        if(totalAntsExited < GV.COLONY_NUM_SCOUT_SPAWN)
+            antHillLink.antOut(averageAntErgy,40);
+        else
+		    antHillLink.antOut (averageAntErgy,Random.Range(0,10));
+        totalAntsExited++;
 	}
 
 	public void antEntersColony(GameObject ant){
