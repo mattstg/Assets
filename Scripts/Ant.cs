@@ -95,7 +95,7 @@ public class Ant : MonoBehaviour {
 		float angle = 0;
 		if (headingDirection.y < 0f)
 			 angle = 180; 
-		if(headingDirection.y == 0)
+		if(headingDirection.y != 0)
 			angle = angle +-Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
     }
