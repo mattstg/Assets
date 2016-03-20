@@ -11,9 +11,11 @@ public class colonyScript : MonoBehaviour {
 	private int numberOfDormantAnts;
 	private float foodStored;
 	private float waterStored;
-	private bool antOutPutLimiter = false;
 	private bool antResourceDrainTracker = false;
 	private float averageAntErgy = 100f;
+
+	private int antsExitedThisSecond = 0;
+	private float lastSecond = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -27,8 +29,15 @@ public class colonyScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (lastSecond < Mathf.Floor (Time.time)) {
+			lastSecond = Mathf.Floor (Time.time);
+			antsExitedThisSecond = 0;
+		}
 		if(percentDormantAnts() >= GV.DESIRED_PERCENT_DORMANT_ANTS){
-			antExitsColony ();
+			if (antsExitedThisSecond < GV.ANT_EXIT_PER_SECOND) {
+				antsExitedThisSecond++;
+				antExitsColony ();
+			}
 		}
 		if (!antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK == 0) {
 			antResourceDrainTracker = true;
@@ -57,10 +66,6 @@ public class colonyScript : MonoBehaviour {
 		if (foodStored < 0 || waterStored < 0) {
 			Debug.Log ("Colony is starving.");
 		}
-	}
-
-	private void someAntStarve(int strvSvrity){
-		numberOfDormantAnts -= Mathf.CeilToInt(strvSvrity * GV.ANT_DEATH_FROM_STARVATION);
 	}
 
 	private void antDeathFromPoison(float quant){

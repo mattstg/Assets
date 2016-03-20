@@ -20,29 +20,27 @@ public class GV
 	public static readonly float RESOURCE_DRAIN_DORMANT = 0.5f; //per X second
 	public static readonly float RESOURCE_DRAIN_ACTIVE = 1f; //per X second
 	public static readonly float RESOURCE_DRAIN_TICK = 30f; //every X seconds <<<<< X
-	public static readonly float ANT_DEATH_FROM_STARVATION = 0.05f; //percent of dormant ants death due to starvation
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
 	public static readonly float RESOURCE_TO_ENRGY_HP = 20f; //+X energy per unity of food
 	public static readonly float POISON_TO_ENRGY_HP = 60f; //-X energy % hp per unity of poison
-	public static readonly float DMG_DUE_TO_STARVATION = 5f; //-X hp per second
 
 	//Colony Scripts
 	public static readonly float START_FOOD = 500;
 	public static readonly float START_WATER = 500;
-	public static readonly int START_ANTS = 1000;
+	public static readonly int START_ANTS = 150;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
-	public static readonly int TIME_BETWEEN_ANT_EXITS = 5; //seconds
+	public static readonly int ANT_EXIT_PER_SECOND = 5;
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 6f;
-	public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
+	//public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
 
 	//Food and Water
-	public static readonly Vector2 NUM_WATER = new Vector2 (500, 500);
-	public static readonly Vector2 NUM_FOOD = new Vector2 (500, 500);
+	public static readonly Vector2 NUM_WATER = new Vector2 (50, 100);
+	public static readonly Vector2 NUM_FOOD = new Vector2 (50, 100);
 	public static readonly int TIME_BETWEEN_RESOURCE_UPDATES = 5; //seconds
 	public static readonly float RESOURCE_GROWTH_PER_SECOND = 1f;
 	public static readonly float MIN_WORLD_FOOD = 100f;
 	public static readonly float MIN_WORLD_WATER = 100f;
-	public static readonly Vector2 INITIAL_RESOURCE_RANGE = new Vector2(30,150);
+	public static readonly Vector2 INITIAL_RESOURCE_RANGE = new Vector2(2,10);
 	public static readonly float PERCENT_CHANCE_OF_POISON = 0.1f;
 	public static readonly float QUANTITY_TO_VOLUMETIC_SCALE = 10f; //how much quantity of food = 1x1 volume in world
 
