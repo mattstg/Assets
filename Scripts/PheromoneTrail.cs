@@ -104,7 +104,7 @@ public class PheromoneTrail : MonoBehaviour {
 		else if (tempAlfa < GV.PHEROMONE_MIN_OPACITY)
 			tempAlfa = GV.PHEROMONE_MIN_OPACITY;
 		newColor.a = tempAlfa;
-       spriteRend.material.color = newColor; 
+       gameObject.GetComponent<SpriteRenderer>().material.color = newColor; 
 
     }
 
