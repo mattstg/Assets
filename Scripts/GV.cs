@@ -10,38 +10,38 @@ public class GV
 	public enum ResourceTypes { Empty, Food, Water };
 
 	//ANT VARS
-    public static readonly float ANT_ENERGY_DECAY = 1f; //1 per second
+    public static readonly float ANT_ENERGY_DECAY = 0.5f; //1 per second
     public static readonly float ANT_ENERGY_MAX = 100f;
     public static readonly float ANT_SPEED = 1.5f;
-    public static readonly float ANT_STATE_TIMER = 6f;
+    public static readonly float ANT_STATE_TIMER = 3f; //length of time they do
 	public static readonly float DMG_FROM_CORPSES = 10f; //5dmg per second
 	public static readonly float PRCNT_ENRGY_THRESHHOLD = .4f; //percent below which ants want to return home or above which they nolonger want to
 	public static readonly int HOLDING_RES_PHER_MULTIPLIER = 10;
-
-
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 
 	public static readonly float RESOURCE_TO_ENRGY = 20f; //+X energy per unity of food
 	public static readonly float POISON_TO_ENRGY = 60f; //-X energy % hp per unity of poison
+	public static readonly float UNIT_EAT_PER_SEC = 0.5f;
 
 	//Phero 
-	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 2f;
+	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 2.5f;
 	public static readonly float PATH_DECAY_RATE = 2f;  //paths decay once every X seconds
 	public static readonly int PATH_DECAY_AMNT = 2; //paths decay at a rate of X every PATH_DECAY_RATE seconds
 	public static readonly int PHEROMONE_START_ENERGY = 10; 
 	public static readonly int PHEROMONE_MAX_ENERGY = 100;
 	public static readonly int BASE_PHER_STRENTH = 1; //per going over pher trail
-	public static readonly int BACK_PHER_WEIGHT_WHEN_HAVE_FOOD = 5;
+	public static readonly int BACK_PHER_WEIGHT_FOOD = 5;
+	public static readonly int BACK_PHER_WEIGHT_ENRGY = 5; //per 100% of energy
 
 	//Colony Scripts
 	public static readonly int COLONY_NUM_SCOUT_SPAWN = 25;  //number of scouts spawned first
-	public static readonly float COL_RESOURCE_DRAIN_DORMANT = 0.5f; //per X second
+	public static readonly float COL_RESOURCE_DRAIN_DORMANT = 0.1f; //per X second
 	public static readonly float COL_RESOURCE_DRAIN_TICK = 30f; //every X seconds <<<<< X
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
-	public static readonly float START_FOOD = 5000;
-	public static readonly float START_WATER = 5000;
-	public static readonly int START_ANTS = 1000;
-	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .9f; //0-1
-	public static readonly int ANT_EXIT_PER_SECOND = 20;
+	public static readonly float START_FOOD = 1000;
+	public static readonly float START_WATER = 1000;
+	public static readonly int START_ANTS = 150;
+	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .5f; //0-1
+	public static readonly int ANT_EXIT_PER_SECOND = 5;
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 15f;
 	//public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
 
