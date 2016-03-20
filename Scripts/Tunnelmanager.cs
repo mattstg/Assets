@@ -51,7 +51,7 @@ public class Tunnelmanager : MonoBehaviour {
 
         for (int i = 0; i < _tunnelDepth; i++)
         {
-            Vector3 dirtPos = new Vector3(xpos, ypos, 50);
+            Vector3 dirtPos = new Vector3(xpos, ypos, 200);
             if (SolidityArray[(int)xpos + 25, (int)ypos + 25] == false)
             {
                 SolidityArray[(int)xpos + 25, (int)ypos + 25] = true;
@@ -156,7 +156,7 @@ public class Tunnelmanager : MonoBehaviour {
                             for (int b = -1; b < 2; b++)
                                 if (SolidityArray[x + a, y + b] == false)
                                 {
-                                    Vector3 dirtPos = new Vector3(x + a - 25, y + b - 25, 50);
+                                    Vector3 dirtPos = new Vector3(x + a - 25, y + b - 25, 200);
                                     Instantiate(ClosedDirt, dirtPos, Quaternion.identity);
                                 }
         }
