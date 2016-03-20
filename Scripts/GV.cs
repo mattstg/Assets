@@ -28,7 +28,7 @@ public class GV
 	//Colony Scripts
 	public static readonly float START_FOOD = 500;
 	public static readonly float START_WATER = 500;
-	public static readonly int START_ANTS = 150;
+	public static readonly int START_ANTS = 300;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
 	public static readonly int ANT_EXIT_PER_SECOND = 5;
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 6f;

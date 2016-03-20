@@ -177,7 +177,7 @@ public class PheromoneManager : MonoBehaviour
             foreach (PheromoneTrail trail in pheromoneTrails)
             {
                 float pHome_y = trail.pHome.transform.position.y;
-                float pHome_x = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.x;
                 float pAway_y = trail.pAway.transform.position.y;
                 float pAway_x = trail.pAway.transform.position.x;
 
@@ -243,7 +243,7 @@ public class PheromoneManager : MonoBehaviour
             foreach (PheromoneTrail trail in pheromoneTrails)
             {
                 float pHome_y = trail.pHome.transform.position.y;
-                float pHome_x = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.x;
                 float pAway_y = trail.pAway.transform.position.y;
                 float pAway_x = trail.pAway.transform.position.x;
 
@@ -266,7 +266,7 @@ public class PheromoneManager : MonoBehaviour
             {
                 Intersection intersectPoint = new Intersection(Vector2.zero, trail);
                 float pHome_y = trail.pHome.transform.position.y;
-                float pHome_x = trail.pHome.transform.position.y;
+                float pHome_x = trail.pHome.transform.position.x;
                 float pAway_y = trail.pAway.transform.position.y;
                 float pAway_x = trail.pAway.transform.position.x;
                 float trailSlope;
