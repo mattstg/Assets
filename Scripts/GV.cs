@@ -14,7 +14,7 @@ public class GV
     public static readonly float ANT_ENERGY_DECAY = 2.5f; //1 per second
     public static readonly float ANT_ENERGY_MAX = 100f;
     public static readonly float ANT_SPEED = 1.5f;
-    public static readonly float ANT_STATE_TIMER = 10f; //length of time they do
+    public static readonly float ANT_STATE_TIMER = 6f; //length of time they do
 	public static readonly float DMG_FROM_CORPSES = 10f; //5dmg per second
 	public static readonly float PRCNT_ENRGY_THRESHHOLD = .4f; //percent below which ants want to return home or above which they nolonger want to
 	public static readonly int HOLDING_RES_PHER_MULTIPLIER = 10;
@@ -41,7 +41,7 @@ public class GV
 	public static readonly float FEAR_SIZE = 3f;
 
 	//Colony Scripts
-	public static readonly int COLONY_NUM_SCOUT_SPAWN = 30;  //number of scouts spawned first
+	public static readonly int COLONY_NUM_SCOUT_SPAWN = 20;  //number of scouts spawned first
 	public static readonly float COL_RESOURCE_DRAIN_DORMANT = 0.5f; //per X second
 	public static readonly float COL_RESOURCE_DRAIN_TICK = 30f; //every X seconds <<<<< X
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
@@ -49,7 +49,7 @@ public class GV
 	public static readonly float START_WATER = 2000;
 	public static readonly int START_ANTS = 500;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .6f; //0-1
-	public static readonly int ANT_EXIT_PER_SECOND = 10;
+	public static readonly int ANT_EXIT_PER_SECOND = 5;
 	public static readonly float ENRGY_LOSS_FROM_STARV = 0.05f; //energy loss if starving (multiplied by two if missing both resources)
 	public static readonly int MAX_BORN_ANTS_PER_SEC = 2;
 	//public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
