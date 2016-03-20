@@ -7,7 +7,7 @@ public class Ant : MonoBehaviour {
     enum AntMode { Forage, Wander, Scout };
 	private GameObject holdingSprite;
 
-    AntMode antMode = AntMode.Forage;
+    AntMode antMode = AntMode.Wander;
     float energy = GV.ANT_ENERGY_START;
     public int scoutingWeight;
     public int backtrackWeight;
@@ -17,7 +17,7 @@ public class Ant : MonoBehaviour {
     PheromoneNode carryingPheromone;
 	public resourceObject holding;
     Vector2 goalSpot = new Vector2(0,0);
-    float timeSinceLastNode = 0;
+    float timeSinceLastEvent = 0;
 
 	public bool wantsToEnterHive =  false;
 
@@ -52,9 +52,20 @@ public class Ant : MonoBehaviour {
                 MoveTowardsGoal(dTime);
                 break;
             case AntMode.Wander:
+                WanderTimeUpdate(dTime);
                 break;
         }
 	}
+
+    void WanderTimeUpdate(float dtime)
+    {
+        timeSinceLastEvent += dtime;
+        if (timeSinceLastEvent > GV.ANT_STATE_TIMER)
+        {
+            timeSinceLastEvent = 0;
+            goalSpot = GetRandomGoalVector();
+        }
+    }
 
     void MoveTowardsGoal(float dtime)
     {
@@ -98,9 +109,14 @@ public class Ant : MonoBehaviour {
 
     void ScoutModeActivate()
     {
-        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_SCOUT_TIMER + 1) * GV.ANT_SPEED + transform.position;
-        timeSinceLastNode = 0;
+        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED + transform.position;
+        timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
+    }
+
+    Vector2 GetRandomGoalVector()
+    {
+        return GV.AddVectors(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED, transform.position);
     }
 
     void FollowNewPher()
@@ -216,8 +232,8 @@ public class Ant : MonoBehaviour {
 
     void ScoutUpdate(float dtime)
     {
-        timeSinceLastNode += dtime;
-        if (timeSinceLastNode > GV.ANT_SCOUT_TIMER)
+        timeSinceLastEvent += dtime;
+        if (timeSinceLastEvent > GV.ANT_STATE_TIMER)
         {
             DropPheromone();
         }
@@ -228,7 +244,7 @@ public class Ant : MonoBehaviour {
         PheromoneNode pn;
         pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
         lastVisitedNode = pn;
-        timeSinceLastNode = 0;
+        timeSinceLastEvent = 0;
         ArriveAtNode(pn);
         return pn;
     }
