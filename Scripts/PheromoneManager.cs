@@ -87,7 +87,7 @@ public class PheromoneManager : MonoBehaviour
         updateCounter -= Time.deltaTime;
         if (updateCounter <= 0)
         {
-            updateCounter = GV.PATH_DECAY_RATE;
+			updateCounter = GV.PATH_DECAY_RATE;
             for (int i = pheromoneTrails.Count - 1; i >= 0; --i)
                 pheromoneTrails[i].GetUpdated();
         }

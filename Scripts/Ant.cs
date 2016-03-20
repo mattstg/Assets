@@ -8,7 +8,7 @@ public class Ant : MonoBehaviour {
 	private GameObject holdingSprite;
 
     public AntMode antMode = AntMode.Wander;
-    float energy = GV.ANT_ENERGY_MAX;
+    public float energy = GV.ANT_ENERGY_MAX;
     public int scoutingWeight;
     public int backtrackWeight;
     PheromoneTrail currentTrail;
@@ -105,7 +105,10 @@ public class Ant : MonoBehaviour {
         int workingBackTrack = backtrackWeight;
         if (currentTrail) //since might get deleted during
 	        {
-	            currentTrail.strength++;
+			if (holding != null && !holding.isZero ())
+				currentTrail.strength += GV.BASE_PHER_STRENTH * GV.HOLDING_RES_PHER_MULTIPLIER;
+			else
+				currentTrail.strength += GV.BASE_PHER_STRENTH;
 	        }
         else
 	        {
@@ -267,6 +270,18 @@ public class Ant : MonoBehaviour {
 		return holding;
 	}
 
+	public void takeResource(resourceObject resourceToHold, Transform foodLoc){
+		//Debug.Log ("Taking Resource;");
+		holding = new resourceObject(resourceToHold);
+		refreshHoldingResource ();
+		Vector2 varSaver = new Vector2 (backtrackWeight,scoutingWeight);
+		backtrackWeight = GV.BACK_PHER_WEIGHT_WHEN_HAVE_FOOD;
+		scoutingWeight = 0;
+		DropPheromone (foodLoc);
+		backtrackWeight = (int) varSaver.x;
+		scoutingWeight = (int) varSaver.y;
+	}
+
 	public void takeResource(resourceObject resourceToHold){
 		//Debug.Log ("Taking Resource;");
 		holding = new resourceObject(resourceToHold);
@@ -307,6 +322,15 @@ public class Ant : MonoBehaviour {
         ArriveAtNode(pn);
         return pn;
     }
+
+	PheromoneNode DropPheromone(Transform foodLoc)
+	{
+		PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), foodLoc.position);
+		lastVisitedNode = pn;
+		timeSinceLastEvent = 0;
+		ArriveAtNode(pn);
+		return pn;
+	}
 
     void DropPheromoneOnExistingTrail(PheromoneTrail pt)
     {

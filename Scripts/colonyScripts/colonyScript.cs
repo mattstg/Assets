@@ -82,6 +82,7 @@ public class colonyScript : MonoBehaviour {
 				} else if (resObj.resType == GV.ResourceTypes.Water) {
 					addWater (resObj.quantity);
 				}
+				Debug.Log ("Food/Water added: Col FOOD/WATER = " + foodStored + " " + waterStored);
 			} else {
 				antDeathFromPoison(resObj.quantity);
 			}

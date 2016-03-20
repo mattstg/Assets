@@ -39,9 +39,9 @@ public class resource : MonoBehaviour {
 		addQuantity(GV.RESOURCE_GROWTH_PER_SECOND * GV.TIME_BETWEEN_RESOURCE_UPDATES);
 	}
 
-	public void give(Ant ant){
+	public void give(Ant ant, Transform resLoc){
 		//give ant the food type
-		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison));
+		ant.takeResource(new resourceObject(resourceType, GV.ANT_CARRY_CAPACITY, isPoison),resLoc);
 		addQuantity(-GV.ANT_CARRY_CAPACITY);
 	}
 
@@ -77,7 +77,7 @@ public class resource : MonoBehaviour {
 			Ant collidingAnt = coli.gameObject.GetComponent<Ant> ();
 			//if (collidingAnt)
 			if (collidingAnt.holding == null || collidingAnt.holding.isZero()) 
-				give (collidingAnt);
+				give (collidingAnt, gameObject.transform);
 		} else {
 			//Debug.Log ("Something has collided with a resource, that is not an ant. This is it: " + coli.name);
 		}

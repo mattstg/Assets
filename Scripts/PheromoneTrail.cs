@@ -5,7 +5,7 @@ public class PheromoneTrail : MonoBehaviour {
     GV.PhermoneTypes pherType;
     public PheromoneNode pHome;
     public PheromoneNode pAway;
-    private int _strength = 0;
+    public int _strength = 0;
     public int strength { set { _strength = (value <= GV.PHEROMONE_MAX_ENERGY) ? value : GV.PHEROMONE_MAX_ENERGY; } get { return _strength; } }
 
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
@@ -20,7 +20,7 @@ public class PheromoneTrail : MonoBehaviour {
 
     public void GetUpdated()
     {
-        strength -= 1;
+		strength -= GV.PATH_DECAY_AMNT;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
         ValidateTrail();
     }
@@ -46,7 +46,7 @@ public class PheromoneTrail : MonoBehaviour {
 
         if (pHome == null || pAway == null)
             Debug.Log("fucking nulls");
-        if (!gameObject.GetComponent<DrawLineSprite>())
+		if (gameObject == null || !gameObject.GetComponent<DrawLineSprite>())
             Debug.Log("YOOO");
 
         if (pHome && pAway)
