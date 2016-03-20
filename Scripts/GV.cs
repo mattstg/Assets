@@ -65,13 +65,13 @@ public class GV
 
 
 	//Map
-	public static readonly Vector2 INITIAL_RESOURCE_RANGE = new Vector2(20,100);
+	public static readonly Vector2 INITIAL_RESOURCE_RANGE = new Vector2(50,250);
 	public static readonly float MIN_WORLD_FOOD = 100f;
 	public static readonly float MIN_WORLD_WATER = 100f;
 	public static readonly float MAP_DIAMETER = 120;
 	public static readonly Vector2 NUM_OF_ROCKS = new Vector2(100, 200);
 	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
-    public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 3f; //unity meters squared
+    public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 5f; //unity meters squared
 
     public static readonly int UNDERGROUND_WIDTH = 50;
     public static readonly int UNDERGROUND_HEIGHT = 50;
