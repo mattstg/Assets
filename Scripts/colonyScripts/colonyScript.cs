@@ -101,7 +101,6 @@ public class colonyScript : MonoBehaviour {
 
 	public void antEntersColony(GameObject ant){
 		Ant antScript = ant.GetComponent<Ant> ();
-		Debug.Log ("Where we shouldnt be.");
 		if(antScript != null){
 			numberOfDormantAnts++;
 			if(antScript.holding != null)

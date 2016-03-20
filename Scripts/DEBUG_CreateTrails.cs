@@ -8,10 +8,9 @@ public class DEBUG_CreateTrails : MonoBehaviour {
     public PheromoneNode lastClicked;
 	// Use this for initialization
 	void Start () {
-        /*
         Vector2 randomSpot = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
         PheromoneNode pn = pherManager.CreateNewNode(initialNode, GV.PhermoneTypes.Friendly, randomSpot);
-         * */
+        
 	}
 
     public void Update()
