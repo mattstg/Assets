@@ -85,7 +85,8 @@ public class GV
     public static readonly float PLAYER_ZOOM_SPEED = 7;
     public static readonly float PLAYER_E_REGEN = 4;
     public static readonly float PLAYER_DMG = 33;
-    public static readonly float PLAYER_DMG_TAKEN = 15;
+    public static readonly float PLAYER_DMG_TAKEN = 11;
+    public static readonly float PLAYER_PHER_START = 15;
     
 	
 

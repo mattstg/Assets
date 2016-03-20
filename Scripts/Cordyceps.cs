@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Cordyceps : MonoBehaviour {
     Ant ant;
@@ -17,4 +18,7 @@ public class Cordyceps : MonoBehaviour {
             ant.DEBUG_CordycepControl(pz);
         }
 	}
+
+
+    
 }

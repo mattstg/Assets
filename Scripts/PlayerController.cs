@@ -32,6 +32,18 @@ public class PlayerController : MonoBehaviour {
         playerEnergy = (playerEnergy > GV.PLAYER_MAX_HEALTH)?GV.PLAYER_MAX_HEALTH:playerEnergy;
         if (playerEnergy < 0)
             Die();
+        if (Input.GetKeyDown(KeyCode.P))
+            SuperMath();
+    }
+
+    void SuperMath()
+    {
+        System.Collections.Generic.List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, GetMousePosition());
+        foreach (Intersection intrs in intersections)
+        {
+            GameObject go = Instantiate(Resources.Load("Prefab/Marker")) as GameObject;
+            go.transform.position = intrs._intersectionPoint;
+        }
     }
 
     void IfReachedGoal()
@@ -72,14 +84,18 @@ public class PlayerController : MonoBehaviour {
     {
         if (playerEnergy > GV.PLAYER_CLICK_E_COST)
         {
+            bool bnsDmg = lastNode != null;
             onTheMove = true;
             goalLocation = GetMousePosition();
             playerEnergy -= GV.PLAYER_CLICK_E_COST;
             lastNode = PheromoneManager.DropPheromone(lastNode,GV.PhermoneTypes.Friendly,transform.position);
+            if (bnsDmg && lastNode.trails[0] != null)
+                lastNode.trails[0].strength = (int)GV.PLAYER_PHER_START;
+            
         }
     }
 
-    void OnTriggerEnter2D(Collider2D coli)
+    void OnCollisionStay2D(Collision2D coli)
     {
         if (coli.gameObject.CompareTag("Node"))
         {
@@ -88,7 +104,7 @@ public class PlayerController : MonoBehaviour {
         else if (coli.gameObject.GetComponent<Ant>())
         {
             coli.gameObject.GetComponent<Ant>().takeDamage(GV.PLAYER_DMG*Time.deltaTime);
-            playerEnergy -= GV.PLAYER_DMG*Time.deltaTime;
+            playerEnergy -= GV.PLAYER_DMG_TAKEN*Time.deltaTime;
         }
     }
 
