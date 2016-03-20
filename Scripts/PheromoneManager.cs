@@ -11,6 +11,8 @@ public class PheromoneManager : MonoBehaviour
     List<PheromoneTrail> pheromoneTrails = new List<PheromoneTrail>();
     float updateCounter = 0;
 
+
+
     public PheromoneNode CreateNewNode(PheromoneNode parentNode,GV.PhermoneTypes pherType, Vector2 spawnLocation)
     {
         if (parentNode == null)
@@ -92,6 +94,9 @@ public class PheromoneManager : MonoBehaviour
             for (int i = pheromoneTrails.Count - 1; i >= 0; --i)
                 pheromoneTrails[i].GetUpdated();
         }
+        foreach (PheromoneTrail pt in pheromoneTrails)
+            pt.SetAlpha();
+        
     }
     public List<Intersection> GetIntersections(Vector2 antLocation, Vector2 antDirection)
     {

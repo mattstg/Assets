@@ -30,6 +30,7 @@ public class GV
 	public static readonly int FLAT_PATH_DECAY = 6; //decay per PATH_DECAY_RATE seconds, flat
 	public static readonly int PHEROMONE_START_ENERGY = 10; 
 	public static readonly int PHEROMONE_MAX_ENERGY = 100;
+    public static readonly float PHEROMONE_MAX_OPACITY = .7f;
 	public static readonly int BASE_PHER_STRENTH = 1; //per going over pher trail
 	public static readonly int BACK_PHER_WEIGHT_FOOD = 5;
 	public static readonly int BACK_PHER_WEIGHT_ENRGY = 5; //per 100% of energy
@@ -71,7 +72,14 @@ public class GV
     public static readonly int UNDERGROUND_HEIGHT = 50;
     public static readonly int TUNNEL_DEPTH = 80;
 
-
+    //Player
+    public static readonly float PLAYER_MAX_HEALTH = 100;
+    public static readonly float PLAYER_MOVE_E_COST = 2; //e cost per second moving
+    public static readonly float PLAYER_CLICK_E_COST = 8; //e cost per click
+    public static readonly float PLAYER_FLY_E_COST = 10; //e cost per mouse wheel?
+    public static readonly float PLAYER_MOVE_SPEED = 2; //e cost per mouse wheel?
+    public static readonly float PLAYER_TIRED_PENALTY = .5f;
+    public static readonly float PLAYER_TIRED_THRESHOLD = .1f; //at 10% max hp
 	
 
 
@@ -80,7 +88,7 @@ public class GV
     {
         return new Vector2(v2.x - v3.x, v2.y - v3.y);
     }
-    //add vectors,  ILL FIX AFTER THE MERGE I SWEAR
+    //add vectors,  ILL FIX AFTER THE MERGE I SWEAR, dont know why id make a subtract one..
     public static Vector2 AddVectors(Vector2 v2, Vector3 v3)
     {
         return new Vector2(v2.x + v3.x, v2.y + v3.y);

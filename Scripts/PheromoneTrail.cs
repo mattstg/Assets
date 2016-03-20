@@ -2,8 +2,10 @@
 using System.Collections;
 
 public class PheromoneTrail : MonoBehaviour {
+    SpriteRenderer spriteRend;
     public DrawLineSprite drawTrail;
     GV.PhermoneTypes pherType;
+    
     public PheromoneNode pHome;
     public PheromoneNode pAway;
     public int _strength = 0;
@@ -23,12 +25,19 @@ public class PheromoneTrail : MonoBehaviour {
             drawTrail.Initialize(pHome.transform.position,pAway.transform.position,"Sprites/PheromoneNode");
     }
 
+    public void Start()
+    {
+        spriteRend = GetComponent<SpriteRenderer>();
+    }
+
     public void GetUpdated()
     {
 		strength -= Mathf.CeilToInt(strength * GV.PATH_DECAY_PCNT) + GV.FLAT_PATH_DECAY;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
         if(!IsValid())
             TrailDie();
+        
+        
     }
 
     public void SplitByNode(PheromoneNode newNode)
@@ -80,6 +89,14 @@ public class PheromoneTrail : MonoBehaviour {
             pAway.PheromoneTrailDied(this);
         FindObjectOfType<PheromoneManager>().DeleteTrail(this);
 
+    }
+
+    //graphics
+    public void SetAlpha()
+    {
+       Color newColor = spriteRend.material.color;
+       newColor.a = (strength / GV.PHEROMONE_MAX_ENERGY) * GV.PHEROMONE_MAX_OPACITY;
+       spriteRend.material.color = newColor;
     }
 
     //returns the copy of pher found, the one that will become absorbed
