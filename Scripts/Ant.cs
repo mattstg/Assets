@@ -276,7 +276,7 @@ public class Ant : MonoBehaviour {
 		refreshHoldingResource ();
 		Vector2 varSaver = new Vector2 (backtrackWeight,scoutingWeight);
 		backtrackWeight = GV.BACK_PHER_WEIGHT_WHEN_HAVE_FOOD;
-		scoutingWeight = 0;
+		scoutingWeight = 1;
 		DropPheromone (foodLoc);
 		backtrackWeight = (int) varSaver.x;
 		scoutingWeight = (int) varSaver.y;
