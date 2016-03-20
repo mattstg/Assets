@@ -5,7 +5,7 @@ public class TextRendererFix : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	    GetComponent<TextMesh>().
+	    //GetComponent<TextMesh>().
 	}
 	
 	// Update is called once per frame
