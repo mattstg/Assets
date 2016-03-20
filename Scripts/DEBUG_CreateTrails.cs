@@ -58,4 +58,10 @@ public class DEBUG_CreateTrails : MonoBehaviour {
         lastClicked = pn;
     }
 
+    private void StraightUpAnt(Vector2 startPos)
+    {
+        //GameObject newAnt = Instantiate(Resources.Load("Prefab/AntPrefab"), startPos, Quaternion.identity) as GameObject;
+        //newAnt.GetComponent<Ant>().Initialize();
+        //newAnt.GetComponent<Ant>().goal
+    }
 }

@@ -24,7 +24,7 @@ public class Ant : MonoBehaviour {
 	// Use this for initialization
     public void Initialize()
     {
-        scoutingWeight = 20;
+        scoutingWeight = 50;
         backtrackWeight = 1;
     }
 
@@ -57,6 +57,8 @@ public class Ant : MonoBehaviour {
         MoveTowardsGoal(dTime);
 	}
 
+    
+    //
     void StartWanderMode()
     {
         antMode = AntMode.Wander;
@@ -79,18 +81,13 @@ public class Ant : MonoBehaviour {
       	GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
 
         //drawing animation
-		//if (Mathf.Round(headingDirection.magnitude) != 0f) {
+		if (Mathf.Round(headingDirection.magnitude) < 0f) {
 			var angle = - Mathf.Atan(headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
 			//Debug.Log("angle is: " + angle);
 			if (headingDirection.y < 0)
 				angle += 180;
 			transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle); 
-		//}
-      	
-       
-		//Debug.Log("should be facing: " + headingDirection);
-       //transform.rotation = Quaternion.FromToRotation(new Vector3(0, 0, transform.rotation.eulerAngles.z), headingDirection);
-       //Debug.Log("is actaully be facing: " + transform.rotation.eulerAngles);
+		}
     }
 
     void ArriveAtNode(PheromoneNode pn)
@@ -104,10 +101,8 @@ public class Ant : MonoBehaviour {
         {
             workingBackTrack = 0;
         }
-        //Debug.Log("out: " + pn.GetTotalPhermoneWeights(currentTrail));
         int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight + workingBackTrack;
         int randomResult = Random.Range(1, totalWeight + 1);
-        //Debug.Log("Result: " + randomResult + "/" + totalWeight);
         currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
         lastVisitedNode = pn;
         if (currentTrail)
@@ -119,11 +114,19 @@ public class Ant : MonoBehaviour {
             ScoutModeActivate();
     }
 
+   
     void ScoutModeActivate()
     {
-        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED + transform.position;
+        goalSpot = GetRandomGoalVector();
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
+        List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
+        foreach (Intersection _intersection in intersections)
+        {
+            Instantiate(Resources.Load("prefab/FoodResourcePrefab"), _intersection._intersectionPoint, Quaternion.identity);
+            Instantiate(Resources.Load("prefab/DeadWarriorAnt"),_intersection._intersectionTrail.transform.position, Quaternion.identity);
+        }
+        Debug.Log("Scout Mode activated");
     }
 
     Vector2 GetRandomGoalVector()
@@ -140,6 +143,8 @@ public class Ant : MonoBehaviour {
     {
 
     }
+
+   
 
     void OnTriggerEnter2D(Collider2D coli)
     {
@@ -311,5 +316,13 @@ public class Ant : MonoBehaviour {
         return toReturn;
     }
 
+
+    public void DEBUG_CordycepControl(Vector2 newGoal)
+    {
+        Debug.Log("new goal spot is: " + newGoal);
+        goalSpot = newGoal;
+        timeSinceLastEvent = 0;
+        antMode = AntMode.Scout;
+    }
 }
 

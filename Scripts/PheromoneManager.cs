@@ -44,9 +44,9 @@ public class PheromoneManager : MonoBehaviour
         PheromoneNode pn = FindObjectOfType<PheromoneManager>().CreateNewNode(parentNode, pherType, atPos);        
         foreach (PheromoneNode toMerge in allNearbyPher)
         {
-            pn.AbsorbNode(toMerge);
+            if(!toMerge.lockedFromDeath)
+                pn.AbsorbNode(toMerge);
         }
-        //pn.CleanUpBadTrails();  didnt work
         return pn;
     }
 
