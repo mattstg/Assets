@@ -24,7 +24,7 @@ public class Ant : MonoBehaviour {
 	// Use this for initialization
     public void Initialize()
     {
-        scoutingWeight = 20;
+        scoutingWeight = 50;
         backtrackWeight = 1;
     }
 
@@ -75,13 +75,6 @@ public class Ant : MonoBehaviour {
         }
     }
 
-     void ScoutModeActivate()
-    {
-        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED + transform.position;
-        timeSinceLastEvent = 0;
-        antMode = AntMode.Scout;
-    }
-
     void MoveTowardsGoal(float dtime)
     {
        Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
@@ -117,6 +110,19 @@ public class Ant : MonoBehaviour {
     }
 
    
+    void ScoutModeActivate()
+    {
+        goalSpot = GetRandomGoalVector();
+        timeSinceLastEvent = 0;
+        antMode = AntMode.Scout;
+        List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
+        foreach (Intersection _intersection in intersections)
+        {
+            Instantiate(Resources.Load("prefab/FoodResourcePrefab"), _intersection._intersectionPoint, Quaternion.identity);
+            Instantiate(Resources.Load("prefab/DeadWarriorAnt"),_intersection._intersectionTrail.transform.position, Quaternion.identity);
+        }
+        Debug.Log("Scout Mode activated");
+    }
 
     Vector2 GetRandomGoalVector()
     {
@@ -132,6 +138,8 @@ public class Ant : MonoBehaviour {
     {
 
     }
+
+   
 
     void OnTriggerEnter2D(Collider2D coli)
     {
