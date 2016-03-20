@@ -95,7 +95,10 @@ public class PheromoneTrail : MonoBehaviour {
     public void SetAlpha()
     {
        Color newColor = spriteRend.material.color;
-       newColor.a = 1f; // (strength / GV.PHEROMONE_MAX_ENERGY) * GV.PHEROMONE_MAX_OPACITY;
+		float tempAlfa = strength / GV.PHEROMONE_MAX_ENERGY;
+		if(tempAlfa > 1f)
+			tempAlfa = 1f;
+		newColor.a = strength * GV.PHEROMONE_MAX_OPACITY;
        spriteRend.material.color = newColor;
     }
 
