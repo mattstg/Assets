@@ -36,15 +36,15 @@ public class GV
 
 	//Colony Scripts
 	public static readonly int COLONY_NUM_SCOUT_SPAWN = 25;  //number of scouts spawned first
-	public static readonly float COL_RESOURCE_DRAIN_DORMANT = 0.1f; //per X second
+	public static readonly float COL_RESOURCE_DRAIN_DORMANT = 0.25f; //per X second
 	public static readonly float COL_RESOURCE_DRAIN_TICK = 30f; //every X seconds <<<<< X
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
-
 	public static readonly float START_FOOD = 1000;
 	public static readonly float START_WATER = 1000;
 	public static readonly int START_ANTS = 150;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .6f; //0-1
 	public static readonly int ANT_EXIT_PER_SECOND = 5;
+	public static readonly float ENRGY_LOSS_FROM_STARV = 0.05f; //energy loss if starving (multiplied by two if missing both resources)
 
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 15f;
 	//public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;

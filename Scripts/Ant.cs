@@ -46,6 +46,7 @@ public class Ant : MonoBehaviour {
         float dTime = Time.deltaTime;
 		drainEnergy(GV.ANT_ENERGY_DECAY * dTime);
 		if (energy/GV.ANT_ENERGY_MAX <= GV.PRCNT_ENRGY_THRESHHOLD && holding != null && !holding.isZero ()) {
+			Debug.Log (energy/GV.ANT_ENERGY_MAX);
 			eatResource (GV.UNIT_EAT_PER_SEC * dTime);
 		}
         if ((int)transform.position.x == (int)goalSpot.x && (int)transform.position.y == (int)goalSpot.y)
