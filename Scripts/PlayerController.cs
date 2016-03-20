@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour {
             goalLocation = GetMousePosition();
             playerEnergy -= GV.PLAYER_CLICK_E_COST;
             lastNode = PheromoneManager.DropPheromone(lastNode,GV.PhermoneTypes.Friendly,transform.position);
-            if (bnsDmg && lastNode.trails[0] != null)
+            if (bnsDmg && lastNode.trails.Count > 0 && lastNode.trails[0] != null)
                 lastNode.trails[0].strength = (int)GV.PLAYER_PHER_START;
             
         }
