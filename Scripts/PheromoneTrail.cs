@@ -95,11 +95,11 @@ public class PheromoneTrail : MonoBehaviour {
     {
        Color newColor = spriteRend.material.color;
 		float tempAlfa = strength / GV.PHEROMONE_MAX_ENERGY;
-		if (tempAlfa > 1f)
-			tempAlfa = 1f;
-		else if (tempAlfa < 0.4f)
-			tempAlfa = 0.4f;
-		newColor.a = tempAlfa * GV.PHEROMONE_MAX_OPACITY;
+		if (tempAlfa > GV.PHEROMONE_MAX_OPACITY)
+			tempAlfa = GV.PHEROMONE_MAX_OPACITY;
+		else if (tempAlfa < GV.PHEROMONE_MIN_OPACITY)
+			tempAlfa = GV.PHEROMONE_MIN_OPACITY;
+		newColor.a = tempAlfa;
        spriteRend.material.color = newColor; 
     }
 
