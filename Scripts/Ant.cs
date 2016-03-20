@@ -6,6 +6,7 @@ using System.Linq;
 public class Ant : MonoBehaviour {
     public enum AntMode { Forage, Wander, Scout };
 	private GameObject holdingSprite;
+	public bool hasCreatedFear = false;
 
     public AntMode antMode = AntMode.Wander;
     public float energy = GV.ANT_ENERGY_MAX;
@@ -270,8 +271,11 @@ public class Ant : MonoBehaviour {
 			wantsToEnterHive = true;
 	}
 
-	public void spawnFearPher(){
-		Instantiate (Resources.Load ("Prefab/PharamoneFear"), transform.position, Quaternion.identity);
+	public void spawnFearPher(Vector3 loc, float strIN){
+		if (strIN > 11) {
+			GameObject holder = Instantiate (Resources.Load ("Prefab/PharamoneFear"), loc, Quaternion.identity) as GameObject;
+			holder.GetComponent<fearScript> ().strength = strIN - 10;
+		}
 	}
 
 	public resourceObject giveResource(){
@@ -420,9 +424,5 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
     }
-
-	public void createFear(){
-
-	}
 }
 

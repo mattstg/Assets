@@ -14,10 +14,13 @@ public class PlayerController : MonoBehaviour {
 
     public void Update()
     {
+		if (Input.GetKeyDown(o)) {
+			spawnFearPher (gameObject.transform.localPosition + new Vector3(0f, 0.3f, 0f),100f);
+		}
+
         float dtime = Time.deltaTime;
         if (Input.GetMouseButtonDown(1))
             RightClick();
-
 
     }
 
@@ -37,4 +40,11 @@ public class PlayerController : MonoBehaviour {
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
+
+	public void spawnFearPher(Vector3 loc, float strIN){
+		if (strIN > 11) {
+			GameObject holder = Instantiate (Resources.Load ("Prefab/PharamoneFear"), loc, Quaternion.identity) as GameObject;
+			holder.GetComponent<fearScript> ().strength = strIN - 10;
+		}
+	}
 }

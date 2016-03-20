@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class fearScript : MonoBehaviour {
-	float strength;
+	public float strength;
 
 	// Use this for initialization
 	void Start () {
-		strength = 100f;
+		if(strength == null)
+			strength = 100f;
 
 		gameObject.transform.localScale = new Vector3 (GV.FEAR_SIZE, GV.FEAR_SIZE, GV.FEAR_SIZE);
 	}
@@ -28,7 +29,11 @@ public class fearScript : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D coli){
 		Ant temp = coli.GetComponent<Ant> ();
 		if (temp != null) {
-			temp.spawnFearPher ();
+			//
+			if (strength > 25f) {
+				temp.spawnFearPher (temp.transform.position, strength - 25f);
+				temp.hasCreatedFear = true;
+			}
 			//temp.DropPheromone ();
 			temp.MoveTowardsGoal (new Vector2(gameObject.transform.position.x,gameObject.transform.position.y));
 		}

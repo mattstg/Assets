@@ -18,4 +18,14 @@ public class DeadAntScript : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
+	void OnCollisionEnter2D(Collision2D coli){
+		Ant temp = coli.collider.gameObject.GetComponent<Ant> ();
+		if (temp != null) {
+			if (!temp.hasCreatedFear) {
+				temp.spawnFearPher (temp.transform.position, 100f);
+				temp.hasCreatedFear = true;
+			}
+		}
+	}
+
 }
