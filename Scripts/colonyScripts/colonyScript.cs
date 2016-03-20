@@ -14,8 +14,10 @@ public class colonyScript : MonoBehaviour {
 	private bool antResourceDrainTracker = false;
 	private float averageAntErgy = 100f;
     private float totalAntsExited = 0;
+	private float antsBornThisSecond = 0;
 	private int antsExitedThisSecond = 0;
 	private float lastSecond = 0;
+	private float lastSecondBorn = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -28,12 +30,31 @@ public class colonyScript : MonoBehaviour {
 		waterStored = GV.START_WATER;
 	}
 
+	void LateUpdate(){
+		
+		if (lastSecondBorn < Mathf.Floor (Time.time)) {
+			lastSecondBorn = Mathf.Floor (Time.time);
+			antsBornThisSecond = 0f;
+			//Debug.Log ("Colony Health: " + averageAntErgy);
+			if (averageAntErgy > 0.9) {
+				while(antsBornThisSecond < GV.MAX_BORN_ANTS_PER_SEC){
+					//Debug.Log ("Ant Born.");
+					totalNumberOfAnts++;
+					numberOfDormantAnts++;
+					antsBornThisSecond++;
+				}
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
+		//Debug.Log ("TotAnts " + totalNumberOfAnts);
 		if (lastSecond < Mathf.Floor (Time.time)) {
 			lastSecond = Mathf.Floor (Time.time);
 			antsExitedThisSecond = 0;
 		}
+
 		//Debug.Log ("PercentDormantAnts: " + percentDormantAnts());
 		if(percentDormantAnts() >= GV.DESIRED_PERCENT_DORMANT_ANTS){
 			if (antsExitedThisSecond < GV.ANT_EXIT_PER_SECOND) {
