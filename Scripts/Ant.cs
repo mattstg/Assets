@@ -45,6 +45,9 @@ public class Ant : MonoBehaviour {
 	void Update () {
         float dTime = Time.deltaTime;
 		drainEnergy(GV.ANT_ENERGY_DECAY * dTime);
+		if (energy <= GV.PRCNT_ENRGY_THRESHHOLD && holding != null && !holding.isZero ()) {
+			eatResource (GV.UNIT_EAT_PER_SEC * dTime);
+		}
         if ((int)transform.position.x == (int)goalSpot.x && (int)transform.position.y == (int)goalSpot.y)
             FindNodeUnderAnt();            //so you've reached your goal, what next
         
@@ -158,7 +161,6 @@ public class Ant : MonoBehaviour {
                 if (closestIntersection._intersectionPoint.magnitude > intersections[i]._intersectionPoint.magnitude) //bit proccessor intensive, but saves on total updates
                     closestIntersection = intersections[i];
             }
-           
         }
         else
         {
@@ -196,10 +198,11 @@ public class Ant : MonoBehaviour {
 			//Just touuched dead ant
 			takeDamage(GV.DMG_FROM_CORPSES * Time.deltaTime);
 		}
-        else if(coli.CompareTag("Ant"))
+        /*else if(coli.CompareTag("Ant"))
         {
 
         }
+        */
     }
     
 	public void eatResource(float quantToEat){
@@ -275,7 +278,7 @@ public class Ant : MonoBehaviour {
 		holding = new resourceObject(resourceToHold);
 		refreshHoldingResource ();
 		Vector2 varSaver = new Vector2 (backtrackWeight,scoutingWeight);
-		backtrackWeight = GV.BACK_PHER_WEIGHT_WHEN_HAVE_FOOD;
+		backtrackWeight = GV.BACK_PHER_WEIGHT_FOOD + Mathf.FloorToInt(GV.BACK_PHER_WEIGHT_ENRGY * energy);
 		scoutingWeight = 1;
 		DropPheromone (foodLoc);
 		backtrackWeight = (int) varSaver.x;
@@ -295,7 +298,7 @@ public class Ant : MonoBehaviour {
 		gameObject.AddComponent<DeadAntScript> ();
 		GetComponent<Rigidbody2D> ().angularVelocity = 0f;
 		GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
-		GetComponent<Rigidbody2D> ().drag = 0.5f;
+		GetComponent<Rigidbody2D> ().drag = 0.8f;
 		FindObjectOfType<colonyScript> ().totalNumberOfAnts--;
 		Destroy (this);
 	}
