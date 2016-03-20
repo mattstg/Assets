@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
+//This part was put together in the last hour. No judging
 public class PlayerController : MonoBehaviour {
 
     public float playerEnergy = GV.PLAYER_MAX_HEALTH;
@@ -38,6 +39,10 @@ public class PlayerController : MonoBehaviour {
             Die();
         if (Input.GetKeyDown(KeyCode.P))
             SuperMath();
+        if (Input.GetKeyDown(KeyCode.W))
+            SceneManager.LoadScene("WorldScene");
+        if (Input.GetKeyDown(KeyCode.Q))
+            SceneManager.LoadScene("PheromoneTest");
     }
     void SuperMath()
     {
@@ -53,7 +58,10 @@ public class PlayerController : MonoBehaviour {
     {
         onTheMove = !((int)goalLocation.x == (int)transform.position.x && (int)goalLocation.y == (int)transform.position.y);
         if (!onTheMove)
+        {
+            rbod.angularVelocity = 0;
             rbod.velocity = new Vector2(0, 0);
+        }
     }
 
     void MoveTowardsGoal(float dtime)
@@ -108,6 +116,15 @@ public class PlayerController : MonoBehaviour {
         {
             coli.gameObject.GetComponent<Ant>().takeDamage(GV.PLAYER_DMG*Time.deltaTime);
             playerEnergy -= GV.PLAYER_DMG_TAKEN*Time.deltaTime;
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D coli)
+    {
+        if (coli.GetComponent<resource>())
+        {
+            coli.GetComponent<resource>().addQuantity(-5 * Time.deltaTime);
+            playerEnergy += 5 * GV.RESOURCE_TO_ENRGY * Time.deltaTime;
         }
     }
 
