@@ -20,6 +20,7 @@ public class Ant : MonoBehaviour {
     float timeSinceLastEvent = 0;
 
 	public bool wantsToEnterHive =  false;
+	public bool hasBackTracked = false;
 
 	// Use this for initialization
     public void Initialize()
@@ -112,16 +113,28 @@ public class Ant : MonoBehaviour {
           //  return;
         int workingBackTrack = backtrackWeight;
         if (currentTrail) //since might get deleted during
-        {
-            currentTrail.strength++;
-        }
+	        {
+	            currentTrail.strength++;
+	        }
         else
-        {
-            workingBackTrack = 0;
-        }
+	        {
+	            workingBackTrack = 0;
+	        }
         int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight + workingBackTrack;
         int randomResult = Random.Range(1, totalWeight + 1);
-        currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+		PheromoneTrail isBackTrackTrail = currentTrail;
+		if (hasBackTracked) {
+			PheromoneTrail tempTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+			currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+			if(currentTrail.strength > tempTrail.strength)
+				currentTrail = tempTrail;
+			hasBackTracked = false;
+		} else {
+			currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+		}
+		if (isBackTrackTrail == currentTrail && currentTrail != null && isBackTrackTrail != null) {
+			hasBackTracked = !hasBackTracked;
+		}
         lastVisitedNode = pn;
         if (currentTrail)
         {

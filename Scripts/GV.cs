@@ -27,9 +27,9 @@ public class GV
 	public static readonly float ANT_DEATH_FROM_POISON = 10f; //flat death per quantity of poison brought back to colony
 	public static readonly float START_FOOD = 500;
 	public static readonly float START_WATER = 500;
-	public static readonly int START_ANTS = 30000;
+	public static readonly int START_ANTS = 300;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
-	public static readonly int ANT_EXIT_PER_SECOND = 50;
+	public static readonly int ANT_EXIT_PER_SECOND = 20;
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 6f;
 	//public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
 
