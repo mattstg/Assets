@@ -104,6 +104,19 @@ public class Ant : MonoBehaviour {
 		transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
     }
 
+	public void MoveTowardsGoal(Vector2 dirIn)
+	{
+		Vector2 headingDirection = GV.SubtractVectors (-dirIn, transform.position);
+		headingDirection.Normalize ();
+		GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
+		float angle = 0;
+		if (headingDirection.y < 0f)
+			angle = 180; 
+		if(headingDirection.y != 0)
+			angle = angle +-Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
+		transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
+	}
+
     void ArriveAtNode(PheromoneNode pn)
     {
         if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
@@ -257,6 +270,10 @@ public class Ant : MonoBehaviour {
 			wantsToEnterHive = true;
 	}
 
+	public void spawnFearPher(){
+		Instantiate (Resources.Load ("Prefab/PharamoneFear"), transform.position, Quaternion.identity);
+	}
+
 	public resourceObject giveResource(){
 		//pass the thing to ANT or colony
 		resourceObject temp = new resourceObject(holding.give());
@@ -324,7 +341,7 @@ public class Ant : MonoBehaviour {
         }
     }
 
-    PheromoneNode DropPheromone()
+    public PheromoneNode DropPheromone()
     {
         PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
         if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
@@ -403,5 +420,9 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
     }
+
+	public void createFear(){
+
+	}
 }
 

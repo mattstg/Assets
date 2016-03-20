@@ -35,6 +35,8 @@ public class GV
 	public static readonly int BASE_PHER_STRENTH = 1; //per going over pher trail
 	public static readonly int BACK_PHER_WEIGHT_FOOD = 5;
 	public static readonly int BACK_PHER_WEIGHT_ENRGY = 5; //per 100% of energy
+	public static readonly float FEAR_DECAY_PER_SEC = 10f;
+	public static readonly float FEAR_SIZE = 5f;
 
 	//Colony Scripts
 	public static readonly int COLONY_NUM_SCOUT_SPAWN = 15;  //number of scouts spawned first
