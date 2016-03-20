@@ -34,6 +34,7 @@ public class colonyScript : MonoBehaviour {
 			lastSecond = Mathf.Floor (Time.time);
 			antsExitedThisSecond = 0;
 		}
+		//Debug.Log ("PercentDormantAnts: " + percentDormantAnts());
 		if(percentDormantAnts() >= GV.DESIRED_PERCENT_DORMANT_ANTS){
 			if (antsExitedThisSecond < GV.ANT_EXIT_PER_SECOND) {
 				antsExitedThisSecond++;
@@ -66,6 +67,15 @@ public class colonyScript : MonoBehaviour {
 
 		if (foodStored < 0 || waterStored < 0) {
 			Debug.Log ("Colony is starving.");
+			averageAntErgy -= averageAntErgy * GV.ENRGY_LOSS_FROM_STARV * starvingSeverity;
+		}
+
+		if (starvingSeverity == 0) {
+			if (averageAntErgy > GV.ANT_ENERGY_MAX) {
+				averageAntErgy = GV.ANT_ENERGY_MAX;
+			} else {
+				averageAntErgy = averageAntErgy + (GV.RESOURCE_TO_ENRGY * tempDrain / numberOfDormantAnts);
+			}
 		}
 	}
 
@@ -81,7 +91,7 @@ public class colonyScript : MonoBehaviour {
 				} else if (resObj.resType == GV.ResourceTypes.Water) {
 					addWater (resObj.quantity);
 				}
-				Debug.Log ("Food/Water added: Col FOOD/WATER = " + foodStored + " " + waterStored);
+				//Debug.Log ("Food/Water added: Col FOOD/WATER = " + foodStored + " " + waterStored);
 			} else {
 				antDeathFromPoison(resObj.quantity);
 			}
@@ -90,15 +100,18 @@ public class colonyScript : MonoBehaviour {
 
 	private float percentDormantAnts(){
 		//Debug.Log ("Here2: " + numberOfDormantAnts + " " + totalNumberOfAnts);
-		return (float)numberOfDormantAnts / totalNumberOfAnts + 1;
+		return (float)numberOfDormantAnts / (totalNumberOfAnts + 1);
 	}
 
 	private void antExitsColony(){
 		numberOfDormantAnts--;
+		float tempAvg = averageAntErgy;
+		if (tempAvg > 100f)
+			tempAvg = 100f;
         if(totalAntsExited < GV.COLONY_NUM_SCOUT_SPAWN)
-            antHillLink.antOut(averageAntErgy,40);
+			antHillLink.antOut(tempAvg,40);
         else
-		    antHillLink.antOut (averageAntErgy,Random.Range(0,10));
+			antHillLink.antOut (tempAvg,Random.Range(0,10));
         totalAntsExited++;
 	}
 
@@ -108,7 +121,11 @@ public class colonyScript : MonoBehaviour {
 			numberOfDormantAnts++;
 			if(antScript.holding != null)
 				addResource (antScript.giveResource());
-			averageAntErgy = averageAntErgy + antScript.retEnergy () / (float) numberOfDormantAnts + 1;
+			//Debug.Log ("(float) numberOfDormantAnts " + (float) numberOfDormantAnts);
+			if (averageAntErgy > 100f)
+				averageAntErgy = 100f;
+			averageAntErgy = (averageAntErgy * (numberOfDormantAnts-1) + antScript.retEnergy ()) / (float) numberOfDormantAnts;
+			//Debug.Log ("Colony Avrg En " + averageAntErgy + " averageAntErgy * totalNumberOfAnts " + averageAntErgy * totalNumberOfAnts + " antScript.retEnergy () " + antScript.retEnergy ());
 			Destroy(ant);
 		}
 	}
