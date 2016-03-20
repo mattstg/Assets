@@ -5,7 +5,7 @@ public class PheromoneTrail : MonoBehaviour {
     GV.PhermoneTypes pherType;
     public PheromoneNode pHome;
     public PheromoneNode pAway;
-    public int strength;
+    public int strength = 0;
 
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {
@@ -58,9 +58,7 @@ public class PheromoneTrail : MonoBehaviour {
         return (otherNode == pHome) ? pAway : pHome;
     }
 
-    ///Graphics section
-
-    private void TrailDie()
+    public void TrailDie()
     {
         if (pHome)
             pHome.PheromoneTrailDied(this);
@@ -83,10 +81,8 @@ public class PheromoneTrail : MonoBehaviour {
     {
         if ((p1.pHome == pn1 || p1.pHome == pn2) && (p1.pAway == pn1 || p1.pAway == pn2))
         {
-            Debug.Log("freaking sf");
             return true;
         }
-        Debug.Log("no equal trail found");
         return false;
     }
     

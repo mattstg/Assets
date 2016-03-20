@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PheromoneNode : MonoBehaviour {
-    public bool lockedFromDeath = false;
+    public bool immortal = false;
     public bool setToDie = false; //helps with trail merging
     public List<PheromoneTrail> trails = new List<PheromoneTrail>(); 
     public int pherID = 0;
@@ -17,7 +17,8 @@ public class PheromoneNode : MonoBehaviour {
 
     public void InitializeNode(PheromoneTrail toLink)
     {
-        if (!trails.Contains(toLink))
+        if(toLink)
+            if (!trails.Contains(toLink))
             trails.Add(toLink);
     }
 
@@ -31,7 +32,7 @@ public class PheromoneNode : MonoBehaviour {
     public void PheromoneTrailDied(PheromoneTrail pt)
     {
         trails.Remove(pt);
-        if (trails.Count <= 0)
+        if (trails.Count <= 0 && !immortal)
             FindObjectOfType<PheromoneManager>().DeleteNode(this);
     }
 
@@ -39,7 +40,7 @@ public class PheromoneNode : MonoBehaviour {
     {
         int toReturn = 0;
         foreach (PheromoneTrail pt in trails)
-            if (pt != excludeTrail)
+            if (pt != excludeTrail && pt != null)
                 toReturn += pt.strength;
         return toReturn;
     }
@@ -57,6 +58,7 @@ public class PheromoneNode : MonoBehaviour {
            else
            {
                trailToAbsorbTrail.strength += pt.strength;
+               //pt.TrailDie();
                pt.SetNewNode(null, null);   //since it already exist, and we dont need it, delete it.
            }
         }
@@ -69,6 +71,10 @@ public class PheromoneNode : MonoBehaviour {
         int currentWeight = 1;
         foreach (PheromoneTrail pt in trails)
         {
+            if (pt == null)
+            {
+                Debug.Log("so null things are a thing");
+            }
             if (pt == ptToIgnore)
                 currentWeight += backTrackWeight;
             else

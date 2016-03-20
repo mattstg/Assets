@@ -39,12 +39,14 @@ public class PheromoneManager : MonoBehaviour
     public static PheromoneNode DropPheromone(PheromoneNode parentNode, GV.PhermoneTypes pherType, Vector2 atPos)
     {
         List<PheromoneNode> allNearbyPher = GetAllNearbyByTag<PheromoneNode>("Node", GV.PHEROMONE_PLACEMENT_ABSORPTION_RADIUS,atPos);
-        if (allNearbyPher.Contains(parentNode)) //this means parent node will be consumed, so it cannot be a parent
-            parentNode = null;        
+        if (allNearbyPher.Contains(parentNode) && !parentNode.immortal) //this means parent node will be consumed, so it cannot be a parent
+        {
+            parentNode = null;
+        }
         PheromoneNode pn = FindObjectOfType<PheromoneManager>().CreateNewNode(parentNode, pherType, atPos);        
         foreach (PheromoneNode toMerge in allNearbyPher)
         {
-            if(!toMerge.lockedFromDeath)
+            if(!toMerge.immortal)
                 pn.AbsorbNode(toMerge);
         }
         return pn;
@@ -70,11 +72,8 @@ public class PheromoneManager : MonoBehaviour
 
     public void DeleteNode(PheromoneNode pn)
     {
-        if (!pn.lockedFromDeath)
-        {
-            pheromoneNodes.Remove(pn);
-            GameObject.Destroy(pn.gameObject);
-        }
+       pheromoneNodes.Remove(pn);
+       GameObject.Destroy(pn.gameObject);
     }
 
     public void DeleteTrail(PheromoneTrail pt)
