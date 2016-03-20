@@ -5,7 +5,8 @@ public class PheromoneTrail : MonoBehaviour {
     GV.PhermoneTypes pherType;
     public PheromoneNode pHome;
     public PheromoneNode pAway;
-    public int strength = 0;
+    private int _strength = 0;
+    public int strength { set { _strength = (value <= GV.PHEROMONE_MAX_ENERGY) ? value : GV.PHEROMONE_MAX_ENERGY; } get { return _strength; } }
 
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {

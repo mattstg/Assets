@@ -18,6 +18,8 @@ public class Ant : MonoBehaviour {
 	public resourceObject holding;
     Vector2 goalSpot = new Vector2(0,0);
     float timeSinceLastEvent = 0;
+    Intersection closestIntersection;
+    
 
 	public bool wantsToEnterHive =  false;
 	public bool hasBackTracked = false;
@@ -154,9 +156,22 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
         List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
+        if (intersections.Count >= 1)
+        {
+            closestIntersection = intersections[0];
+            for (int i = 1; i < intersections.Count; ++i)
+            {
+                if (closestIntersection._intersectionPoint.magnitude > intersections[i]._intersectionPoint.magnitude) //bit proccessor intensive, but saves on total updates
+                    closestIntersection = intersections[i];
+            }
+        }
+        else
+        {
+            closestIntersection = null;
+        }
     }
 
-    
+
 
     Vector2 GetRandomGoalVector()
     {
@@ -279,6 +294,9 @@ public class Ant : MonoBehaviour {
         {
             DropPheromone();
         }
+        if(closestIntersection != null)
+            if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
+               Debug.Log("Reached the intersection!");
     }
 
     PheromoneNode DropPheromone()
