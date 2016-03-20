@@ -57,6 +57,8 @@ public class Ant : MonoBehaviour {
         MoveTowardsGoal(dTime);
 	}
 
+    
+    //
     void StartWanderMode()
     {
         antMode = AntMode.Wander;
@@ -73,6 +75,13 @@ public class Ant : MonoBehaviour {
         }
     }
 
+     void ScoutModeActivate()
+    {
+        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED + transform.position;
+        timeSinceLastEvent = 0;
+        antMode = AntMode.Scout;
+    }
+
     void MoveTowardsGoal(float dtime)
     {
        Vector2 headingDirection = GV.SubtractVectors(goalSpot, transform.position).normalized;
@@ -80,11 +89,7 @@ public class Ant : MonoBehaviour {
 
         //drawing animation
        var angle = Mathf.Atan(headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
-       Debug.Log("angle is: " + angle);
        transform.rotation = Quaternion.Euler(0.0f, 0.0f, -angle); 
-       //Debug.Log("should be facing: " + headingDirection);
-       //transform.rotation = Quaternion.FromToRotation(new Vector3(0, 0, transform.rotation.eulerAngles.z), headingDirection);
-       //Debug.Log("is actaully be facing: " + transform.rotation.eulerAngles);
     }
 
     void ArriveAtNode(PheromoneNode pn)
@@ -98,10 +103,8 @@ public class Ant : MonoBehaviour {
         {
             workingBackTrack = 0;
         }
-        //Debug.Log("out: " + pn.GetTotalPhermoneWeights(currentTrail));
         int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight + workingBackTrack;
         int randomResult = Random.Range(1, totalWeight + 1);
-        //Debug.Log("Result: " + randomResult + "/" + totalWeight);
         currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
         lastVisitedNode = pn;
         if (currentTrail)
@@ -113,12 +116,7 @@ public class Ant : MonoBehaviour {
             ScoutModeActivate();
     }
 
-    void ScoutModeActivate()
-    {
-        goalSpot = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector3.right).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED + transform.position;
-        timeSinceLastEvent = 0;
-        antMode = AntMode.Scout;
-    }
+   
 
     Vector2 GetRandomGoalVector()
     {
@@ -305,5 +303,13 @@ public class Ant : MonoBehaviour {
         return toReturn;
     }
 
+
+    public void DEBUG_CordycepControl(Vector2 newGoal)
+    {
+        Debug.Log("new goal spot is: " + newGoal);
+        goalSpot = newGoal;
+        timeSinceLastEvent = 0;
+        antMode = AntMode.Scout;
+    }
 }
 
