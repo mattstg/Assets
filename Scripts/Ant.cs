@@ -329,7 +329,8 @@ public class Ant : MonoBehaviour {
     void ScoutUpdate(float dtime)
     {
         timeSinceLastEvent += dtime;
-        /*if (closestIntersection != null && closestIntersection._intersectionTrail.IsValid())
+        
+        if (closestIntersection != null && closestIntersection._intersectionTrail.IsValid())
         {
             if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
             {
@@ -337,7 +338,7 @@ public class Ant : MonoBehaviour {
                 closestIntersection = null;
                 timeSinceLastEvent = 0;
             }
-        } //else we should probably recalculate*/
+        } //else we should probably recalculate
         if (timeSinceLastEvent > GV.ANT_STATE_TIMER)
         {
             DropPheromone();
@@ -367,11 +368,12 @@ public class Ant : MonoBehaviour {
 
     PheromoneNode DropPheromoneOnExistingTrail(PheromoneTrail pt)
     {
+        
        PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
        if (lastVisitedNode) { lastVisitedNode.initialRoot = false; }
         lastVisitedNode = pn;
        timeSinceLastEvent = 0;
-       pt.SplitByNode(pn);
+       //pt.SplitByNode(pn);
        return pn;
     }
 

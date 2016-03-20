@@ -46,6 +46,8 @@ public class DEBUG_CreateTrails : MonoBehaviour {
         {
             SetNewLastClicked(PheromoneManager.DropPheromone(lastClicked, GV.PhermoneTypes.Friendly, clickPoint));
         }
+        foreach (PheromoneTrail pt in FindObjectsOfType<PheromoneTrail>())
+            pt.strength = 40;
         
     }
 
