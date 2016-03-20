@@ -8,14 +8,15 @@ public class GV
 	//ANT VARS
     public enum PhermoneTypes { Friendly, Hostile };
 	public enum ResourceTypes { Empty, Food, Water };
-    public static readonly float PATH_DECAY_RATE = 5f;  //1 point every 5 seconds
-    public static readonly float ANT_ENERGY_DECAY = 1f; //1 per second
+    public static readonly float PATH_DECAY_RATE = 2f;  //1 point every 5 seconds
+    public static readonly float ANT_ENERGY_DECAY = 0f; //1 per second
     public static readonly float ANT_ENERGY_START = 100f;
     public static readonly float ANT_SPEED = 1f;
-    public static readonly int PHEROMONE_START_ENERGY = 20; //by this logic should last 30 seconds
+    public static readonly int PHEROMONE_START_ENERGY = 8; //by this logic should last 30 seconds
     public static readonly float ANT_STATE_TIMER = 4f;
     public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 1f;
 	public static readonly float DMG_FROM_CORPSES = 10f; //5dmg per second
+    public static readonly int COLONY_NUM_SCOUT_SPAWN = 30;  //number of scouts spawned first
 
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 
 	public static readonly float RESOURCE_TO_ENRGY = 20f; //+X energy per unity of food
@@ -29,7 +30,7 @@ public class GV
 	public static readonly float START_WATER = 500;
 	public static readonly int START_ANTS = 300;
 	public static readonly float DESIRED_PERCENT_DORMANT_ANTS = .60f; //0-1
-	public static readonly int ANT_EXIT_PER_SECOND = 20;
+	public static readonly int ANT_EXIT_PER_SECOND = 5;
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 6f;
 	//public static readonly int NUM_RES_UPDATED_PER_CYCLE = 10;
 

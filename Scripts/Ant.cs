@@ -23,14 +23,14 @@ public class Ant : MonoBehaviour {
 	public bool hasBackTracked = false;
 
 	// Use this for initialization
-    public void Initialize()
+    public void Initialize(int _scoutingWeight = 1)
     {
-        scoutingWeight = 50;
+        scoutingWeight = _scoutingWeight;
         backtrackWeight = 1;
     }
 
 	void Start () {
-        Initialize();
+        //Initialize();
         StartWanderMode();
 	}
 
@@ -109,8 +109,6 @@ public class Ant : MonoBehaviour {
 
     void ArriveAtNode(PheromoneNode pn)
     {
-        //if (pn.trails.Count <= 1) //ignore incomplete trails
-          //  return;
         int workingBackTrack = backtrackWeight;
         if (currentTrail) //since might get deleted during
 	        {
@@ -138,8 +136,13 @@ public class Ant : MonoBehaviour {
         lastVisitedNode = pn;
         if (currentTrail)
         {
-            goalSpot = currentTrail.GetOtherNode(pn).transform.position;
-            antMode = AntMode.Forage;
+            if (currentTrail.GetOtherNode(pn) == null)
+                currentTrail.TrailDie();
+            else
+            {
+                goalSpot = currentTrail.GetOtherNode(pn).transform.position;
+                antMode = AntMode.Forage;
+            }
         }
         else
             ScoutModeActivate();
