@@ -3,7 +3,8 @@ using System.Collections;
 
 public class transformLock : MonoBehaviour {
 
-    Transform toFollow;
+    public Transform toFollow;
+    public Vector3 offset = new Vector3(0, 0, 0);
 
     public void Initialize(Transform parentLock)
     {
@@ -13,6 +14,6 @@ public class transformLock : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (toFollow)
-            transform.position = toFollow.position;
+            transform.position = toFollow.position + offset; 
 	}
 }

@@ -11,10 +11,15 @@ public class PheromoneTrail : MonoBehaviour {
     public int _strength = 0;
     public int strength { set { _strength = (value <= GV.PHEROMONE_MAX_ENERGY) ? value : GV.PHEROMONE_MAX_ENERGY; } get { return _strength; } }
 
+    public void Start()
+    {
+        spriteRend = GetComponent<SpriteRenderer>();
+    }
+
     public bool IsValid()
     {
-        //return
-        return pHome && pAway && drawTrail && (strength > 0);
+        return strength > 0;
+        //return pHome && pAway && drawTrail && (strength > 0);
     }
     public void Initialize(PheromoneNode _home, PheromoneNode _away,GV.PhermoneTypes _pherType)
     {
@@ -23,22 +28,16 @@ public class PheromoneTrail : MonoBehaviour {
         pAway = _away;
         strength = GV.PHEROMONE_START_ENERGY;
         if (pHome && pAway)
-            drawTrail.Initialize(pHome.transform.position,pAway.transform.position,"Sprites/PheromoneNode");
+            drawTrail.Initialize(pHome.transform.position,pAway.transform.position);
     }
 
-    public void Start()
-    {
-        spriteRend = GetComponent<SpriteRenderer>();
-    }
 
     public void GetUpdated()
     {
 		strength -= Mathf.CeilToInt(strength * GV.PATH_DECAY_PCNT) + GV.FLAT_PATH_DECAY;
         GetComponentInChildren<TextMesh>().text = strength.ToString();
-        //if(!IsValid())
-         //   TrailDie();
-        
-        
+        if(!IsValid())
+            TrailDie();
     }
 
     public void SplitByNode(PheromoneNode newNode)
@@ -67,7 +66,7 @@ public class PheromoneTrail : MonoBehaviour {
             Debug.Log("YOOO");*/
 
         if (pHome != null && pAway != null)
-            drawTrail.Initialize(pHome.transform.position, pAway.transform.position, "Sprites/PheromoneNode");
+            drawTrail.Initialize(pHome.transform.position, pAway.transform.position);
     }
 
     //patch fix
@@ -95,12 +94,12 @@ public class PheromoneTrail : MonoBehaviour {
     //graphics
     public void SetAlpha()
     {
-       Color newColor = spriteRend.material.color;
+       Color newColor = Color.white;
 		float tempAlfa = strength / GV.PHEROMONE_MAX_ENERGY;
 		if(tempAlfa > 1f)
 			tempAlfa = 1f;
 		newColor.a = strength * GV.PHEROMONE_MAX_OPACITY;
-       spriteRend.material.color = newColor;
+       gameObject.GetComponent<SpriteRenderer>().material.color = newColor;
     }
 
     //returns the copy of pher found, the one that will become absorbed

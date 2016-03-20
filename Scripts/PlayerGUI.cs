@@ -12,7 +12,7 @@ public class PlayerGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        energyBar.value = player.playerEnergy/GV.PLAYER_MAX_HEALTH;
+        energyBar.value = (player.playerEnergy/GV.PLAYER_MAX_HEALTH)*100;
 	}
 }
 

@@ -77,9 +77,16 @@ public class GV
     public static readonly float PLAYER_MOVE_E_COST = 2; //e cost per second moving
     public static readonly float PLAYER_CLICK_E_COST = 8; //e cost per click
     public static readonly float PLAYER_FLY_E_COST = 10; //e cost per mouse wheel?
-    public static readonly float PLAYER_MOVE_SPEED = 2; //e cost per mouse wheel?
+    public static readonly float PLAYER_MOVE_SPEED = 10; //e cost per mouse wheel?
     public static readonly float PLAYER_TIRED_PENALTY = .5f;
     public static readonly float PLAYER_TIRED_THRESHOLD = .1f; //at 10% max hp
+    public static readonly float PLAYER_ZOOM_MAX = 32;
+    public static readonly float PLAYER_ZOOM_MIN = 4;
+    public static readonly float PLAYER_ZOOM_SPEED = 7;
+    public static readonly float PLAYER_E_REGEN = 4;
+    public static readonly float PLAYER_DMG = 33;
+    public static readonly float PLAYER_DMG_TAKEN = 15;
+    
 	
 
 
@@ -93,5 +100,7 @@ public class GV
     {
         return new Vector2(v2.x + v3.x, v2.y + v3.y);
     }
+
+    
   
 }

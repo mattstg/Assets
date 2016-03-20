@@ -59,6 +59,7 @@ public class PheromoneManager : MonoBehaviour
     public void CreatePheromoneTrail(PheromoneNode home, PheromoneNode away, GV.PhermoneTypes pherType)
     {
         PheromoneTrail newPt = Instantiate<GameObject>(phermoneTrailPrefab).GetComponent<PheromoneTrail>();
+        newPt.GetComponent<DrawLineSprite>().Initialize(new Vector2(), new Vector2());
         newPt.Initialize(home, away, pherType);
         pheromoneTrails.Add(newPt);
     }
@@ -316,5 +317,11 @@ public class PheromoneManager : MonoBehaviour
 
        
         return intersectionPoints;
+    }
+
+    public static void CreateDrawTool(Vector2 pos1, Vector2 pos2)
+    {
+
+
     }
 }
