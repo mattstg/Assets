@@ -23,7 +23,7 @@ public class PheromoneTrail : MonoBehaviour {
         pAway = _away;
         strength = GV.PHEROMONE_START_ENERGY;
         if (pHome && pAway)
-            drawTrail.Initialize(pHome.transform.position,pAway.transform.position,"Sprites/PheromoneNode");
+            drawTrail.Initialize(pHome.transform.position,pAway.transform.position, "Sprites/pherotrail");
     }
 
     public void Start()
@@ -65,7 +65,7 @@ public class PheromoneTrail : MonoBehaviour {
             Debug.Log("YOOO");*/
 
         if (pHome != null && pAway != null)
-            drawTrail.Initialize(pHome.transform.position, pAway.transform.position, "Sprites/PheromoneNode");
+            drawTrail.Initialize(pHome.transform.position, pAway.transform.position, "Sprites/pherotrail");
     }
 
     //patch fix
@@ -94,7 +94,7 @@ public class PheromoneTrail : MonoBehaviour {
     public void SetAlpha()
     {
        Color newColor = spriteRend.material.color;
-		float tempAlfa = strength / GV.PHEROMONE_MAX_ENERGY;
+		float tempAlfa = strength  / GV.PHEROMONE_MAX_ENERGY;
 		if (tempAlfa > GV.PHEROMONE_MAX_OPACITY)
 			tempAlfa = GV.PHEROMONE_MAX_OPACITY;
 		else if (tempAlfa < GV.PHEROMONE_MIN_OPACITY)
