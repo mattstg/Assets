@@ -13,6 +13,7 @@ public class colonyScript : MonoBehaviour {
 	private float waterStored;
 	private bool antResourceDrainTracker = false;
 	private float averageAntErgy = 100f;
+    private float totalAntsExited = 0;
 
 	private int antsExitedThisSecond = 0;
 	private float lastSecond = 0;
@@ -40,17 +41,17 @@ public class colonyScript : MonoBehaviour {
 				antExitsColony ();
 			}
 		}
-		if (!antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK == 0) {
+		if (!antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.COL_RESOURCE_DRAIN_TICK == 0) {
 			antResourceDrainTracker = true;
 			drainResources ();
-		}else if(antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.RESOURCE_DRAIN_TICK != 0){
+		}else if(antResourceDrainTracker && Mathf.Floor(Time.time + 1) % GV.COL_RESOURCE_DRAIN_TICK != 0){
 			antResourceDrainTracker = false;
 		}
 	}
 
 
 	public void drainResources(){
-		float tempDrain = numberOfDormantAnts * GV.RESOURCE_DRAIN_DORMANT / 2;
+		float tempDrain = numberOfDormantAnts * GV.COL_RESOURCE_DRAIN_DORMANT / 2;
 		int starvingSeverity = 0;
 		if (foodStored < tempDrain) {
 			//running out of food
@@ -94,7 +95,11 @@ public class colonyScript : MonoBehaviour {
 
 	private void antExitsColony(){
 		numberOfDormantAnts--;
-		antHillLink.antOut (averageAntErgy);
+        if(totalAntsExited < GV.COLONY_NUM_SCOUT_SPAWN)
+            antHillLink.antOut(averageAntErgy,40);
+        else
+		    antHillLink.antOut (averageAntErgy,Random.Range(0,10));
+        totalAntsExited++;
 	}
 
 	public void antEntersColony(GameObject ant){

@@ -23,10 +23,11 @@ public class antHillScript : MonoBehaviour{
 		colonyLink.antEntersColony(ant);
 	} 
 
-	public void antOut(float avrgAntEnrgy){
+	public void antOut(float avrgAntEnrgy, int scoutWeight){
 		//create ant at anthill
 		GameObject ant = Instantiate (Resources.Load("Prefab/antPrefab") as GameObject,gameObject.transform.position,Quaternion.identity) as GameObject;
 		ant.GetComponent<Ant> ().setEnergy(avrgAntEnrgy);
+        ant.GetComponent<Ant>().Initialize(scoutWeight);
 	}
 		
 	public void OnTriggerEnter2D(Collider2D coli){

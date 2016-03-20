@@ -157,6 +157,8 @@ public class PheromoneManager : MonoBehaviour
             }
             foreach (PheromoneTrail trail in pheromoneTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                 if (relevantNodes.Contains(trail.pHome) || relevantNodes.Contains(trail.pAway))
                     relevantTrails.Add(trail);
             }
@@ -164,6 +166,8 @@ public class PheromoneManager : MonoBehaviour
             
             foreach (PheromoneTrail trail in relevantTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                     if ((trail.pHome.transform.position.y >= (slope * trail.pHome.transform.position.x) + y_intercept
                         && trail.pAway.transform.position.y <= (slope * trail.pAway.transform.position.x) + y_intercept)
                         || (trail.pHome.transform.position.y <= (slope * trail.pHome.transform.position.x) + y_intercept
@@ -176,6 +180,8 @@ public class PheromoneManager : MonoBehaviour
 
             foreach (PheromoneTrail trail in pheromoneTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                 float pHome_y = trail.pHome.transform.position.y;
                 float pHome_x = trail.pHome.transform.position.x;
                 float pAway_y = trail.pAway.transform.position.y;
@@ -198,6 +204,8 @@ public class PheromoneManager : MonoBehaviour
 
             foreach (PheromoneTrail trail in crossingTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                 Intersection intersectPoint = new Intersection(Vector2.zero, trail);
                 float pHome_y = trail.pHome.transform.position.y;
                 float pHome_x = trail.pHome.transform.position.x;
@@ -230,6 +238,8 @@ public class PheromoneManager : MonoBehaviour
         {
             foreach (PheromoneTrail trail in relevantTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                 if ((trail.pHome.transform.position.x >= ant_x
                     && trail.pAway.transform.position.x <= ant_x)
                     || (trail.pHome.transform.position.x <= ant_x
@@ -242,6 +252,8 @@ public class PheromoneManager : MonoBehaviour
 
             foreach (PheromoneTrail trail in pheromoneTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                 float pHome_y = trail.pHome.transform.position.y;
                 float pHome_x = trail.pHome.transform.position.x;
                 float pAway_y = trail.pAway.transform.position.y;
@@ -264,6 +276,8 @@ public class PheromoneManager : MonoBehaviour
 
             foreach (PheromoneTrail trail in crossingTrails)
             {
+                if (trail.pHome == null || trail.pAway == null)
+                    continue;
                 Intersection intersectPoint = new Intersection(Vector2.zero, trail);
                 float pHome_y = trail.pHome.transform.position.y;
                 float pHome_x = trail.pHome.transform.position.x;

@@ -18,24 +18,29 @@ public class Ant : MonoBehaviour {
 	public resourceObject holding;
     Vector2 goalSpot = new Vector2(0,0);
     float timeSinceLastEvent = 0;
+    Intersection closestIntersection;
+    
 
 	public bool wantsToEnterHive =  false;
+	public bool hasBackTracked = false;
 
 	// Use this for initialization
-    public void Initialize()
+    public void Initialize(int _scoutingWeight = 1)
     {
-        scoutingWeight = 50;
+        scoutingWeight = _scoutingWeight;
         backtrackWeight = 1;
     }
 
 	void Start () {
-        Initialize();
+        //Initialize();
         StartWanderMode();
 	}
 
 	void LateUpdate(){
 		if (energy <= 0)
 			dies ();
+		if (holding != null && !holding.isZero ())
+			wantsToEnterHive = true;
 	}
 
 	// Update is called once per frame
@@ -95,35 +100,53 @@ public class Ant : MonoBehaviour {
 		headingDirection.Normalize ();
       	GetComponent<Rigidbody2D>().velocity = headingDirection * GV.ANT_SPEED;
 
-		if (headingDirection != Vector2.zero || headingDirection.y != 0) {
-			float angle = -Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg;
-			if (headingDirection.y < 0f)
-				angle += 180; 
-			transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
-		} else {
+		//if (headingDirection != Vector2.zero || headingDirection.y != 0) {
+		float angle = 0;
+		if (headingDirection.y < 0f)
+			 angle = 180; 
+		angle = angle +-Mathf.Atan (headingDirection.x / headingDirection.y) * Mathf.Rad2Deg ;
+		transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle); 
+		//} else {
 			//transform.rotation = Quaternion.Euler (0.0f, 0.0f, angle);
-		}
+		//}
     }
 
     void ArriveAtNode(PheromoneNode pn)
     {
         int workingBackTrack = backtrackWeight;
         if (currentTrail) //since might get deleted during
-        {
-            currentTrail.strength++;
-        }
+	        {
+	            currentTrail.strength++;
+	        }
         else
-        {
-            workingBackTrack = 0;
-        }
+	        {
+	            workingBackTrack = 0;
+	        }
         int totalWeight = pn.GetTotalPhermoneWeights(currentTrail) + scoutingWeight + workingBackTrack;
         int randomResult = Random.Range(1, totalWeight + 1);
-        currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+		PheromoneTrail isBackTrackTrail = currentTrail;
+		if (hasBackTracked) {
+			PheromoneTrail tempTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+			currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+			if(currentTrail == null || currentTrail.strength > tempTrail.strength)
+				currentTrail = tempTrail;
+			hasBackTracked = false;
+		} else {
+			currentTrail = pn.SelectNewTrailByWeight(randomResult, currentTrail, workingBackTrack);
+		}
+		if (currentTrail != null && isBackTrackTrail != null && isBackTrackTrail == currentTrail) {
+			hasBackTracked = !hasBackTracked;
+		}
         lastVisitedNode = pn;
         if (currentTrail)
         {
-            goalSpot = currentTrail.GetOtherNode(pn).transform.position;
-            antMode = AntMode.Forage;
+            if (currentTrail.GetOtherNode(pn) == null)
+                currentTrail.TrailDie();
+            else
+            {
+                goalSpot = currentTrail.GetOtherNode(pn).transform.position;
+                antMode = AntMode.Forage;
+            }
         }
         else
             ScoutModeActivate();
@@ -135,10 +158,22 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
         List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
-
+        if (intersections.Count >= 1)
+        {
+            closestIntersection = intersections[0];
+            for (int i = 1; i < intersections.Count; ++i)
+            {
+                if (closestIntersection._intersectionPoint.magnitude > intersections[i]._intersectionPoint.magnitude) //bit proccessor intensive, but saves on total updates
+                    closestIntersection = intersections[i];
+            }
+        }
+        else
+        {
+            closestIntersection = null;
+        }
     }
 
-    
+
 
     Vector2 GetRandomGoalVector()
     {
@@ -158,14 +193,15 @@ public class Ant : MonoBehaviour {
         PheromoneNode coliNode = coli.GetComponent<PheromoneNode>();
         if (coliNode  && coliNode != lastVisitedNode)
         {
-             if (antMode == AntMode.Scout)
+             if (antMode == AntMode.Scout && coliNode.trails.Count >= 1)
              {
-                 PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
+                 DropPheromone();
+                 //PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
              }
              ArriveAtNode(coliNode);
 		}else if(coli.gameObject.GetComponent<DeadAntScript>() != null){
 			//Just touuched dead ant
-			takeDamage(GV.DMG_FROM_ANT_CORPSES * Time.deltaTime);
+			takeDamage(GV.DMG_FROM_CORPSES * Time.deltaTime);
 		}
         else if(coli.CompareTag("Ant"))
         {
@@ -185,9 +221,9 @@ public class Ant : MonoBehaviour {
 		}
 
 		if (holding.isPoison) {
-			takeDamage(temp.quantity * GV.POISON_TO_ENRGY_HP);
+			takeDamage(temp.quantity * GV.POISON_TO_ENRGY);
 		} else {
-			addEnergy(temp.quantity * GV.RESOURCE_TO_ENRGY_HP);
+			addEnergy(temp.quantity * GV.RESOURCE_TO_ENRGY);
 		}
 	}
 
@@ -260,12 +296,14 @@ public class Ant : MonoBehaviour {
         {
             DropPheromone();
         }
+        if(closestIntersection != null)
+            if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
+               Debug.Log("Reached the intersection!");
     }
 
     PheromoneNode DropPheromone()
     {
-        PheromoneNode pn;
-        pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
+        PheromoneNode pn = PheromoneManager.DropPheromone(lastVisitedNode, GetPherType(), transform.position);
         lastVisitedNode = pn;
         timeSinceLastEvent = 0;
         ArriveAtNode(pn);
