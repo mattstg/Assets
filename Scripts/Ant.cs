@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Ant : MonoBehaviour {
-    enum AntMode { Forage, Wander, Scout };
+    public enum AntMode { Forage, Wander, Scout };
 	private GameObject holdingSprite;
 
-    AntMode antMode = AntMode.Wander;
+    public AntMode antMode = AntMode.Wander;
     float energy = GV.ANT_ENERGY_START;
     public int scoutingWeight;
     public int backtrackWeight;
@@ -42,6 +42,8 @@ public class Ant : MonoBehaviour {
 	void Update () {
         float dTime = Time.deltaTime;
 		drainEnergy(GV.ANT_ENERGY_DECAY * dTime);
+        if ((int)transform.position.x == (int)goalSpot.x && (int)transform.position.y == (int)goalSpot.y)
+            FindNodeUnderAnt();            //so you've reached your goal, what next
         
         switch (antMode)
         {
@@ -57,7 +59,14 @@ public class Ant : MonoBehaviour {
         MoveTowardsGoal(dTime);
 	}
 
-    
+    void FindNodeUnderAnt()
+    {
+        List<PheromoneNode> pherSetting = PheromoneManager.GetAllNearbyByTag<PheromoneNode>("Node", 1, transform.position);
+        if (pherSetting.Count >= 1)
+            ArriveAtNode(pherSetting[0]);
+        else
+            ScoutModeActivate();
+    }
     //
     void StartWanderMode()
     {
@@ -119,15 +128,13 @@ public class Ant : MonoBehaviour {
         else
             ScoutModeActivate();
     }
-
-   
+       
     void ScoutModeActivate()
     {
         goalSpot = GetRandomGoalVector();
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
         List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
-        
 
     }
 
@@ -135,20 +142,16 @@ public class Ant : MonoBehaviour {
 
     Vector2 GetRandomGoalVector()
     {
-        return GV.AddVectors(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED, transform.position);
+        float randAng = Random.Range(0,360)*Mathf.Deg2Rad;
+        return GV.AddVectors(new Vector2((float)Mathf.Cos(randAng), (float)Mathf.Sin(randAng)) * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED, transform.position);
+        //return GV.AddVectors(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * (GV.ANT_STATE_TIMER + 1) * GV.ANT_SPEED, transform.position);
     }
 
-    void FollowNewPher()
-    {
-        Debug.Log("follow new pher");
-    }
 
     void WanderMode()
     {
 
     }
-
-   
 
     void OnTriggerEnter2D(Collider2D coli)
     {
