@@ -155,6 +155,8 @@ public class Ant : MonoBehaviour {
                 if (closestIntersection._intersectionPoint.magnitude > intersections[i]._intersectionPoint.magnitude) //bit proccessor intensive, but saves on total updates
                     closestIntersection = intersections[i];
             }
+            Debug.Log("values found");
+            Instantiate(Resources.Load("Prefab/FoodResourcePrefab"), closestIntersection._intersectionPoint, Quaternion.identity);
         }
         else
         {
@@ -293,7 +295,9 @@ public class Ant : MonoBehaviour {
         }
         if(closestIntersection != null)
             if ((int)closestIntersection._intersectionPoint.x == (int)transform.position.x && (int)closestIntersection._intersectionPoint.y == (int)transform.position.y)
-               Debug.Log("Reached the intersection!");
+            {
+                DropPheromoneOnExistingTrail(closestIntersection._intersectionTrail);
+            }
     }
 
     PheromoneNode DropPheromone()
@@ -356,11 +360,9 @@ public class Ant : MonoBehaviour {
 
     public void DEBUG_CordycepControl(Vector2 newGoal)
     {
-        Debug.Log("new goal spot is: " + newGoal);
         goalSpot = newGoal;
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
-       
     }
 }
 
