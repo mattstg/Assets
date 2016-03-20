@@ -127,10 +127,7 @@ public class Ant : MonoBehaviour {
         timeSinceLastEvent = 0;
         antMode = AntMode.Scout;
         List<Intersection> intersections = GameObject.FindObjectOfType<PheromoneManager>().GetIntersections(transform.position, goalSpot);
-        foreach (Intersection _intersection in intersections)
-        {
-            Instantiate(Resources.Load("prefab/FoodResourcePrefab"), _intersection._intersectionPoint, Quaternion.identity);
-        }
+        
 
     }
 
