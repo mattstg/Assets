@@ -11,7 +11,7 @@ public class GV
     public static readonly float ANT_ENERGY_START = 100f;
     public static readonly float ANT_SPEED = 1f;
     public static readonly float ANT_SCOUT_TIMER = 4f;
-    public static readonly int PHEROMONE_START_ENERGY = 6; //by this logic should last 30 seconds
+    public static readonly int PHEROMONE_START_ENERGY = 20; //by this logic should last 30 seconds
 	public static readonly float ANT_MAX_HEALTH = 100f;
     public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 1f;
 
