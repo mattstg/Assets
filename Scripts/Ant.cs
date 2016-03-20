@@ -158,7 +158,7 @@ public class Ant : MonoBehaviour {
                 if (closestIntersection._intersectionPoint.magnitude > intersections[i]._intersectionPoint.magnitude) //bit proccessor intensive, but saves on total updates
                     closestIntersection = intersections[i];
             }
-            Instantiate(Resources.Load("Prefab/FoodResourcePrefab"), closestIntersection._intersectionPoint, Quaternion.identity);
+           
         }
         else
         {
