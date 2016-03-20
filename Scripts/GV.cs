@@ -11,11 +11,11 @@ public class GV
 	public enum ResourceTypes { Empty, Food, Water };
 
 	//ANT VARS
-    public static readonly float ANT_ENERGY_DECAY = 2.5f; //1 per second
+    public static readonly float ANT_ENERGY_DECAY = 2f; //1 per second
     public static readonly float ANT_ENERGY_MAX = 100f;
     public static readonly float ANT_SPEED = 1.5f;
     public static readonly float ANT_STATE_TIMER = 6f; //length of time they do
-	public static readonly float DMG_FROM_CORPSES = 10f; //5dmg per second
+	public static readonly float DMG_FROM_CORPSES = 5f; //5dmg per second
 	public static readonly float PRCNT_ENRGY_THRESHHOLD = .4f; //percent below which ants want to return home or above which they nolonger want to
 	public static readonly int HOLDING_RES_PHER_MULTIPLIER = 10;
 	public static readonly float ANT_CARRY_CAPACITY = 1f; 
@@ -24,10 +24,10 @@ public class GV
 	public static readonly float UNIT_EAT_PER_SEC = 0.5f;
 
 	//Phero 
-	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 0.5f;
+	public static readonly float PHEROMONE_PLACEMENT_ABSORPTION_RADIUS = 1.5f;
 	public static readonly float PATH_DECAY_RATE = 10f;  //paths decay once every X seconds
-	public static readonly float PATH_DECAY_PCNT = 0.20f; //paths decay at a rate of X every PATH_DECAY_RATE seconds
-	public static readonly int FLAT_PATH_DECAY = 2; //decay per PATH_DECAY_RATE seconds, flat
+	public static readonly float PATH_DECAY_PCNT = 0.15f; //paths decay at a rate of X every PATH_DECAY_RATE seconds
+	public static readonly int FLAT_PATH_DECAY = 1; //decay per PATH_DECAY_RATE seconds, flat
 	public static readonly int PHEROMONE_START_ENERGY = 11; 
 	public static readonly int PHEROMONE_MAX_ENERGY = 100;  
 
@@ -56,8 +56,8 @@ public class GV
 
 	//Food and Water
 	public static readonly float TIME_BETWEEN_RES_UPDATE = 15f;
-	public static readonly Vector2 NUM_WATER = new Vector2 (25, 50);
-	public static readonly Vector2 NUM_FOOD = new Vector2 (25, 5);
+	public static readonly Vector2 NUM_WATER = new Vector2 (50, 100);
+	public static readonly Vector2 NUM_FOOD = new Vector2 (50, 100);
 	public static readonly int TIME_BETWEEN_RESOURCE_UPDATES = 10; //seconds
 	public static readonly float RESOURCE_GROWTH_PER_SECOND = 1f;
 	public static readonly float PERCENT_CHANCE_OF_POISON = 0.05f;
@@ -71,7 +71,7 @@ public class GV
 	public static readonly float MAP_DIAMETER = 120;
 	public static readonly Vector2 NUM_OF_ROCKS = new Vector2(100, 200);
 	public static readonly Vector2 RANGE_OF_ROCK_SCALE = new Vector2 (0.5f, 5);
-    public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 5f; //unity meters squared
+    public static readonly float MIN_OBJ_SPAWN_DISTANCE_FROM_CENTER = 3f; //unity meters squared
 
     public static readonly int UNDERGROUND_WIDTH = 50;
     public static readonly int UNDERGROUND_HEIGHT = 50;
