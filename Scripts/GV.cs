@@ -92,7 +92,7 @@ public class GV
     public static readonly float PLAYER_DMG = 33;
     public static readonly float PLAYER_DMG_TAKEN = 11;
     public static readonly float PLAYER_PHER_START = 15;
-    
+	public static bool DRAW_ALL_PREDICTIONS = false;
 	
 
 
