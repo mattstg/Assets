@@ -32,7 +32,7 @@ public class fearScript : MonoBehaviour {
 			//
 			if (strength > 25f) {
 				temp.spawnFearPher (temp.transform.position, strength - 25f);
-				temp.hasCreatedFear = true;
+				temp.hasCreatedFear = false;
 			}
 			//temp.DropPheromone ();
 			temp.MoveTowardsGoal (new Vector2(gameObject.transform.position.x,gameObject.transform.position.y));
