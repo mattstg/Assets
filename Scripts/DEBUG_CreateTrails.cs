@@ -10,7 +10,7 @@ public class DEBUG_CreateTrails : MonoBehaviour {
 	void Start () {
         /*Vector2 randomSpot = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
         PheromoneNode pn = pherManager.CreateNewNode(initialNode, GV.PhermoneTypes.Friendly, randomSpot);*/
-        
+        RunWhenNotInFocus();
 	}
 
     public void Update()
@@ -59,10 +59,17 @@ public class DEBUG_CreateTrails : MonoBehaviour {
         lastClicked = pn;
     }
 
+    private void RunWhenNotInFocus()
+    {//low "thread" point at this count, w/e
+        Application.runInBackground = true;
+    }
+
     private void StraightUpAnt(Vector2 startPos)
     {
         //GameObject newAnt = Instantiate(Resources.Load("Prefab/AntPrefab"), startPos, Quaternion.identity) as GameObject;
         //newAnt.GetComponent<Ant>().Initialize();
         //newAnt.GetComponent<Ant>().goal
     }
+
+    
 }
