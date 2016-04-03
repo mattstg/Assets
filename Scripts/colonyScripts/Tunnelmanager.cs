@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Tunnelmanager : MonoBehaviour {
+public class Tunnelmanager : MonoBehaviour
+{
 
     static int height = GV.UNDERGROUND_HEIGHT;
     static int width = GV.UNDERGROUND_WIDTH;
@@ -23,19 +24,19 @@ public class Tunnelmanager : MonoBehaviour {
             {
                 SolidityArray[(int)x, (int)y] = false;
             }
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 15; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.main);
         }
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 15; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.diagonalTunnels);
         }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.upDownTunnels);
         }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             CrawlForOpenDirt(tunnelDepth, GV.crawlerType.leftRighttunnels);
         }
@@ -45,22 +46,22 @@ public class Tunnelmanager : MonoBehaviour {
 
     void CrawlForOpenDirt(int _tunnelDepth, GV.crawlerType crawler)
     {
-        int xpos = Random.Range(-12, 12);
-        int ypos = Random.Range(-12, 12);
+        int xpos = Random.Range(-18, 18);
+        int ypos = Random.Range(-18, 18);
 
 
         for (int i = 0; i < _tunnelDepth; i++)
         {
             Vector3 dirtPos = new Vector3(xpos, ypos, 200);
-            if (SolidityArray[(int)xpos + 25, (int)ypos + 25] == false)
+            if (SolidityArray[(int)xpos + (width / 2), (int)ypos + (height / 2)] == false)
             {
-                SolidityArray[(int)xpos + 25, (int)ypos + 25] = true;
+                SolidityArray[(int)xpos + (width / 2), (int)ypos + (height / 2)] = true;
                 Instantiate(OpenDirt, dirtPos, Quaternion.identity);
             }
-            if (xpos < -22) xpos = 0;
-            else if (xpos > 22) xpos = 0;
-            else if (ypos < -22) ypos = 0;
-            else if (ypos > 22) ypos = 0;
+            if (xpos < -(width / 2 - 4)) xpos = 0;
+            else if (xpos > (width / 2 - 4)) xpos = 0;
+            else if (ypos < -(height / 2 - 4)) ypos = 0;
+            else if (ypos > (height / 2 - 4)) ypos = 0;
             else
             {
                 if (crawler == GV.crawlerType.main)
@@ -147,19 +148,19 @@ public class Tunnelmanager : MonoBehaviour {
         }
 
     }
-        void DrawClosedDirt()
-        {
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    if (SolidityArray[x, y] == true)
-                        for (int a = -1; a < 2; a++)
-                            for (int b = -1; b < 2; b++)
-                                if (SolidityArray[x + a, y + b] == false)
-                                {
-                                    Vector3 dirtPos = new Vector3(x + a - 25, y + b - 25, 200);
-                                    Instantiate(ClosedDirt, dirtPos, Quaternion.identity);
-                                }
-        }
+    void DrawClosedDirt()
+    {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                if (SolidityArray[x, y] == true)
+                    for (int a = -1; a < 2; a++)
+                        for (int b = -1; b < 2; b++)
+                            if (SolidityArray[x + a, y + b] == false)
+                            {
+                                Vector3 dirtPos = new Vector3(x + a - (width / 2), y + b - (height / 2), 200);
+                                Instantiate(ClosedDirt, dirtPos, Quaternion.identity);
+                            }
+    }
 
-    
+
 }
